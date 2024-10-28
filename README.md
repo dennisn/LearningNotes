@@ -4,7 +4,10 @@ My personal learning notes
 
 It will be divided into subsections for each main technology branches:
 
-  - [Software Enginner](./SoftwareEnginner)
+## Languague
+  - [C#](./CSharp)
   - [Python](./Python)
     - [Spark](./Python/Spark)
-  - [C#](./C#)
+  
+## Engineer
+  - [Software Enginner](./SoftwareEnginner)

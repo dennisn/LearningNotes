@@ -10,5 +10,5 @@ It will be divided into subsections for each main technology branches:
     - [Spark](./Python/Spark)
   
 ## Engineer
-  - [Software Enginner](./SoftwareEnginner)
-    - [Security](./SoftwareEnginner/Security.md)
+  - [Software Enginner](./SoftwareEngineer)
+    - [Security](./SoftwareEngineer/Security.md)

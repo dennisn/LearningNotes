@@ -43,12 +43,33 @@ Based on "**ASP.NET Core Web API Fundamentals**" by Kevin Dockx on PluralSight.c
     - Can use option to customized the problem details object, adding additional info (e.g. machine name, environment variable, binary version, etc.)
   - Content negotiation: support format for input/output data exchange (e.g. request header "Content-Type" and "Accept")
     - have to turned on `options.ReturnHttpNotAcceptable = true` in AddControllers()
-    - These are automatically handle by ObjectResult, but need matching formatter (e.g. AddControllers().AddXmlDataContractSerializerFormatters())
+    - These are automatically handled by ObjectResult, but need matching formatter (e.g. `AddControllers().AddXmlDataContractSerializerFormatters()`)
 	- When working with file, can use "**FileExtensionContentTypeProvider**" to automatically work out the content type
 	  ```
 	  // Add service as singleton, then injected into required controller to use
 	  builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
 	  ```
 ### 4. Manipulate resources and validate inputs
+  - Data can be passed to the API in various way:
+    - `[FromBody]`: request body 
+	- `[FromForm]`: form data in request body
+    - `[FromHeader]`: request header
+	- `[FromQuery]`: query string parameter
+	- `[FromRoute]`: route data from the current request
+	- `[FromServices]`: service(s) injected as action parameter
+	- `[AsParameters]`: method parameters
+  - On creation success, we can use `CreatedAtRoute()` helper function to signify success as well as returned where the new object can be found
+    - Will need the "name" of the action that can retrieve the just-created resource. The name here can be "decorated" to the action
+	- Also need additional routeValues to fill out the route URI
+	- Finally it need the created object DTO
+  - Similar function such as `CreatedAtAction()`
+  - If we annotated the DTO class with "System.ComponentModel.DataAnnotations.XXX" attributes, some basic validation can be performed automatically (e.g. MaxLength)
+    - Invalid error message can be access from `ModelState` object
+  - Update: Full update use "PUT", while "PATCH" for partial update
+    - Full update: supplied all fields
+	- Partial update: array of operations, each `{ "op": "replace", "path": "/<field_name>", "value": "<field_value>" }`
+  - "DELETE" for deleting resources
+
+### 5. Services and Dependency Injection
 
 ## Core Minimal

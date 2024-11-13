@@ -78,5 +78,28 @@ Based on "**ASP.NET Core Web API Fundamentals**" by Kevin Dockx on PluralSight.c
   - "DELETE" for deleting resources
 
 ### 5. Services and Dependency Injection
+  - **Inversion of Control (IoC)**: delegates the selection of a concrete implementation for a class dependencies to an external component
+  - **Dependency Injection (DI)**: a specific "Inversion of Control" pattern where the container will initialize objects & provide the required dependencies to the intialized objects
+    - Classes "declare" their dependencies as parameters of constructor.
+	- Constructor's parameter(s) should be service interface(s), not concrete implementation
+	- Service(s) are registered on the container, which manages the service life-cycle, and providing instances of the services to initialized objects as needed
+  - Benefits of IoC/DI: dependencies can be easily replaced.
+    - Class(es) are easier to test in isolation, as dependencies can be mocked
+  - Three basic life-cycle for registered services:
+    - `Transient`: always different instance for each and every controllers & services 
+	- `Scoped`: same instance within a request, but different across different requests
+	- `Singleton`: the same for every object and every request
+
+### 6. Introduction to Entity Framework Core
+
+### 7. Using Entity Framework Core in controllers
+
+### 8. Searching, Filtering and Paging resources
+
+### 9. Securing your API
+
+### 10. Versioning and Documenting your API
+
+### 11. Testing and Deploying your API
 
 ## Core Minimal

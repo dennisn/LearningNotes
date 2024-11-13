@@ -67,7 +67,14 @@ Based on "**ASP.NET Core Web API Fundamentals**" by Kevin Dockx on PluralSight.c
     - Invalid error message can be access from `ModelState` object
   - Update: Full update use "PUT", while "PATCH" for partial update
     - Full update: supplied all fields
-	- Partial update: array of operations, each `{ "op": "replace", "path": "/<field_name>", "value": "<field_value>" }`
+	- Partial update: array of operations, each 
+	  ```
+	  { 
+	    "op": "replace", 
+		"path": "/<field_name>", 
+		"value": "<field_value>" 
+	  }
+	  ```
   - "DELETE" for deleting resources
 
 ### 5. Services and Dependency Injection

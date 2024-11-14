@@ -127,7 +127,18 @@ Based on "**ASP.NET Core Web API Fundamentals**" by Kevin Dockx on PluralSight.c
 	  - can use "add-migration" to convert this seeding into a migration script
 
 ### 7. Using Entity Framework Core in controllers
-
+  - **Repository pattern**: create an abstraction layer for business logics that operate on the model. 
+    - Separate to the logic that retrieve data and/or map it to entity, which can be tightly couple to a specific database technology
+	- Allow flexibility in replacing database technology
+  - Purpose of async: free up threads from long wait operations (e.g. IO, network calls), which could improve the scalability of application
+    - NOTE: async doesn't make a specific processing time shorter, but allow running of more processing during long "wait" time
+  - AutoMapper: a convention-based object-to-object mapper
+    - reduce mapping codes, which can be error prones, especially during refactoring
+    - Great for mapping between DTOs and their entity object
+	- To use, call `AddAutoMapper()` on the services collection to register it
+	  - Need subclass of `AutoMapper.Profile`, where `CreateMap<[EntityClass], [DTOClass]>()` is called to create the mapping profiles
+	  - To use, inject IMapper object, then call `IMapper.Map<[TargetClass]>([SourceObject(s)])`
+	
 ### 8. Searching, Filtering and Paging resources
 
 ### 9. Securing your API

@@ -85,12 +85,46 @@ Based on "**ASP.NET Core Web API Fundamentals**" by Kevin Dockx on PluralSight.c
 	- Service(s) are registered on the container, which manages the service life-cycle, and providing instances of the services to initialized objects as needed
   - Benefits of IoC/DI: dependencies can be easily replaced.
     - Class(es) are easier to test in isolation, as dependencies can be mocked
-  - Three basic life-cycle for registered services:
+  - Three basic life-cycles for registered services:
     - `Transient`: always different instance for each and every controllers & services 
 	- `Scoped`: same instance within a request, but different across different requests
 	- `Singleton`: the same for every object and every request
 
 ### 6. Introduction to Entity Framework Core
+  - **Object-Relational Mapping (ORM)**: a technique that lets you query and manipulate data from a database as if via Object (OO paradigm)
+  - **SQL injection**: malicious code is inserted into strings that are later passed to a database instance for parsing & execution, indirectly executed the code
+  - `DbContext`: The basic service in EF core, allowing accessing to database via entities
+    - MS has different Nuget packages to cater for different database types
+	- Old way: use `OnConfiguring(DbContextOptionsBuilder optionsBuilder)` to configure the DbContextOptionsBuilder
+	- Simpler way: pass the "DbContextOptions" object to constructor, which can pass to the base class `DbContext`
+	  ```
+	   public CityInfoContext(DbContextOptions<CityInfoContext> options)
+			: base(options)
+	   {
+	   }
+	  ```
+  - "**Microsoft.EntityFrameworkCore.Tools**": enable many migration tools for seeding the database, as well as update the db schema overtime
+    - run command `add-migration <ProjectName>` to add the initial migration
+	- Each migration will have two methods: for moving up the version and moving down theversion
+  - `OnModelCreating(ModelBuilder modelBuilder)`: allows us access to model builder
+    - Can be used to manually construct the model if basic convention is not enough
+	- Can also used to deeding the data
+      - Initialise sample data for each enity
+	    ```
+	    modelBuilder.Entity<City>()
+		   .HasData(
+		  new City("New York City")
+		  {
+			Id = 1,
+			Description = "The one with that big park."
+		  },
+		  new City("Antwerp")
+		  {
+			Id = 2,
+			Description = "The one with the cathedral that was never really finished."
+		  });
+	    ```
+	  - can use "add-migration" to convert this seeding into a migration script
 
 ### 7. Using Entity Framework Core in controllers
 

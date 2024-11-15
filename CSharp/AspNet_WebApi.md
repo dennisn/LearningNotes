@@ -140,6 +140,15 @@ Based on "**ASP.NET Core Web API Fundamentals**" by Kevin Dockx on PluralSight.c
 	  - To use, inject IMapper object, then call `IMapper.Map<[TargetClass]>([SourceObject(s)])`
 	
 ### 8. Searching, Filtering and Paging resources
+  - Search vs. Filtering: exact match vs. partial match
+  - Paging: best practice for returning collection, to avoid return too large collections that impact on performance
+    - Paging need 2 params: page number & page size (i.e. how many item per page)
+	  - Page size need an upper limit so it won't be too large and cause performance issue
+	  - If missing, can use a default page number=1 and reasonable page size
+    - LINQ with defer execution can be used with paging to load the exact part of the collection
+      - Use `Order()/OrderBy()`, `Skip(<NoItem>)` and `Take(<NoItems>)` to return the items within the pages
+    - Paging metadata (e.g. Page size, current page, total pages, total items, etc.) also need to be returned
+	  - can be returned via custom header like `X-Pagination`, instead of as part of the result
 
 ### 9. Securing your API
 

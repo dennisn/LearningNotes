@@ -151,6 +151,38 @@ Based on "**ASP.NET Core Web API Fundamentals**" by Kevin Dockx on PluralSight.c
 	  - can be returned via custom header like `X-Pagination`, instead of as part of the result
 
 ### 9. Securing your API
+  - We need to know who (e.g. which entity) access the API, can they access it, etc.
+  - Username/password for each API call: too much data for hacking ==> better approach is token-based
+
+#### Token-based security:
+  - API login end-point accepting a username/password, return an access token-based
+    - Token would have user info, created/expiration date
+	- Also some generic info: hash of payload to prevent tampering, algo. for signing, etc.
+  - Rest of API can only access with valid token-based
+    - Token can be passed as Bearer token on each request
+	  ```
+	  Authorization: Bearer mytoken123
+	  ```
+  - Token can be created as JwtSecurityToken, which need 
+    - Issuer: who created the token
+	- Audience: who is this token for
+	- A list of claims: a list of key/value pair of information about the client, as known/authorised by issuer
+	- start/end time: period when this token is valid
+	- A signing credential: the digital signature (e.g. a secret key) of the issuer, which can be used to validate this token
+	- *NOTE*: can use jwt.io to parsed the token to view the content of its payload
+  - To configure this: 
+    ```
+	IServiceCollection.AddAuthentication("Bearer")
+		.AddJwtBearer(options =>
+		{
+			options.TokenValidationParameters = new() 
+			{
+				// turned on various validation option
+				// specify valid values
+				// and the security key
+			}
+		});
+	```
 
 ### 10. Versioning and Documenting your API
 

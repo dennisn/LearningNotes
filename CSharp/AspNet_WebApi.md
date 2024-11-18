@@ -183,6 +183,25 @@ Based on "**ASP.NET Core Web API Fundamentals**" by Kevin Dockx on PluralSight.c
 			}
 		});
 	```
+  - For customised token authentication, we can add our own authentication handler (subclass of `AuthenticationHandler`) via 
+    ```
+	AuthenticationBuilder AddScheme<AuthenticationSchemeOptions, AuthenticationHandler{TOptions}>(...)
+	```
+  - From the API: we can retrieve the claim from user and act on it without extra processing
+    - One way to use this is via security policy (e.g. AuthorizedPolicyBuilder)
+	  ```
+	  Services.AddAuthorization(options =>
+	  {
+		options.AddPolicy("MustBeFromAntwerp", policy =>
+		{
+			policy.RequireAuthenticatedUser();
+			policy.RequireClaim("city", "Antwerp");
+		});
+	  });
+	  ```
+    - Then in controller, just add the policy into "Authorize" annotation: `[Authorize(Policy = "MustBeFromAntwerp")]`
+  - OAuth2 and OpenId: open standard for security
+    - Next course: "Securing Asp.Net Core with OAuth2 and OpenID Connect"
 
 ### 10. Versioning and Documenting your API
 

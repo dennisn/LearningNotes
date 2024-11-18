@@ -205,13 +205,15 @@ Based on "**ASP.NET Core Web API Fundamentals**" by Kevin Dockx on PluralSight.c
     - Next course: "Securing Asp.Net Core with OAuth2 and OpenID Connect"
 
 ### 10. Versioning and Documenting your API
+
+#### Versioning overview
   - Versioning: As API evolve, multiple version start to co-exist ==> Different versioning strategies
     - In URI: `https://root/api/v2/XXX`
     - In query parameter: `https://root/api/XXX?version=v1`
     - Custom header: `X-version: "v2"`
     - Accept header: `Accept: "application/json;version=v1"`
     - Media types: `Accept: "application/vnd.book.v1+json"`
-  - Popular way is via `Asp.Versioning.Mvc`
+  - Popular way is via "**Asp.Versioning.Mvc**"
     ```
     Services.AddApiVersioning(setupAction =>
       {
@@ -224,13 +226,142 @@ Based on "**ASP.NET Core Web API Fundamentals**" by Kevin Dockx on PluralSight.c
 
 #### Version through query (default)
   - default version will be returned in header field: `api-supported-versions`
-	- If it's deprecated, the header field will be: `api-deprecated-versions` instead
+    - If it's deprecated, the header field will be: `api-deprecated-versions` instead
   - In controller, can decorated with multiple of `[ApiVersion(<version_number>)]` to the controller class, or its methods
   - By default, we can request a specific version via query string "api-version" (e.g. `https://root/api/XXX?api-version=2`)
 
 #### Versioned route
   - More popular than query
   - Just need to alter the "Route" decorator: `Route["api/v{version:apiVersion}/XXX"]`
+
+#### Documenting API with OpenAPI
+  - "**OpenAPI**" is a specification language for HTTP APIs, describes the capabilities of your API, and how to interact with it
+  - It's usable for any languages/tech. stack; often written in YAML or JSON
+  - "**Swagger**" is a set of open-source tools for OpenAPI specification
+    - "OpenApi specification" and "Swagger specification" are the same
+  - "**Swashbuckle.AspNetCore**" is the Asp.Net package helps with working with OpenAPI
+    - generate OpenAPI specification from Api
+    - Wraps swagger-UI and provides an embedded version of it
+    
+#### Swagger documentation
+  - ApiExplorer is needed to exposes information on our API, like the available endpoints and how to interact with them
+    ```
+    Services.AddEndpointsApiExplorer();
+    ```
+  - Swagger service is registered for generating the specification
+    ```
+    Services.AddSwaggerGen()
+    ```
+  - Two middlewares from swagger are needed:
+    ```
+    UserSwagger();    // generate the OpenAPI
+    UserSwaggerUI();  // generate the default Swagger UI on top of the OpenAPI specs above
+    ```
+  - To generate documentation on exchanged model "**T**" in the API, using `ActionResult<T>`
+    - Annotations on the model properties will also be added to OpenAPI
+  - For OpenAPI to include XML documentation in class, we need to generate it into an XML file, then reference it in Swagger setupAction
+    - Generate to file: in project --> Properties --> Build --> Output: tick "Generate a file container API documentation"
+    - Also specify the XML documentation file path (*may use "<project_name>.xml"*)
+    - In `AddSwaggerGen()`, we can specify the property "IncludeXmlComments" to point to the XML file above
+      ```
+      Services.AddSwaggerGen(setupAction => 
+      {
+        var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+        setupAction.IncludeXmlComments(xmlCommentsFullPath);
+      }
+      ```
+  - To let client know of different possible responses from API, we use multiple `[ProducesResponseType]`
+    ```
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    ```
+
+#### Versioning the Swagger documentation
+  - Use package "**Asp.Versioning.Mvc.ApiExplorer**"
+  - First, need to substitute API version in URL
+    ```
+    Services.AddApiVersioning().AddMvc().AddApiExplorer(setupAction =>
+    {
+      setupAction.SubstituteApiVersionInUrl = true;
+    });
+    ```
+  - Get the list of versions to define a swagger documents for each version
+    ```
+    var apiVersionDescriptionProvider = builder.Services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
+    
+    Services.AddSwaggerGen(setupAction =>
+    {
+      foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
+      {
+        setupAction.SwaggerDoc(
+          $"{description.GroupName}",
+          new()
+          {
+            Title = "City Info API",
+            Version = description.ApiVersion.ToString(),
+            Description = "Through this API you can access cities and their points of interest."
+          });
+      }
+    ...
+    });
+    ```
+  - When generate Swagger UI, generate Swagger endpoint for each version
+    ```
+    app.UseSwaggerUI(setupAction =>
+    {
+      var descriptions = app.DescribeApiVersions();
+      foreach (var description in descriptions)
+      {
+        setupAction.SwaggerEndpoint(
+          $"/swagger/{description.GroupName}/swagger.json",
+          description.GroupName.ToUpperInvariant());
+      }
+    });
+    ```
+    
+#### Swagger documentation for API Authentication
+  - Out-of-the-box support for 4 authentication scheme:
+    - `http`: normal Http authentiation schemes (bearer, basic, etc)
+    - `apiKey`: API Key
+    - `oauth2`: OAuth2`
+    - `openIdConnect`: OpenId Connect
+  - Can use `AddSecurityDefinition()` in `AddSwaggerGen()` to define an authentication in Swagger UI
+    ```
+    Services.AddSwaggerGen(setupAction =>
+    {
+    ...
+      setupAction.AddSecurityDefinition("CityInfoApiBearerAuth", new()
+      {
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        Description = "Input a valid token to access this API"
+      });
+    ...
+    });
+    ```
+  - For Swagger UI to use the above authentication, we need to `AddSecurityRequirement()`, which reference the above definition(s)
+    ```
+    Services.AddSwaggerGen(setupAction =>
+    {
+    ...
+      setupAction.AddSecurityRequirement(new ()
+      {
+        {
+          new ()
+          {
+            Reference = new OpenApiReference {
+            Type = ReferenceType.SecurityScheme,
+            Id = "CityInfoApiBearerAuth" }
+          }, 
+          new List<string>() 
+        }
+      });
+    ...
+    });
+    ```
+
 
 ### 11. Testing and Deploying your API
 

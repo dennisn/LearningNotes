@@ -222,6 +222,15 @@ Based on "**ASP.NET Core Web API Fundamentals**" by Kevin Dockx on PluralSight.c
     .AddMvc()
     ```
 
+#### Version through query (default)
+  - default version will be returned in header field: `api-supported-versions`
+	- If it's deprecated, the header field will be: `api-deprecated-versions` instead
+  - In controller, can decorated with multiple of `[ApiVersion(<version_number>)]` to the controller class, or its methods
+  - By default, we can request a specific version via query string "api-version" (e.g. `https://root/api/XXX?api-version=2`)
+
+#### Versioned route
+  - More popular than query
+  - Just need to alter the "Route" decorator: `Route["api/v{version:apiVersion}/XXX"]`
 
 ### 11. Testing and Deploying your API
 

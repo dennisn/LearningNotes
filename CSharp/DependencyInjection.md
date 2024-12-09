@@ -38,7 +38,9 @@
   
 ### IServiceCollection: Add vs TryAdd
   - Most relevant with composition root
-  - `Add` will overwrite the registered service
+  - `IServiceCollection.Add` will register multiple objects: effect similar to overwrite
+    - If resolve 1 object only --> will get the last registered object
+    - If resolving IEnumerable --> will get all registered objects
   - `TryAdd` would only register the service if it wasn't before
 
 ### Grouping service registration
@@ -100,7 +102,3 @@ service.AddXXXService(o => {
 			configuration.GetSection(nameof(XXXOptions)).Bind(options);
 		});
       ```
-
-### Multiple registration using "Add"
-  - If resolve 1 object only --> will get the last registered object
-  - If resolving IEnumerable --> will get all registered objects

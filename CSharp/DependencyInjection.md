@@ -173,3 +173,54 @@ service.AddXXXService(o => {
   
 ==> Service-Locator: dependencies are less transparent (i.e. constructor params doesn't show real dependencies), 
 harder to test since we have to mock the locator
+
+## Multiple service type from one implementating types
+  - i.e. One class implements multiple interfaces
+  - Normal registration may create one instance for each of the interfaces --> May not work if we  want to share the states !
+  - Solution: Register the implementation, then use lambda function to return the implementing object
+  ```
+  services.AddSingleton<XXXStatistics>();
+  
+  services.AddSingleton<IWriteXXXStatistics>((serviceProvider) =>
+  {
+	return serviceProvider.GetRequiredService<XXXStatistics>();
+  });
+  
+  services.AddSingleton<IReadXXXStatistics>((serviceProvider) =>
+  {
+	return serviceProvider.GetRequiredService<XXXStatistics>();
+  });
+  ```
+  
+## Lazy initialize of dependencies
+  - Defer the service construction: especially useful for service not always used in many of the code path
+  - Using `Lazy<T>` as dependency instead of `T` directly
+  - When registration, also need to provide code for constructing `T`
+  ```
+  services.AddTransient<Lazy<T>>( (serviceProvider) =>
+  {
+	return new Lazy<T>( () =>
+	{
+		var someService = serviceProvider.GetRequiredService<ISomeService>();
+		return new T(someService);
+	});
+  });
+  ```
+  
+## Instance initialized with context not known at registration
+  - Sample case: when the instance depending on the name of the using services
+  - We sidestep the problem by inject the factory instance instead of the instance itself
+    - The factory can create the instance with the right context value (e.g. the name of the using service)
+	
+## Dependency-Injection and IDisposable
+  - Injected object are disposed when the container is disposed
+    - `Transient`: may spawned a lot of object and never be disposed
+	- `Scoped`: live until scope object is disposed --> Careful when create our own scope
+	- `Singleton`: Live with container`
+  - For scare resources, may want to inject the Factory service instead, so we can control the life-cycle of resource usage
+  
+## Advanced Technique
+
+### A/B testing
+  - Slowly introduce new feature by changing the injected class
+  - Same interface, multiple implementations: similar to defer construction, returning the specific implementation in lambda, allow random, or switch between implementation based on configuration

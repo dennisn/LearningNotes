@@ -22,3 +22,6 @@ Ref: https://www.freecodecamp.org/news/solid-principles-explained-in-plain-engli
 ## Misc.
 
 ### Closure
+
+  - Definition: A closure is the combination of a function bundled together (enclosed) with references to its surrounding state (the lexical environment). 
+    - In Python: a function that retains access to variables from the outer (enclosing) scope even after the outer function has finished executing. 

@@ -23,3 +23,22 @@ Discuss the power balance between entrusting too much, or too little to the mach
     - Example: 75% accuracy in population of 100 and 200, will result in 25 and 50 cases of false positve
   - Propose: maybe a system to combined human + machine, such that each strength complement each other weakness, for a target goal
   
+## Medicine
+  - Pathology: human is good at distinguish cancer, but machine is better at detect abnormality
+    - Combine machine at detect abnormality, and pathologist at investigate that abnormality for cancer --> largest improvement
+  - Other medical diagnosis is much harder, to correctly identify the diagnosis, or consistently label them
+    - Example: breast cancer tumor may not need treatment, but we don't know how to distinguish them yet
+    - How to "encode" symptoms in a machine-readable format
+  - Data linkage: give doctors a clearer patient history --> better & correct treatment
+    - Privacy problem: individual health records may be used different to originally intent
+    
+## Cars
+  - Driverless car future quickly becomes a reality
+  - Driving algorithm has to operate with a lot of uncertainty: varied road condition, uncertain object identification --> conflict sensors inputs
+  - Ethical problem: when accident is unavoidable, who to save & who to sacrifice
+    - People may choose the high ground in theoretical situations, but be selfish when they themselves have to decide
+  - Full-automated which revert to human driver when necessary: may reduce driver ability to react correctly, when their override is actually needed
+    - Example: Air France Flight 447: the pilot inadvertedly stalled the aircraft, causing it to fall & crash later after the autopilot was dis-engaged becaused of sensors being iced-over
+  - Propose: what about driver-assisted
+  
+  

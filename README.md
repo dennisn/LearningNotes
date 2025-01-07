@@ -16,4 +16,5 @@ It will be divided into subsections for each main technology branches:
     - [Security](./SoftwareEngineer/Security.md)
 
 ## Misc
-  - [Books](./Books/books_readme.md)
+  - [Books](./Books/0_README_books.md)
+  - [Executive Briefing](./ExecBrief/0_README_ExecBrief.md)

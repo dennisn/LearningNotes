@@ -22,11 +22,11 @@
   - Should be good at solving certain hard problem for classical computing: some of intractable problems
   - Intractable problems: problems we know how to solve, but required resources/time make it impractical
     - factor large number in breaking encryption
-	- "traveling saleman problem" in optimisation
+    - "traveling saleman problem" in optimisation
   - Quantum interference and entanglement: properties of quantum physics that help with solving problems
     - interference: reinforce or cancel each other out
-	- entanglement: states of multiple qubits are linked
+    - entanglement: states of multiple qubits are linked
   - Some practical impacts: 
     - Research on how to use quantum computer for encryption
-	- Research on how to use classical computer for encryption that can't be craced by quantum computer
+    - Research on how to use classical computer for encryption that can't be craced by quantum computer
   - Still some time to comes when quantum computer can actually be used in problems that they are best for, **alongside** classical computer

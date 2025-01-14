@@ -6,7 +6,7 @@ It will be divided into subsections for each main technology branches:
 
 ## Languague
   - [C#](./CSharp)
-  - [Python](./Python)
+  - [Python](./Python/0_README_Python.md)
     - [Spark](./Python/Spark)
   
 ## Engineer

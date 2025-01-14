@@ -21,5 +21,10 @@
 	  - Abnormally detection
 
 ## AI & Generative AI
+  - Artificial Intelligence: hard to defined as we keep expands the requirements
+  - Artificial General Intelligence (AGI): strong/full AI
+    - In theory (not practical yet), an AI that could **understand, learn and/or perform** any mental/intellectual task a human can do
+  - Narrow/Weak AI: performs one specific task (can often outperform a human)
+  - Current generation of AI (e.g. ChatGPT, Bard, etc): can perform a wider range of task, but still not full AGI yet, as it still need direct prompts, and not capable of reasoning or independent decision-making
 
 ## Ethics and Bias in Artificial Intelligence

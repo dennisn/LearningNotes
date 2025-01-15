@@ -41,6 +41,27 @@
     - Artist object (especially composite one) contains other Artists, which may contain other Artists
   - Good to know: Anatomy of a plot in Matplotlib: https://matplotlib.org/stable/gallery/showcase/anatomy.html
   
+## Sample
+
+```
+# we are using the inline backend
+%matplotlib inline 
+
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+#print(plt.style.available)
+mpl.style.use(['ggplot']) # optional: for ggplot-like style
+
+# Plot a series
+df.loc[row_name, columns].plot(kind='line')
+
+plt.title('Title of plot')
+plt.ylabel('Vertical axis')
+plt.xlabel('Horizontal axis')
+
+plt.show() # need this line to show the updates made to the figure
+```
 
 # Cheat sheets
 
@@ -67,7 +88,7 @@
     - `df.loc[start:end]`: Select rows in a specified label/index range	
   - Summary Statistics: `df.describe()`
   
-## 
+## Visualization Libraries
 
 | Library | Main Purpose | Key Features | Programming Language | Level of Customization | Dashboard Capabilities | Types of Plots Possible |
 | --- | --- | --- | --- | --- | --- | --- |

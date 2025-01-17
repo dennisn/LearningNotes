@@ -41,6 +41,30 @@
     - Artist object (especially composite one) contains other Artists, which may contain other Artists
   - Good to know: Anatomy of a plot in Matplotlib: https://matplotlib.org/stable/gallery/showcase/anatomy.html
   
+## Basic
+  - Plot a dataframe/series using plot() function with plot type: param 'kind'
+	- plot types: line, bar/barh, box, hist, pie, area, scatter (DataFrame only)
+	- can also do `plot().line()` (i.e. use the plot type as the function of plot)
+  - Pie: most useful for percentage, may "explode" specific pieces
+    - Param `explode`: need an arrays of values with same length as data. Where value > 0, explode that piece out
+  - Scatter: need `x` & `y` params: specify the variables for x & y axis
+    - `s` param: may use by a third variables to show weight
+  - Vertical/Horizontal bar: `bar` & `barh`
+  - Histogram: may combined with numpy histograms so can have `xticks` at precise edge
+    - Example:
+	```
+	count, edges = np.histogram(series, bins=5)
+	series.plot(kind='hist', xticks=edges)
+	```
+  - Package `matplotlib.pyplt` allows use to modify components of the last figure
+    - Can also interact with the "artist" object return from `plot()` directly
+	```
+	ax = df.loc[row_name, columns].plot(kind='line')
+	
+	plt.title('Title of plot')     # use pyplt
+	ax.set_title('Title of plot')  # use the "artist" object
+	```
+  
 ## Sample
 
 ```

@@ -28,7 +28,30 @@
   - Histogram: Showing frequency of values split into groups as a collection of bars, each bar height represents the data count of that group
     - Good to see shape of data distribution & concentration (semmetric vs. skew vs. bi-modal, variability, outliers)
 	- need care in selecting bins
-	
+
+# Treemap and Pivot charts
+
+## Treemap
+  - Displays hierarchical data using nested rectangles
+  - Run directly from `plotly.express`, not run from `pandas.DataFrame`, but accept dataframe as input
+  - Pros:
+    - Most useful for visualizing large datasets where the hierarchical structure is crucial
+	- Display data in an intuitive and space-efficient way
+  - Sample
+  ```
+  fig = px.tremap(
+    df,							# input dataframe
+	path = ['Parent', 'Child'],	# List of colum names, from the root category to the leaves
+    values = 'Values_col',		# value column
+	title = 'Title string'
+  )
+  fig.show()
+  ```
+
+## Pivot Charts
+  - Plot `pivot_table` dataframe
+  - Use `pivot_table` to summarise and analysis of summarise data
+
 # Matplotlib
 
 ## Intro

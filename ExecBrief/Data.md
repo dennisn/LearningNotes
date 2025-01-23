@@ -1,5 +1,22 @@
 # Data
 
+## Big data
+  - With better tech., and lower cost, more data are collected (into Data Lake)
+  - Collected data can be structured (e.g. relational data), semi-structured (json, xml) or no structured
+  - Hadoop: revolutionised big data processing, by process them in parallel, then merge the result together (Map-Reduce)
+  - Many new commercial platforms provide service to process big data
+  
+## Data in the cloud
+  - Offer many benefits, but also some constraints
+  - Hard to choose because of so many different services/offerings
+  - Try to avoid "Lift & Shift" (e.g. simply existing things from on-premise to cloud), as it is the simplest but least beneficial
+    - Differences between cloud & on-premise need a rethink of how to solve the requirement
+  - Some challenges:
+    1. Access: access to raw data (for SaaS solution), control of server settings, update & integration with other system
+	2. Security: more exposure to the internet --> more risk
+	3. Regulation: where the physical data center
+	4. Talen gap: differences skills needed for on-premise vs cloud
+
 ## Blockchain
   - Start of from a whitepaper for crypto-currency
   - Now mainstream use is for creating distributed ledgers

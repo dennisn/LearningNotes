@@ -4,14 +4,14 @@ My personal learning notes
 
 It will be divided into subsections for each main technology branches:
 
-## Languague
-  - [C#](./CSharp)
+## Programming Languagues
+  - [C#](./CSharp/0_README_CSharp.md)
   - [Python](./Python/0_README_Python.md)
-    - [Spark](./Python/Spark)
+    - [Spark](./Python/Spark/0_README_Spark.md)
   
 ## Engineer
 
-  - [Software Enginner](./SoftwareEngineer)
+  - [Software Enginner](./SoftwareEngineer/0_README_SoftwareEngineer.md)
     - [Object-Oriented](./SoftwareEngineer/ObjectOriented.md)
     - [Security](./SoftwareEngineer/Security.md)
 

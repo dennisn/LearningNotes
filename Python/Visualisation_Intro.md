@@ -110,6 +110,28 @@ plt.xlabel('Horizontal axis')
 plt.show() # need this line to show the updates made to the figure
 ```
 
+# Seaborn
+  - More reference: https://seaborn.pydata.org/generated/seaborn.regplot.html
+  - Built on top of matplotlib -> more advance statistical graph
+  - Sample: regression plot
+	```
+	sns.regplot(data=df, x="weight", y="acceleration")
+	```
+
+# PyWaffle
+  - Documents: https://pywaffle.readthedocs.io/en/latest/examples/formats_of_values.html
+  - Creating waffle graph from a data matrix
+  - Sample: 
+    ```
+    plt.figure(
+	  FigureClass=Waffle,
+	  rows=5,
+	  columns=10,		# One of "rows"/"columns" can be ommitted, as it can be worked out from the total values
+	  values={'Cat1': 30, 'Cat2': 16, 'Cat3': 4},
+	  legend={'loc': 'upper left', 'bbox_to_anchor': (1, 1)}
+    )
+    ```
+
 # Cheat sheets
 
 ## Pandas

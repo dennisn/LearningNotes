@@ -132,6 +132,63 @@ plt.show() # need this line to show the updates made to the figure
     )
     ```
 
+# Folium
+  - Folium is a data visualization library in Python that helps people visualize geospatial data. 
+    - The ‘location’ parameter specifies the latitude and longitude coordinates of the center point of the map.
+	- Markers can be easily added on maps.
+	- The popup parameter provides a label upon being clicked.
+  - A choropleth map is a thematic map in which areas are shaded or patterned in proportion to the measurement of the statistical variable.
+    - When creating a choropleth map, Folium requires a GeoJson file that includes geospatial data of the region.
+
+# Plotly
+  - Ref: https://plotly.com/python/getting-started/
+  - plotly.graph_objects: low level interface to graph objects
+  - plotly.express: high-level wrapper, recommended starting point
+  - Sample plotly.express
+    ```
+	import plotly.express as px
+	fig = px.bar(x=["a", "b", "c"], y=[1, 3, 2])
+	fig.show()
+	```
+
+# Dash
+  - Ref: https://dash.plotly.com/
+  - Library for interactive web application with graph, based on Flask, React.js and JSon
+  - Two main components: Core & Html components
+    - `dash_core_components`: high-level interactive component
+	- `dash_html_components`: contains component for every HTML tag
+
+## Sample webpage layout with call back
+```
+from dash import Dash, dcc, html, Input, Output, callback
+
+app = Dash()
+
+app.layout = html.Div([
+    html.H6("Change the value in the text box to see callbacks in action!"),
+    html.Div([
+        "Input: ",
+        dcc.Input(id='my-input', value='initial value', type='text')
+    ]),
+    html.Br(),
+    html.Div(id='my-output'),
+
+])
+
+
+@callback(
+    Output(component_id='my-output', component_property='children'),
+    Input(component_id='my-input', component_property='value')
+)
+def update_output_div(input_value):
+    return f'Output: {input_value}'
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+```
+
 # Cheat sheets
 
 ## Pandas

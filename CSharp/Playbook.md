@@ -25,3 +25,12 @@
     - `in`: just to improve performance (i.e. copy reference instead of copy whole struct)
 	- `out`: for return value
 	- `ref`: if want to modify the value given by caller
+	
+## Types, Objects and OOP
+  - Initializese fields:
+    - Run in order "Initializers" --> "base constructor" --> "derived constructor"
+    - Can only use data from items that have already run
+  - Lazy<T>: thread-safe lazy loaded
+  - Nested class: taking on sub-responsibility of a class, while prevent its mis-use
+  - Class vs struct vs record
+    

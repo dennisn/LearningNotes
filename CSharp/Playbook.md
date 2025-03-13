@@ -34,3 +34,24 @@
   - Nested class: taking on sub-responsibility of a class, while prevent its mis-use
   - Class vs struct vs record
     
+## Interface
+  - Can be defined at the lowest level, hence be referenced by all class
+    - Avoid the dependency problem in project reference
+	- Help in dependency injection & mock
+  - Explicit interface implementation: good for avoid name clashes
+    - Also useful to hide members not relevant to the concrete type's purpose
+	
+## Null values
+  - Nullable<StructT> is not the same as StructT
+    - Nullable class is the same as class (since classes are basically nullable)
+	- Hence Nullable of class doesn't have properties like "HasValue" or "Value"
+  - Default value of a struct is not the same as `null`
+    - But default value of a "**Nullable**" is `null`
+  - Nullable of class: won't have "HasValue" 
+  - Null-forgiving operator: let VS know that the return value won't be null 
+    - Example: `x.ToString()!`
+  - String: can be null, empty or all whitespaces
+    - Should think if the 3 values have the same/different meanings
+	- If all the same, may want to convert them to `null` from the input to avoid "expensive" checking
+  
+## 

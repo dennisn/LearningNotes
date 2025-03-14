@@ -72,3 +72,52 @@ Transaction statement keywords: BEGIN, SAVE, ROLLBACK, COMMIT, SET
   - `ROLLBACK TRAN` can be used to reverse a current transaction, or back to a specific save-point
     - `SAVE TRAN <Save-Point-Name>`: create a save-point with a name that can be refer to in `ROLLBACK TRAN`
   - For distributed transaction, use similar syntax but with "DISTRIBUTED" added
+
+## Stored Procedure
+  - Similar to View, but probably best for modify data, with complex logic
+    - View can be reference in join, and can be materialized for performance
+	- Stored procedure can contain logical statements, with integrated error handling
+  - Main benefits:
+    - Maintainability: all code in one place
+	  + stored procedure can be shared across application
+	  + Easier to debug performance issue since we can access execution plan
+	- Security: more granular control
+	  + allow execution of stored procedure, but not direct access to underlying table
+	  + less data transmitted when called from client
+	  + Help against "some" of the SQL injection attacks
+	- Performance: mostly from execution plan cached and re-used, but is minimal for modern version of db system
+  - Disadvantages:
+    - Required true T-SQL expertise
+	- Need a system approach to manage the creation & usage of stored procedure
+
+### Syntax
+
+  - Basic creation syntax:
+	```
+	CREATE OR ALTER PROCEDURE <Qualitifed-Name-Of-Store-Procedure>
+		<Parameter-Declarations-Comma-Separated>
+	AS
+	BEGIN
+		<SQL-Statements>
+	END
+	GO
+	```
+  - Basic execution syntax
+    ```
+    EXECUTE <Qualitifed-Name-Of-Store-Procedure> <Parameter-Assignment-Comma-Separated>
+    GO
+    ```
+  - Naming convention: maybe "Verb" then "Noun" (e.g. `InsertUser`)
+    + put into "Schema" as a way of grouping similar stored procedure
+  - "OUTPUT" Parameter: 
+    + In declaration: `@EmployeeId int OUTPUT`
+    + Usage:
+	  ```
+	  DECLARE @EmployeeIdOutput int;
+	  
+	  EXEC <Store-Procedure> @EmployeeId = @EmployeeIdOutput OUTPUT;
+	  ```
+### Query in stored procedure
+  - Temporary table: hold a subset of data during the stored procedure, can add indexes to increase performance
+    + For complex procedure, may reduce lock by extract processing data into temp table first
+  - Table variables: not suitable for large data sets

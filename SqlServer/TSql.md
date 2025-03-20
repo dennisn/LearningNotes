@@ -121,3 +121,50 @@ Transaction statement keywords: BEGIN, SAVE, ROLLBACK, COMMIT, SET
   - Temporary table: hold a subset of data during the stored procedure, can add indexes to increase performance
     + For complex procedure, may reduce lock by extract processing data into temp table first
   - Table variables: not suitable for large data sets
+    + similar to set of tuples, where the table type is the tuple definition, and the rows are instances of tuple
+	+ table type can't be modified --> each should be for specific purpose, maybe even specific stored procedure, as we will need to drop it & its stored procedure before re-create it with modification
+  - Debug flag: good to view temp. table results where the stored procedure create multiple such tables over its lifetime
+    + can view the temp. table during the sproc execution
+	+ complicate to setup
+	
+### Optimise Store-Procedures
+  - Turn on "`STATS IO`" for stored procedure, especially when coupling with viewing execution plan
+    + Ref: https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-exec-procedure-stats-transact-sql
+  - Temp tables affect performance:
+    + stop plan re-used ? --> maybe in older version
+	+ add indexes to temp table to increase their performance
+  - "Parameter sniffing": First set of parameters may "bias" the execution plan, negatively affect later execution of other parameter sets
+  
+### Stored procedure template
+  - Nice article from SQLShack: https://www.sqlshack.com/how-to-create-and-customize-sql-server-templates/
+
+```
+/*
+Author: 
+
+Description: <Detail description>
+
+Update: <Name & descriptions of update>
+*/
+
+CREATE OR ALTER PROCEDURE <Schema-Name, sysname, Sales>.<Procedure-Name, sysname, Update_TableName>
+	<Debug_Parameter, sysname, @Debug> <Date-Type-Debug, , bit> = <Default-Value, , 0>
+AS
+BEGEIN
+	SET NOCOUNT ON;
+	
+	BEGIN TRY
+		BEGIN TRANSACTION;
+		
+		/* Your main code is here */
+		
+		COMMIT TRANSACTION;
+	END TRY
+	
+	BEGIN CATCH
+		IF (@@TRANCOUNT > 0)
+			ROLLBACK TRANSACTION;
+			THROW;
+	END CATCH
+END
+```

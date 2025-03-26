@@ -168,3 +168,93 @@ BEGEIN
 	END CATCH
 END
 ```
+
+## RANK and PARTITION
+Basic syntax
+```
+SELECT
+  ...
+  ROW_NUMBER() OVER (PARTITION BY <Partition-Columns> ORDER BY <Order-Columns) AS XXX
+FROM 
+```
+where `PARTITON BY <Partition-Columns>` is optional, but `ORDER BY` is compulsory
+
+  - ROW_NUMBER(): provide sequence number (when encounter tie, will produce arbitrary number)
+  - RANK(): provide rank, where tie rows will have the same rank (e.g. 1, 1, 1, 4, 4, 6, 7, etc.)
+  - DENSE_RANK(): similar to RANK(), but ensure the rank is sequential (e.g. 1, 1, 1, 2, 2, 3, 4, etc.)
+  - NTILE(x): split the partition into "**x**" group
+  - PERCENT_RANK(): rank in 100 percentile (e.g. 0, 0.33, 0.66, 100)
+  - FIRST_VALUE(<Some-Function>) and LAST_VALUE(<Some-Function>): have a `RANGE BETWEEN XXX AND YYY`, which impact what values will be used
+  
+## Access remote table with ROWSET function
+  - OPENXML: access an XML data source
+  - OPENJSON: access a JSON data source
+  - OPENDATASOURCE: access a remote SQL data source
+  - OPENQUERY: access a remote SQL data via Linked Server
+    - By default, SQL server doesn't allow access to remote server by default, hence need following configure
+	  ```
+	  sp_configure 'show advanced options', 1
+	  reconfigure
+      go
+	  sp_configure 'Ad Hoc Distributed Queries', 1
+	  reconfigure
+	  ```
+	- Query syntax: `OPENQUERY(<Linked-Server-Name>, <Select-Query-In-Single-Quote>)`
+  - OPENROWSET: directly access a remote SQL data source
+    - Syntax: 
+	  ```
+	  OPENROWSET 
+	  (<Provider-Name: OLEDB Provider>, 
+	  <Data-Source (e.g. Name of the server or IP address)>, 
+	  <Select-Query-In-Single-Quote>)
+	  ```
+    - NOTE: May encounter collation error --> fix by change collation
+      + Example: `on s.country_code collage SQL_Latin1_General_CP1_CI_AS = c.country_code`
+  
+## "CASE" statement
+  - Conditional function, often in the `SELECT` part of the query --> evaluated for every row in the table
+    + can also be used in other place
+	+ can nested up to 10 levels
+  - Basic syntax:
+    ```
+	CASE
+	  WHEN <Conditional-Expression> THEN <Expression-When-True>
+	  WHEN <Conditional-Expression> THEN <Expression-When-True>
+	  ELSE <Expression-Default>
+	END
+	```
+## String functions
+  - STUFF: delete a specified length of characters in the first string at start position, then inserts the second string into the first string at the start position (e.g. similar as replace but use character count instead)
+    ```
+	STUFF(<String-Expression>, <Start-Position>, <Length>, <Replacement-Text>)
+	```
+  - LEFT, RIGHT, SUBSTRING: extract portion of string
+  - STRING_SPLIT (Table function): split string by delimiter
+    + Sample use case: First, cross apply string_split(description)
+	+ Use ROW_NUMBER over primary case
+	+ Pivot by MAX() or PIVOT function
+	```
+	SELECT 
+	  Product_Code
+	  , MAX(CASE WHEN AttributeID = 1 THEN Attribute else NULL END) AS Season
+	  , MAX(CASE WHEN AttributeID = 1 THEN Attribute else NULL END) AS Product
+	  ...
+	INTO Product_Attributes
+	FROM
+	(
+	    SELECT
+		  Product_Code
+		  , ROW_NUMBER() OVER (PARTITION BY Product_Code ORDER BY Product_Code) as AttributeID
+		  , CASE ROW_NUMBER() OVER (PARTITION BY Product_Code ORDER BY Product_Code)
+			  WHEN 1 then 'Season'
+			  WHEN 1 then 'Season'
+			  ...
+			  ELSE 'ERROR'
+			END AS AttributeName
+		  , value Attribute
+		FROM
+		  Product_BASE
+		  CROSS APPLY STRING_SPLIT(Product_Description, '-')) split
+	GROUP BY Product_Code
+	)
+	```

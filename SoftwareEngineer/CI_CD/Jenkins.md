@@ -25,3 +25,6 @@
   - If there no security fix available: 
     1. Have to understand the vulnerabilities: can you live with the problem ?
 	2. It maybe because the fix is on a release that depend on later jenkins version (i.e. the problem is for your particular version of Jenkins you're running): check the plugin's main page
+	
+## Misc
+  - Sample repo: https://github.com/FeynmanFan/usingmanagingjenkinsplugins

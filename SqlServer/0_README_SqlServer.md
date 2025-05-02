@@ -1,1 +1,2 @@
   - [T-Sql](./TSql.md)
+  - [Columnstore Indexes](./ColumnstoreIndexes.md)

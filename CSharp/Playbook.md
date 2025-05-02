@@ -54,4 +54,31 @@
     - Should think if the 3 values have the same/different meanings
 	- If all the same, may want to convert them to `null` from the input to avoid "expensive" checking
   
-## 
+## Generics
+  - Let you re-use algorithm in a strongly typed way
+  - Constraint the generic types with "where" keyword
+  
+## Immutable and Read-Only
+  - Immutable: make type thread-safe, with some performance benefit (e.g. during reference parameter passing)
+  - To make a class Immutable:
+    + Remove "setter" of properties
+	+ Mark fields as "`readonly`"
+	+ Change methods that change internal properties to return a new object with updated properties instead
+  - For structs (value types): makes it immutable by declare it as "`readonly`"
+    + *Best practice 1*: `struct` should be made immutable --> avoid subtle bugs involve "boxing"
+	+ *Best practice 2*: method in struct should be marked as "`readonly`" if they don't change the struct state --> might gain performance benefit in some cases 
+  - How to expose collection as read-only:
+    + can't just return a new readonly list for each call to "get": performance & subtle problems from multiple readonly object created
+	+ Correct solution: create one read-only collection wrapper and exposes that as a property
+	  ```
+	  private List<Point> _vertices = [];
+	  
+	  public IReadOnlyList<Point> Vertices {get; private init; }
+	  
+	  public XXXConstructor() 
+	  {
+		Vertices = _vertices.AsReadOnly();
+	  }
+	  
+	  ```
+	+ Alternatively: provide an enumerator --> reduce functionality to client as they won't have access to whole list

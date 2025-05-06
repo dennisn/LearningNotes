@@ -82,3 +82,66 @@
 	  
 	  ```
 	+ Alternatively: provide an enumerator --> reduce functionality to client as they won't have access to whole list
+	
+## Data-driven coding and patterns
+  - Data-driven code: program logic depends on the data
+  - `switch` expression: "<variable> swtich { <case-value> => result, <case-value> => result, _ => <default-result> }"
+    + matching the variable to case-value, then return the expected result
+  - `switch` limitation: can only use with const ==> may need customised "rule-class"
+
+## Events
+  - use pre-made delegate: `delegate void EventHandler(object? sender, EventArgs e)`
+  - null check delegation call: `<Delegate-Name>?.Invoke()`
+  - Adding/Removing handlers:
+    ```
+	<object>.<handler-name> += <method>
+	<object>.<handler-name> -= <method>
+	```
+  - Passing data: create class derived from "EventArgs" with extra properties to stored passing data
+    + Will also need new delegate where the argument is the derived-class above, as the following example
+	```
+	public delegate void PriceChangedEventHandler<object sender, PriceChangedEventArgs e);
+	
+	public class PriceChangedEventArgs : EventArgs { ... }
+	```
+  - For multiple properties changed: `System.ComponentModel.INotifyPropertyChanged`, which will pass the property name in `PropertyChangedEventArgs`
+
+## LINQ
+  1. Remove Duplicates
+    - Use `Distinct()` method, but need equality comparer
+  2. Group Data-driven
+    - Use `GroupBy(e => e.<Group-Property>)`--> return IEnumerable<IGrouping<TKey, TElement>>
+	- To ensure grouping data is in correct order, could use "OrderBy().ThenBy()..." before do GroupBy()
+  3. Flatten data
+    - Use `SelectMany(grouping => grouping, (grouping, elements) => elements)`
+  4. Join multiple lists
+    - Use `L1.Join(L2, itemL1 => itemL1.Key, itemL2 => itemL2.Key, (itemL1, itemL2) => <Result-Item>)`
+	- Use `GroupJoin()` with same arguments if want to group by L1 after join
+	  + Calculate average within each group and order the group by average (see example below)
+	    ```
+		students
+			.GroupJoin(
+				examResults, 
+				student => student.AnonymousId,
+				exameResult => exameResult.StudentId,
+				(student, examResult) => (student, exameResult.Average(result => result.Makr)))
+			.OrderBy(tuple => tuple.student.Name)
+		```
+  5. LINQ extension methods: 
+    - Normal extension method, but must accept as first parameter an `IEnumerable<T>`
+	- Return `IEnumerable<T>` --> support "fluent" syntax
+	- Using `yield` to return each element ==> support lazy evaluation
+  6. Lazy evaluation
+    - In LINQ, results are enumerated only when they are consumed (lazy by default)
+	- When storing result in list/dictionary/single value, (i.e. not "IEnumerable") then results are all enumerated
+	  + This is useful when you're likely to reuse them --> cache results into a collection
+
+## Exceptions and Error Handling
+
+## Attributes and Reflection
+
+## Async Programming
+
+## Testing
+
+## Interop

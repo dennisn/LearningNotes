@@ -13,6 +13,7 @@ and this: https://packaging.python.org/en/latest/tutorials/installing-packages/
   - Install virtual environment: `py -m pip install virtualenv`
   - Create virtual env.: `py -m virtualenv venv`
   - Activate virtual env.: `venv/Scripts/activate.ps1`
+    + on Linux/WSL: `source venv/Scripts/activate`
   
 ### Setup python environment
 

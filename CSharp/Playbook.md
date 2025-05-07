@@ -107,14 +107,14 @@
   - For multiple properties changed: `System.ComponentModel.INotifyPropertyChanged`, which will pass the property name in `PropertyChangedEventArgs`
 
 ## LINQ
-  1. Remove Duplicates
+1. Remove Duplicates
     - Use `Distinct()` method, but need equality comparer
-  2. Group Data-driven
+2. Group Data-driven
     - Use `GroupBy(e => e.<Group-Property>)`--> return IEnumerable<IGrouping<TKey, TElement>>
 	- To ensure grouping data is in correct order, could use "OrderBy().ThenBy()..." before do GroupBy()
-  3. Flatten data
+3. Flatten data
     - Use `SelectMany(grouping => grouping, (grouping, elements) => elements)`
-  4. Join multiple lists
+4. Join multiple lists
     - Use `L1.Join(L2, itemL1 => itemL1.Key, itemL2 => itemL2.Key, (itemL1, itemL2) => <Result-Item>)`
 	- Use `GroupJoin()` with same arguments if want to group by L1 after join
 	  + Calculate average within each group and order the group by average (see example below)
@@ -127,32 +127,32 @@
 				(student, examResult) => (student, exameResult.Average(result => result.Makr)))
 			.OrderBy(tuple => tuple.student.Name)
 		```
-  5. LINQ extension methods: 
+5. LINQ extension methods: 
     - Normal extension method, but must accept as first parameter an `IEnumerable<T>`
 	- Return `IEnumerable<T>` --> support "fluent" syntax
 	- Using `yield` to return each element ==> support lazy evaluation
-  6. Lazy evaluation
+6. Lazy evaluation
     - In LINQ, results are enumerated only when they are consumed (lazy by default)
 	- When storing result in list/dictionary/single value, (i.e. not "IEnumerable") then results are all enumerated
 	  + This is useful when you're likely to reuse them --> cache results into a collection
 
 ## Exceptions and Error Handling
   
-  1. Multiple catch blocks:
+1. Multiple catch blocks:
     - Most specific first, to most abstract
     - Include a "catch-all" handler at the end: `catch (Exception)`--> to catch any unhandled exceptions
-  2. Custom exception
+2. Custom exception
     - Best to derived from System.Exception, and include a constructor with innerException --> to be used if the exception is thrown from inside a catch block
-  3. Exception filters
+3. Exception filters
     - Catch exception with exposed property of specific value: using `when`
     - Example: `catch (Exception ex) when (ex.PropName == "<some-name>")`
-  4. Exception from Async code
+4. Exception from Async code
     - Async methods that return `Task<T>` or `Task`, will automatically transfer of exception to the main thread-safe
     - NOTE: return void --> bad practice as exception won't go to main thread
-  5. Debug exception in Visual Studio
+5. Debug exception in Visual Studio
     - VS won't stop for handled exception
     - Exception settings: Debug -> Windows -> Exception settings: choose to break when selected exception is thrown
-  6. Exceptions vs. Debug.Assert()
+6. Exceptions vs. Debug.Assert()
     - `Debug.Assert()`: will always invoke the debugger --> best to detect buggy code before production
 
 ## Attributes and Reflection

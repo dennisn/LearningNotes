@@ -1,5 +1,4 @@
 # C# Playbook
-[TOC]
 
 ## Control Flow and Loops
   -  For and ForEach
@@ -138,8 +137,7 @@
 	  + This is useful when you're likely to reuse them --> cache results into a collection
 
 ## Exceptions and Error Handling
-
-  - Include exception variable if you need it
+  
   1. Multiple catch blocks:
     - Most specific first, to most abstract
     - Include a "catch-all" handler at the end: `catch (Exception)`--> to catch any unhandled exceptions

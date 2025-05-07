@@ -161,6 +161,10 @@
 1. Marking a method as Obsolete
 2. Custome Attributes
 3. Using Reflection to find Attributes on a Type
+1. Using Attributes to create friendly text for enumerated1
+1. Consume Attributes on fields
+1. Using Reflection to get  property value of an instance
+1. Identifying whether a class is immutable
 
 ## Async Programming
 

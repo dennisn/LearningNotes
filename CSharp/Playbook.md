@@ -138,7 +138,29 @@
 
 ## Exceptions and Error Handling
 
+  - Include exception variable if you need it
+1. Multiple catch blocks:
+  - Most specific first, to most abstract
+  - Include a "catch-all" handler at the end: `catch (Exception)`--> to catch any unhandled exceptions
+2. Custom exception
+  - Best to derived from System.Exception, and include a constructor with innerException --> to be used if the exception is thrown from inside a catch block
+3. Exception filters
+  - Catch exception with exposed property of specific value: using `when`
+  - Example: `catch (Exception ex) when (ex.PropName == "<some-name>")`
+4. Exception from Async code
+  - Async methods that return `Task<T>` or `Task`, will automatically transfer of exception to the main thread-safe
+  - NOTE: return void --> bad practice as exception won't go to main thread
+5. Debug exception in Visual Studio
+  - VS won't stop for handled exception
+  - Exception settings: Debug -> Windows -> Exception settings: choose to break when selected exception is thrown
+6. Exceptions vs. Debug.Assert()
+  - `Debug.Assert()`: will always invoke the debugger --> best to detect buggy code before production
+
 ## Attributes and Reflection
+
+1. Marking a method as Obsolete
+2. Custome Attributes
+3. Using Reflection to find Attributes on a Type
 
 ## Async Programming
 

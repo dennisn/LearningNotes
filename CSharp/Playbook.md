@@ -118,23 +118,23 @@
   - Use `L1.Join(L2, itemL1 => itemL1.Key, itemL2 => itemL2.Key, (itemL1, itemL2) => <Result-Item>)`
   - Use `GroupJoin()` with same arguments if want to group by L1 after join
     + Calculate average within each group and order the group by average (see example below)
-        ```
-        students
-            .GroupJoin(
-                examResults, 
-                student => student.AnonymousId,
-                exameResult => exameResult.StudentId,
-                (student, examResult) => (student, exameResult.Average(result => result.Makr)))
-            .OrderBy(tuple => tuple.student.Name)
-        ```
+      ```
+      students
+          .GroupJoin(
+              examResults, 
+              student => student.AnonymousId,
+              exameResult => exameResult.StudentId,
+              (student, examResult) => (student, exameResult.Average(result => result.Makr)))
+          .OrderBy(tuple => tuple.student.Name)
+      ```
 5. LINQ extension methods: 
-    - Normal extension method, but must accept as first parameter an `IEnumerable<T>`
-    - Return `IEnumerable<T>` --> support "fluent" syntax
-    - Using `yield` to return each element ==> support lazy evaluation
+  - Normal extension method, but must accept as first parameter an `IEnumerable<T>`
+  - Return `IEnumerable<T>` --> support "fluent" syntax
+  - Using `yield` to return each element ==> support lazy evaluation
 6. Lazy evaluation
-    - In LINQ, results are enumerated only when they are consumed (lazy by default)
-    - When storing result in list/dictionary/single value, (i.e. not "IEnumerable") then results are all enumerated
-      + This is useful when you're likely to reuse them --> cache results into a collection
+  - In LINQ, results are enumerated only when they are consumed (lazy by default)
+  - When storing result in list/dictionary/single value, (i.e. not "IEnumerable") then results are all enumerated
+    + This is useful when you're likely to reuse them --> cache results into a collection
 
 ## Exceptions and Error Handling
   
@@ -157,13 +157,35 @@
 
 ## Attributes and Reflection
 
-1. Marking a method as Obsolete
-2. Custome Attributes
-3. Using Reflection to find Attributes on a Type
-4. Using Attributes to create friendly text for enumerated1
-5. Consume Attributes on fields
-6. Using Reflection to get  property value of an instance
-7. Identifying whether a class is immutable
+  - Marking a method as Obsolete: with `[Obsolete("<Description>")]`
+  - Custom Attributes: derived from "System.Attribute"
+    + Best practice: mark class as `sealed` to improve performance in Reflection
+    + Often decorated with "AttributeUsageAttribute" to specify which code elements it can be used with
+      - Example: `[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]`
+    + Usage: remove the trailing "Attribute" from the name, also apply at compile-time
+  - Using Reflection to find Attributes on a Type
+    + Use `GetType()` on instance to get the Type object
+    + Use `GetCustomAttributes()` to get actual attributes that have been applied to a type/code element
+      - Can pass in the type of attribute needed to filter out others, with the second attribute specify whether to return attributes applied to base classes
+  - Using Attributes to create friendly text for enumerated
+    + Need custom attribute to contain the friendly text
+    + Add a generic static method to get friendly text
+      ```
+      static string GetFriendlyText<T>(T value) where T : Enum
+      {
+        Type type = value.GetType();
+        FieldInfo? fieldInfo = type.GetField(value.ToString());  // enum string is also field name
+        // Get the custom attribute, and return its friendly text
+      }
+      ```
+  - Using Reflection to get  property value of an instance
+    + Use `type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Declaredonly)` --> get public instance declared at the type (i.e. ignore inherited)
+    + Then use `prop.GetValue(instanceToCheck)` to get the property value of given instance
+  - Identifying whether a class is immutable
+    + For all `NonPublic | Public | Instance | Static` fields
+    + Check if any not `IsInitOnly`
+    + Recursively go up the hierachy with `type.BaseType` (System.Object will return null)
+    + *NOTE: Not consider interface with default static field*
 
 ## Async Programming
 

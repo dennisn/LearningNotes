@@ -189,6 +189,34 @@
 
 ## Async Programming
 
+  1. Launch simultaneous asyncs Operations
+    - Calling async methods without `await` --> collect `Task<T>` objects into a list
+    - Wait until all completed --> by calling `await Task.WhenAll(<my-task-collection>)`
+    - Show/Process each result ASAP with `IProgress<TResult>`
+      + Async method need to report the progress when they done: `progress.Report(result)`
+      + Caller pass a `Progress<TResult>` with action lambda to run when a task reports progress
+      + NOTE: ensure the Progress<TResult> was instantiate on the UI/main thread, then the processing of result will be on UI/main thread
+  2. Thread-safe data
+    - Need to sync. thread acess to prevent data corruption
+	- basic mechanism is using lock
+	- Alternatively, can use ConcorrentXXX class: performance is worse than normal collection class, but better than using basic lock
+	  + For thread-safe way of simple arithmetic: using `System.Threading.Interlocked`: need to pass the impact object as reference
+	- Best way: design code to avoid synchronisation altogether
+  3. Generate & consume async stream 
+    - return `IAsyncEnumerable<T>` instead of `IEnumerable<T>`
+	- For reading: use `await foreach`
+  - To run a synch. method async. on background thread: `await Task.Run()`
+
 ## Testing
+  1. Mocking to prevent external dependency
+    - External dependency can be database, external source --> slow for unittest, and hard to control/setup
+	- Use mock/stub to make testing easier
+  2. Static External Dependency
+    - Wrap the static dependency in an interface --> allow easy mock-up
+  3. Choosing parameter values to test a method
+    - Use data with different features
+	- Include edge case-value
+    - Include invalid data
+	- Alternatively, try to ensure 100% code coverage
 
 ## Interop

@@ -220,3 +220,28 @@
 	- Alternatively, try to ensure 100% code coverage
 
 ## Interop
+  - Unmanaged API: for OS functions that aren't mapped to C#
+  
+### Windows API
+  - Parameters are marshalling from C# <==> Win32 via P/Invoke layer. Some common types:
+    + HWND (windows handle) --> IntPtr/nint
+	+ LPCTSTR/LPCWSTR (long-pointer string) --> String (LPCTSTR: can be ANSI and Unicode, vs. LPCWSTR: Unicode only)
+	+ BOOL --> bool
+	+ DWORD --> uint
+	+ WCHAR --> Unicode char
+  - Some API method comes in pair: XyzA and XyzW (for Ansi and Unicode). 
+    + when declare, can omit 'A'/'W', and based on charset --> will automatically call the correct variation
+	+ Example: `[DllImport("User32.dll", CharSet = CharSet.Unicode)]` --> for calling the Unicode variation
+	+ C# is already in Unicode, so using Ansi version would loose globalisation benefit, yet lower performance because of the convertion overhead 
+  - Some types from C# can't be directly mashalled into Win32 --> Need specific directive
+    ```
+	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+	struct DISPLAY_DEVICE
+	{
+		public uint cb;
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst=32)] public string DeviceName;
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst=128)] public string DeviceString;
+		...
+	}
+	```
+  - Calling VB from C#: Only need to reference the project --> As with normal C# library

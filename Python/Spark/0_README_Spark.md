@@ -1,3 +1,6 @@
+# General
+  - [PySpark Cheatsheet](./PySpark_Cheatsheet.md)
+
 # Spark Basic
 
 ## Version
@@ -78,3 +81,29 @@ count_per_carrier.show()
 				sum(case when CtxFacility is null then 1 else 0 end) FacilityMissing,
 				count(CtxFacility) as HasFacility
     from dhr_table group by CarrierCode 
+	```
+	
+# Tips & Tricks
+  - Select a specific offset using SparkSql
+    ```
+	SELECT * FROM ce_result
+	ORDER BY CET_SystemCreateTimeUTC
+	LIMIT 1000
+	OFFSET 2000
+	```
+  - Convert data from Scala to PySpark
+    + In Scala, put the data in Object Exchange: `z.put("df", containerEventDf: org.apache.spark.sql.DataFrame)`
+	+ Read it from Object Exchange in PySpark
+    ```
+	%pyspark
+	from pyspark.sql import DataFrame
+
+	df = DataFrame(z.get("df"), sqlContext)
+	```
+  - Convert data from PySpark to Scala
+    + In Python: `z.put("df", df._jdf)`
+	+ In Scala: `val df = z.get("df").asInstanceOf[org.apache.spark.sql.DataFrame]`
+  - Convert data via SqlContext.table
+    + Create temp view: `df.createTempView("df")`
+	+ In Scala: `val df = spark.table("df")`
+	+ In Python: `df = sqlContext.table("df")`

@@ -45,4 +45,19 @@
       - `CachedThreadPool`: automatically create new thread when existing ones are busy. Finished task won't immediately destroyed but wait a bit (i.e. "cached") in case new task come in --> may create max int of threads
       - `FixedThreadPool`: fixed number of threads in pool
       - `ScheduledThreadPool`: similar to `SingleThreadScheduledExecutor`, but have more than 1 threads
-  -
+
+## Concurrent Collection and Atomic variables
+  - Normal type doesn't allow changing collection when looping --> Concurrent collection allowed this as it allow locking per segment
+  - CopyOnWriteList/Set: create a new copy on modification
+    + good for read, bad for lot of write --> spawning rubbish
+  - `Collections.synchronizedXXX()`: convert normal collection into Synchronized collection (i.e. collection safe in multi-threads environment) --> locking the whole object ?
+    + bad performance, better use Concurrent collection
+    + can't be modified in a loop
+  - Atomic classes: simple types with "atomic" method (i.e. as a single unit of execution)
+  
+## Threading problems
+  - Liveness of application: responsiveness, memory consistency and data integrity
+  - Deadlock: thread waiting for each other indefinitely
+  - Livelock: thread running & trigger each other in a loop
+  - Starvation: low priority thread cannot access resources, as high priority ones occupy the required resources
+  - Race condition: resource access is not shared correctly --> results are undeterministics, and depending on the order of access

@@ -20,3 +20,7 @@
   - Consumers read from partitions (by assignment), and Kafka keeps track of messages offset (i.e. position of last read) per consumers
     + More partitions enable more consumers reading in parallel
   - Partitions & topics are replicated across brokers for high availability
+  
+## Misc
+  - For high-availability, nodes are often in odd number
+    + when communication is disrupted, at least one group will have majority of nodes, and can continues with changes, while the minority group will switch to read-only mode until re-connection

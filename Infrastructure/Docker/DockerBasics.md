@@ -66,6 +66,53 @@
     + Mostly create folder, copy files, etc.
   - Push the result image into a repository (docker hub) for later retrieval & run
   
-## Misc
-  - For high-availability, nodes are often in odd number
-    + when communication is disrupted, at least one group will have majority of nodes, and can continues with changes, while the minority group will switch to read-only mode until re-connection
+## Communicate between containers
+  - Bridge network: allows containers to talk with each other on the same machine
+    + `docker network create --driver bridge <network-name>`: create the network
+    + `docker run -d --net=<network-name> --name=<contaienr-name> <image-name>`: create then run the container in detached mode, joining to the specified network
+    + Within the container, the application/configuration can use the `container-name` as the host name
+  - Other network commands
+    + `docker network ls`: list networks
+    + `docker network inspect <network-id>`: dumping the network & its nodes
+    + `docker network rm <network-name>`: remove the named network
+  - Shell into a Container: `docker exec -it <container-id> <shell-name>`
+    + `-it`: interactive
+    + `<shell-name>`: could be **sh**, **bash** or **PowerShell**, depending on the container itself
+
+## Docker Compose
+  - A tool for define & manage multi-container docker application
+    + Define services using a YAML configuration file (e.g. "docker-compose.yml")
+    + Build multiple image, containers; start/stop services; view the service status; stream the logs of running services, etc.
+  - Sample "docker-compose.yml"
+    ```
+    version: '3.x'
+    
+    services:
+      node:
+        container_name: nodeapp
+        image: nodeapp
+        build:
+          context: .
+          dockerfile: node.dockerfile
+        ports:
+          - "3000:3000"
+        networks:
+          - nodeapp-network
+        depends_on:
+          - mongodb
+          
+      mongodb:
+        container_name: mongodb
+        image: mongo
+        networks:
+          - nodeapp-network
+    
+    networks:
+      nodeapp-network:
+        driver: bridge
+    ```
+  - Basic command
+    + `docker-compose build`: build image(s)
+    + `docker-compose up`: start the services
+    + `docker-compose down`: stop services and delete containers
+  - 

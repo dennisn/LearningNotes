@@ -104,5 +104,38 @@ services:
   - Docker compose Network: can be used to separate different services into different network segments
 
 ## Debugging Python application running in containers
-
+  - We can mount the source code from our development environment to container source code --> allow code change to take effect immediately
+  - VS Code: use debugpy (ref: https://github.com/microsoft/debugpy). Basic setup:
+    + install debugpy via pip: `pip install debugpy`
+    + import it to code and listen for VS Code to remotely attach to it (may need to disable other debugger within the code)
+      ```
+      import debugpy
+      debugpy.listent(("0.0.0.0", 5678))
+      ```
+    + docker also need to expose port 5678 to local host from container
+      ```
+        ports:
+          - "5678:5678"
+      ```
+    + In VS Code, create lanuch configuration for python remote debugger, as sample below
+      ```
+      "configurations": [
+        {
+          "name": "Python: Remote Attach",
+          "type": "python",
+          "request": "attach",
+          "connect": {
+            "host": "localhost",
+            "port": 5678
+          },
+          "pathMappings": [
+            {
+              "localRoot": "${workspaceFolder}/product-service/src",
+              "remoteRoot": "/code"
+            }
+          ]
+        }
+      ]
+      ```
+  -
  

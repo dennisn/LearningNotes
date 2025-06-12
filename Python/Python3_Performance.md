@@ -55,8 +55,64 @@ Python code to measure performance
     + Visualize the data: `snakeviz file.prof`
 
 ## Using the Right Data Structure
+  - Which data structure is faster ?
+  - O notation: performance scalability
+    + O(n2) > O(nlogn) > O(n) > O(logn) > O(1)
+  - Lists vs Arrays
+    + List: order collection of item (can be mixed-types, but optimised for same type)
+      - Fast: Get, Set, Append
+      - Slow: Search, Delete
+      - Memory allocation: triggered when list is full --> best to create array up-front with known size
+    + Arrays: specific module (e.g. "numpy")
+      - numpy: significant faster than list
+  - Sets vs Tuples
+    + Sets: un-ordered collection of unique item. Item must be **immutable**
+      - Fast: Add, Delete, Search
+      - Slow: remove duplicate (???)
+    + Tuples: like an **immutable** list --> light weight and faster
+      - Size: smallest vs. List & Sets
+      - Search: faster than list, but still much slower vs Sets
+  - Queue vs Deques
+    + `queue` module: simple FIFO queue, specialized for multi-threads
+      - `queue` class: put & get
+    + `collections` module: double-ended queue for FIFO & LIFO, support multi-threads
+      - `deque` class: appendleft/append, pop/popleft
+      - slow access by index, but fast append & pop at either end
+      - Contrast to list: `pop(0)` is very slow
+  - Dictionaries: mutable colllection of key-value pairs. Key must be hashtable & unique
+    + Fast: Get, Set, Search
+  - Data class vs. Dictionary vs. NamedTuple
+    + Named tuples: tuples with named field --> better readability
+      - More memory efficiency vs. data class, but with less features
+    + Data class: to store data with a class, without boilerplate --> support type hint
+      - Declare as class, but decorate with `@dataclass`
+      - By default is mutable, but can turn into immutable
 
 ## Optimizing Python Code
+Ways to optimise python code
+  - Caching: re-use results from expensive computation, or IO
+    + Trade off: extra memory/storage
+    + Limitation: results can be out-date
+    + Approaches: basic dict (may overgrown), use `@lru_cache()` from functools, or 3rd party lib (e.g. "**joblib**")
+  - For vs. list comprehension
+    + `for` loop: better for complex logic, but longer and slower
+    + list comprehension: only for creating new list with simple logic, but concise & faster
+  - Generator expressions: lazy version of comprehension
+    + Syntax: use `()` instead of `[]`
+    + very low memory, but just-in-time and access only next item --> good for streaming
+    + NOTE: operation within generator will only, and always, re-computed when items are accessed
+  - Concat strings have 3 ways: `+`, using f-string, or `join()`
+    + Using `+`: basic and scalable, but slow
+    + Using f-string: `f'{items[0] items[1]}'`: high performance but not scalable
+    + Using `join()`: scalable and fast
+  - Permission or forgiveness (e.g. check vs. catching exception)
+    + Permission is slower when violations are low
+    + Check: best to avoid often encountered problem
+    + Exception: for errors happen rarely
+  - Faster functions
+  - Optimizing numerical calculations
+  - Using different interpreter
+  - Risky Optimisations
 
 ## Using More Threads
 

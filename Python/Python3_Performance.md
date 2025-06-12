@@ -109,10 +109,17 @@ Ways to optimise python code
     + Permission is slower when violations are low
     + Check: best to avoid often encountered problem
     + Exception: for errors happen rarely
-  - Faster functions
-  - Optimizing numerical calculations
-  - Using different interpreter
-  - Risky Optimisations
+  - Functions: trade off performance vs. readability
+    + the performance penalty is very small though
+  - Numerical calculations: faster with specialized modules suchas "**NumPy**" or "**Pandas**"
+  - Using different interpreters: CPython (reference implementation), PyPy, Cython, Jython
+    + Different interpreters: may not be as compatibility
+    + PyPy: highly compatible with speed boost, but lag behind a bit
+  - Optimisation Risks:
+    - Tradeoffs must be awared & think about
+    - Code is less readable
+    - May introduce ew bugs
+    - Small gains for lot of efforts
 
 ## Using More Threads
 

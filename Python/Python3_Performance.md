@@ -122,7 +122,31 @@ Ways to optimise python code
     - Small gains for lot of efforts
 
 ## Using More Threads
+  - Threads: 
+    + GIL: global interpreter lock --> one thread run at anytime
+    + Lighweight, shared memory --> high potential for bugs
+  - Processes:
+    + No GIL lock --> more potential performance gain
+    + Heavyweight, separate memory --> low potential for bugs
+  - Module `threading`:
+    + Usage: subclass `threading.Thread` and overwrite `run()`; or pass a function as "target" to `threading.Thread()` constructor
+  - Challenges of working with threads: synchronizing data, debug, GIL
+    + GIL: good for synchronizing data, but restrict performance gain for CPU-intensive tasks (i.e. unable to utilise multi-processors)
+  - When to use multi-threading
+    + Usage: tasks that wait for external events, blocking I/O with simple logic
+    + Avoid: CPU-intensive tasks, or complex logic
 
 ## Using Asynchronous Code
+  - Asynchronous code: use the new module `asyncio`
+    + Vs. Threads: lower overhead & potential for bugs, but high learning curve and may not be supported by many library
+    + Use similar syntax as C#
+  - Learning curve:
+    + New syntax: `async` and `await`
+    + New concepts: coroutine & event loop
+    + Need to use new library: `aiohttp`, `aiomysql`, etc.
+  - Debug --> harder to know the order of execution & state of the application
+  - New libraries needed: need to avoid blocking code & libraries with blocking code !
+  - When to use 'asyncio': for IO operations, small tasks
+    + also need to aware the library to avoid blocking code in 3rd parties library
 
 ## Using More Processes

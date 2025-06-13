@@ -150,3 +150,19 @@ Ways to optimise python code
     + also need to aware the library to avoid blocking code in 3rd parties library
 
 ## Using More Processes
+  - Process-based parallelism: using module `multiprocessing`
+    + separate memory spaces, no GIL --> utilize all CPU cores
+    + Increased memory overhead, and harder to share resources
+  - Using class `multiprocessing.Process`
+    + Similar to `threading.Thread`: subclass `Process`, then override `run(self)`, or create Process with target=<processing-procedure>
+  - Inter-processes communication: can use `Pipe` or `Queue` in "multiprocessing" module
+  - When to use multiple processes: in data pipeline, producer-consumer apps or for parallelizable workloads
+    + Use logging --> ease of debug for hard to reproduce state
+    + Monitor CPU usage, ensure process terminate cleanly
+    + Take care of accessing shared resources
+    + Limit/control the number of processes: "#processes >> #CPU" --> reduce performance
+  - Scaling to multiple machines
+    + `celery` libary: using task queue to distribute data processing to multiple machine
+    + `dask`: integrates with NumPy, Pandas --> scaling from laptop to cluster on the cloud
+    + `ray`: similar to `dask`, but designed to be general purpose
+    + Kubernetes: general purpose cloud managed service

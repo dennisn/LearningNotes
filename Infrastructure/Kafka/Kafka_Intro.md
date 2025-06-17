@@ -18,7 +18,10 @@
   - Topic can be pre-created, or auto-created when first message is sent
   - Topics can be partitioned based on message key
   - Consumers read from partitions (by assignment), and Kafka keeps track of messages offset (i.e. position of last read) per consumers
-    + More partitions enable more consumers reading in parallel
+    + One consumer could read from 1 or more partition, but 1 partition can be read by only 1 consumer of a consumer group (no sharing)
+    + Hence more partitions enable more consumers reading in parallel
+    + Rebalance is triggered when consumer leave/join the group, or their heartbeat was missing for too long
+    + Rebalance: ensures all partitions are attended by a consumer in a group
   - Partitions & topics are replicated across brokers for high availability
   
 ## Misc

@@ -24,6 +24,23 @@
     + Rebalance: ensures all partitions are attended by a consumer in a group
   - Partitions & topics are replicated across brokers for high availability
   
+## Kafka connect
+  - Connectors provided by 3rd party to import data into/export data from Kafka
+    + Connectors registry "https://www.confluent.io/product/connectors"
+  - Connector is run by "task", which is assigned to "worker" (i.e. similar to docker container)
+    + allow task rebalance: failed worker will have its tasks re-distributed to live ones
+  - Can use schema to validate/help with serialize/deserialize data from Kafka
+    + How to: 
+      - set `KEY/VALUE_SERIALIZER_CLASS_CONFIG` to `io.confluent.kafka.serializers.KafkaAvroSerializer.class` on producer
+      - set `KEY/VALUE_DESERIALIZER_CLASS_CONFIG` to `io.confluent.kafka.serializers.KafkaAvroSerializer.class` on consumer
+      - Then set "schame.registry.url"
+      - For consumer, also set `specific.avro.reader` to "true"
+  - 
+
 ## Misc
   - For high-availability, nodes are often in odd number
     + when communication is disrupted, at least one group will have majority of nodes, and can continues with changes, while the minority group will switch to read-only mode until re-connection
+  - Apache Avro: used to define schema in registry for Kafka. It has 3 basic modes of operations:
+    + Generic -> to validate schema
+    + Specific: use AVSC file and codegen capabilities -> generate code
+    + Reflection: based on a class to create AVSC file

@@ -35,7 +35,22 @@
       - set `KEY/VALUE_DESERIALIZER_CLASS_CONFIG` to `io.confluent.kafka.serializers.KafkaAvroSerializer.class` on consumer
       - Then set "schame.registry.url"
       - For consumer, also set `specific.avro.reader` to "true"
-  - 
+
+## Kafka stream
+  - Kafka stream app: something that may read from/write to a Kafka topic(s) (i.e. same or different topics)
+    + Setup properties: 
+      - `APPLICATION_ID_CONFIG`: name of application
+      - `DEFAULT_KEY_SERDE_CLASS_CONFIG`: Key serialize/deserialize
+      - `DEFAULT_Value_SERDE_CLASS_CONFIG`: Value serialize/deserialize
+  - Using Kafka stream to coordinate multi-phase transactions (e.g. multi-micro services)
+    + All events are recorded in Kafka topic --> proof of transactions
+    + Resumption at point of disconnect --> recovery
+    + De-coupling between services --> scalability (i.e. one service can be served by multiple instances)
+  - Some key points:
+    + Kafka can be used as WAL (Write Ahead Log) for Kafka stream apps
+    + A Kafka stream app: a "topology" of functions to a stream of message
+    + We can deploy as many streams as we want --> they act as microservices
+    + KSQL is the CLI to query KSQLDB, which is aa thin layer over Kafka stream --> allows us to do simple stuff without creating a stream apps in code
 
 ## Misc
   - For high-availability, nodes are often in odd number

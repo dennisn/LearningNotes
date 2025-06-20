@@ -52,6 +52,13 @@
     + We can deploy as many streams as we want --> they act as microservices
     + KSQL is the CLI to query KSQLDB, which is aa thin layer over Kafka stream --> allows us to do simple stuff without creating a stream apps in code
 
+## Kafka administration basic
+  - To secure communications channels in Kafka, use TLS (Transport Layer Security) with certificate & key
+  - Will need TrustStore for all parties, and KeyStores for Broker(s) and ZooKeeper(s)
+    + TrustStore: contains certificates from other parties that you expect to communicate with, or from Certificate Authorities that you trust to identify other parties.
+    + KeyStore: contains private keys, and the certificates with their corresponding public keys.
+  - To authenticate with mTLS (multual-TLS): need KeyStore for producers and consumers
+
 ## Misc
   - For high-availability, nodes are often in odd number
     + when communication is disrupted, at least one group will have majority of nodes, and can continues with changes, while the minority group will switch to read-only mode until re-connection
@@ -59,3 +66,9 @@
     + Generic -> to validate schema
     + Specific: use AVSC file and codegen capabilities -> generate code
     + Reflection: based on a class to create AVSC file
+  - Problems with topic overload: normally because the partitions are low
+    + It's hard to increase the partitions
+    + Solution: 
+      - create new topic with double the partitions
+      - then create a stream to write all messages from original topic to the new topic. 
+      - Finally, migrate all other producers & consumers to use the new topic

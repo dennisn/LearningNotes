@@ -82,8 +82,62 @@
     + Example: Kubernetes, Mesos, Docker Swarm, Marathon
   - Continuous Delivery: ensure reliable delivery by automate the Build->Test->Deploy process directly from version control
     + Example: Jenkins, Asgard, Aminator
-  - Environment: Dev, Test, QA, Staging & Prod
+  - Environments: Dev, Test, QA/integration, Staging & Prod
     + Each environment need different configuration --> externalize the configuration into external storage (e.g. Database, Archaius, Consul, Decider)
 
 ## Pros & Cons
-  -
+  - In competitive world, need robust & agile technology --> **Time-to-market** is critical
+    + Microservice: can speed up development time (by divide in small batches)
+  
+  1. Business: need Agile & DevOps
+    - Pros: Low cost (small cost base, open-source usage), faster time-to-market
+    - Cons: Not single support, no standard to follow
+  2. Technical
+    - Pros: flexible tech stacks, ease to improve performance, maintainability & extensibility
+    - Cons: Integration test is hard, so is design & data synchronisation --> problem with distributed system
+  3. Production
+    - Pros: Portable -> scalability & availability, more flexible in infrastructure
+    - Cons: Containuous Integration & Monitor, difficulty setup test environments
+==> Use microservice for: Time to market, extensibility, replaceability & scalability
+
+### Business concerns:
+  - Organisation: small teams --> manage inter-team communications
+  - Recruiting: easier as it's trendy
+  - Training: small -> flexible on tech stacks + Mixed junior & senior
+    + may be mired on different techs --> restricted inter-team movement
+  - Standard: no standard on microservices --> won't have single point of support
+  - Open-source: benefits from lots of open-source products
+  - Cost: can start small & cheap, then grow when needed
+  - Time-to-Market: faster, small batches of work --> faster revenue
+
+### Technical conerns:
+  - Design: how to split the system
+    + Almost an art, depending on complexity --> use Domain-driven design techniques
+  - Technical choice: flexible (pick the right tool for the right job)
+  - User interface: small -> simple
+    + But aggregate all UI together --> hard/tricky
+  - Distributed: highly complicated
+    + Network failure will occur --> ready to deal with
+    + Circuit breaker is very important
+  - Data store: one per sub-domain -> flexibility
+    + Difficult in keeping data in sync
+    + Best avoid distributed transaction
+  - Performance: each service can be optimized
+    + Integration, network may slow the whole system down
+  - Security: difficult, multiply by the number of services --> increase point of failure
+  - Testing: ease to code services in isolation
+    + Complex integration test envinronment
+    + **Chaos testing**: create failure for resilient test
+  - Maintainability: less code to maintain & **understand**
+  - Extensibility: extensible by design (e.g. simply add new microservice, contract, etc.)
+
+### Production conerns:
+  - DURS (Deploy, Update, Replace, Scale): independent per service
+  - CI and CD: important to identify errors early
+    + more difficult because of # of subsystem
+  - Portability: use container to support CICD
+  - Infrastructure: often end up with hybrid (e.g. traditional IT, private & public cloud)
+  - Scalability: should be easier
+  - Availability: available by design --> still need to enable graceful degradation (i.e. service must be able to handle other services not being available)
+  - Monitoring: complex but required since so many subsystems --> failure will happen
+  

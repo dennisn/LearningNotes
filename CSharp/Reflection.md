@@ -32,6 +32,17 @@
   - Reflection is complex
 
 ## Instantiate & Manipulate objects
+  - From "constructor", we can create new object by calling `Invoke()`
+    + Binder: customised selector of matching method --> using "null" for default
+  - `Activator` is a class that contains methods to create types of objects locally or remotely or obtain references to existing remote objects
+    + Advantage: don't need the actual type, but assembly name & fully qualified name of the type
+    + Disadvantage: return an ObjectHandle, which need "`Unwrap()`" to get the actual object
+      - This is because the "Activator" may not load the assembly yet (i.e. not having metadata about the object's type yet)
+  - `dynamic`: use "late-binding" --> compiler won't check
+  - Get/Set properties & field: by first retrieve the property/field, then call `SetValue(objectToSet, newValue)`
+    + can use `InvokeMember()` directly on the type, with `BindingFlags.SetProperty` --> but loss access to specific behavior of specific member type 
+  - Similarly, we can invoke method, or using "InvokeMember()" to indirectly invoke method from the parent type
+    + `Convert.ChangeType()` is also needed to cast object to type --> 
 
 ## Refection with Generics
 

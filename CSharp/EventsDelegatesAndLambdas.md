@@ -5,7 +5,7 @@
   - Event: notification from end-user or objects
     + Main purpose is provide opportunity for others to listen & act on the event (with its argument)
   - Delegate: is a specialized class based on the `MulticastDelegate` base class
-    + Act as the pipeline between an event and an event handler (i.e. "Function Pointer")
+    + Function pointer: Act as the pipeline between an event and an event handler
   - Event Handler: receive & process data from an event (i.e. sender & EventArgs)
     + EventArgs are responsibilve for encapsulating event data
 
@@ -36,3 +36,8 @@
     + As long as `some_method` matching the expected signature of event `WorkPerformed`
 
 ## Lambdas, Action<T>, and Func<T, TResult>
+  - Lambda: short-hand way of define functions matching a delegate signature
+  - `Action<T>`: basic delegate, accepts one ore more parameters and return no value
+  - `Func<T, TResult>`: accepts one ore more parameters and return a value of type TResult
+    + Multiple params, then the last param is the return type
+  ==> delegate almost not needed ! (Maybe useful for declaration)

@@ -17,6 +17,8 @@ It will be divided into subsections for each main technology branches:
   
 ## Engineer
 
+  - [Artificial Intelligent](./AI/0_README_AI.md)
+    + [LLM - Large Language Model](./AI/LLM/0_README_LLM.md)
   - [Software Enginner](./SoftwareEngineer/0_README_SoftwareEngineer.md)
     - [Object-Oriented](./SoftwareEngineer/ObjectOriented.md)
     - [Security](./SoftwareEngineer/Security.md)

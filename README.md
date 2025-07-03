@@ -5,12 +5,13 @@ My personal learning notes
 It will be divided into subsections for each main technology branches:
 
 ## Programming Languagues
-  - [C#](./CSharp/0_README_CSharp.md)
-  - [Java](./Java/0_README_Java.md)
-  - [Python](./Python/0_README_Python.md)
-    - [Spark](./Python/Spark/0_README_Spark.md)
+  - [C#](./CSharp/README.md)
+  - [Java](./Java/README.md)
+  - [Python](./Python/README.md)
+    + [Spark](./Python/Spark/README.md)
   - Scripts
-    - [NodeJs](./Scripts/NodeJs/0_README_NodeJs.md)
+    + [NodeJs](./Scripts/NodeJs/README.md)
+    + [TypeScript](./Scripts/TypeScript/README.md)
 
 ## Database system
   - [Ms Sql Server](./SqlServer/0_README_SqlServer.md)

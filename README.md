@@ -7,6 +7,7 @@ It will be divided into subsections for each main technology branches:
 ## Programming Languagues
   - [C#](./CSharp/README.md)
   - [Java](./Java/README.md)
+    + [Spring](./Java/Spring/README.md)
   - [Python](./Python/README.md)
     + [Spark](./Python/Spark/README.md)
   - Scripts
@@ -14,20 +15,20 @@ It will be divided into subsections for each main technology branches:
     + [TypeScript](./Scripts/TypeScript/README.md)
 
 ## Database system
-  - [Ms Sql Server](./SqlServer/0_README_SqlServer.md)
+  - [Ms Sql Server](./SqlServer/README.md)
   
 ## Engineer
 
-  - [Artificial Intelligent](./AI/0_README_AI.md)
-    + [LLM - Large Language Model](./AI/LLM/0_README_LLM.md)
-  - [Software Enginner](./SoftwareEngineer/0_README_SoftwareEngineer.md)
+  - [Artificial Intelligent](./AI/README.md)
+    + [LLM - Large Language Model](./AI/LLM/README.md)
+  - [Software Enginner](./SoftwareEngineer/README.md)
     - [Object-Oriented](./SoftwareEngineer/ObjectOriented.md)
     - [Security](./SoftwareEngineer/Security.md)
 
 ## Infrastructure
-  - [Infrastructure](./Infrastructure/0_README_Infrastructure.md)
-    + [Docker](./Infrastructure/Docker/0_README_Docker.md)
+  - [Infrastructure](./Infrastructure/README.md)
+    + [Docker](./Infrastructure/Docker/README.md)
 
 ## Misc
-  - [Books](./Books/0_README_books.md)
-  - [Executive Briefing](./ExecBrief/0_README_ExecBrief.md)
+  - [Books](./Books/README.md)
+  - [Executive Briefing](./ExecBrief/README.md)

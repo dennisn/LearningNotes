@@ -45,5 +45,28 @@
     + `Convert.ChangeType()` is also needed to cast object to type --> 
 
 ## Refection with Generics
+  - Generics advantage:
+    + Type safety: compiler can do type check
+    + Reusability: generic class can be used on variety of type
+    + Performance: avoid boxing/unboxing to/from `Object`
+  - Generic type name: suffix is the number of type parameters to be bound
+    + `List<T>` == "**System.Collections.Generic.List`1**"
+    + `Dictionary<TKey, TValue>` == "**System.Collections.Generic.Dictionary`2**"
+  - Generic opened/closed types
+    + Opened type: in generic format, not yet bounded to its type(s) --> can't initiated
+    + Closed type: bound to its type(s) --> now can be initiated
+    + Example:
+      ```
+      var listType = typeof(List<>);  // this is open type
+      var listTypeOfString = listType.MakeGenericType(typeof(String));
+      var listInstance = Activator.CreateInstance(listTypeOfString);
+      ```
+    + Similarly, generic method need to bound via `MakeGenericType()` before it can be called
 
 ## Advanced Topics
+  - Security implication
+    + **CAS (Code Access Security)**: different levels of trust for your code --> to protect system from malicious code
+    + CAS is no longer supported --> `SecurityCritical` attribute and `ReflectionPermissionFlag` enumeration will have no effect anymore
+    + **Reflection-only context**: loading assemblies for inspection but not execution --> gone
+  - Libary `ReflectionMagic`: use custom `DynamicObject` under cover to helps writing cleaner "reflection" code
+    + Example: `person.AsDynamic()._aPrivateField = "Update private field";`

@@ -3,7 +3,7 @@
   - AI wasn't a new tech, but resource intensive
   - Cloud-computing & Saas --> make using Generative AI possible via economic of scales
 
-## 1. Cloud-Based services for Generative AI
+## 2. Cloud-Based services for Generative AI
   - Storage: central to all AI system
     + Structure storage for ease of access
     + Quality of data: garbage in, garbage out
@@ -13,7 +13,7 @@
   - Generative Adversarial Networks (GANs): 2 components: 1 to generate new data and 1 to evaluate the realistics of the generated ata
     + Often used in generating images & videos
 
-## 2. Features of Cloud-Based Generative AI
+## 3. Features of Cloud-Based Generative AI
   - Some usages for text data: language translation, generate content, chatbots & virtual assistants, etc.
   - NLP models: 
     + Rule-based (i.e. predefined grammatical rules)
@@ -27,7 +27,7 @@
     + Still need inputs from human
     + The output must be processed further --> audio file
 
-## 3. Use Cases
+## 4. Use Cases
   - Art and music: generate new art works, music compositions from prompts, or tailored to user preference
     + presenting ads with musics similar to what user listening to --> more effective
   - Game development: 
@@ -65,6 +65,28 @@
     + Story telling & narrative generation
     + 3D object generation
 
-## 4. Tools & Solutions
+## 5. Tools & Solutions
+  - Amazon SageMaker: support for data processing; model selection, building and training
+    + Offer support for framworks such as TensorFlow, PyTorch
+  - Google Cloud AI: similar support to SageMaker
+    + pretrained models & transfer learning
+  - Microsoft Azure AI
+    + Azure Cognitive Services: prebuilt APIs for advanced AI-related functions: computer vision, NLP, text or image generation, etc.
+  - IBM Watson AI
+    + Watson Studio: help data scientists collaborate with software developer
+    + Neuro Network Modeller: visual, drag & drop interface to build NN layers
+    + NLP services
+  - OpenAI
+    + GPT (Generative Pre-Trained Transformer): generating human-like scripts
+    + Language understanding
+    + API integration
 
-## 5. Advanced consideration
+## 6. Advanced consideration
+  - Edge computing + cloud-based GenAI: model trained on cloud, then data processing + model running on local --> good for use cases which need low latency like autonomous vehicles, industrial automation, IOT devices, etc.
+    + Some case, a summary of data is sent to cloud-based server for further processing or storage
+  - Federated learning: multiple clients collaboratively train a model without directly sharing their raw data.
+    + improve privacy, compliance with regulation --> expands data sources
+  - Security & privacy issues
+    + Data privacy: training needs large datasets
+    + Model protection: model is tempting target for tampering
+    + Adversarial attacks: may try to tweak inputs, for training as well as applied data, to gain benefits

@@ -90,3 +90,7 @@
     + Data privacy: training needs large datasets
     + Model protection: model is tempting target for tampering
     + Adversarial attacks: may try to tweak inputs, for training as well as applied data, to gain benefits
+  - AI ethics:
+    + Data bias: bias in samples --> bias model & bias AI system later
+    + Transparency: opaque nature of AI --> erode trust, accountability
+    + Privacy: user privacy in data collection

@@ -47,8 +47,18 @@
     + Class: should not building dependency themselves --> either set via constructor or properties
 
 ## 5. Intro. to Design Patterns
+  - Design patterns describes a well‑known solution to a specific problem
+    + "C# Design Patterns" by Kevin Dockx
+  - Singleton: beware of thread safety: multiple threads trying to create the "singleton"  object at the same time
+  - Builder: centralizes the knowledge of how to build the objects into a single place in your code
+  - Strategy: choose one best strategy among multiple strategies
+  - Avoid Pattern Fever: looking for excuses to use a pattern
+    + Patterns are meant to help Devs not re-inventing the wheel only
 
 ## 6. Nullability
+  - Nullability --> communicate intent about null-able from library to user code 
+  - Override null-checking --> while transitioning old project only
+  - Still need runtime checking of null value, but now compiler will help you catch more cases at compile time
 
 ## 7. Equality, Immutability, and Record Types
 

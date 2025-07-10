@@ -1,5 +1,7 @@
 # Object-Oriented Design with CSharp
-(based on Pluralsight course)
+  - Based on Pluralsight course by Mel Grubb
+  - Using mermaid for class diagram in markdown (supported by github)
+  - Repo: https://github.com/melgrubb/ps-oo-cs10
 
 ## 2. Intro. to OO Design
   - Four Pillars:
@@ -28,6 +30,21 @@
   - Polymophism: object can have multiple capabilities/roles (i.e. interfaces)
 
 ## 4. The SOLID principles
+  - In depth study: "SOLID Principles for C# Developers" by Stve Smith
+  - Single responsibility: a module should have a clearly-defined job
+    + related to Abstraction & Encapsulation
+    + Example: A car state only change for make, model, running status (e.g. car-related concepts), not for "lower-level" concepts like brake, throttle, engine
+  - Open/Close principle: should be able to extend a class behavior without modifying it --> 
+    + With inheritance: where each implementation variation should not impact existing one
+    + With composition: new component can be added without changing the "owner" code
+    + Design tips: separate "bedrock" code into base classes, while specializations on top of that bedrock into subclasses
+      - If class has multiple "modes", switching its behavior --> signs to break them into smaller classes
+  - Liskov substitution principle --> Polymorphism
+    + Not only inter-change, but also ensure the substitution "**work/behave**" inter-change-able
+  - Interface Segregation Principle: make fine-grained interfaces that are task-specific
+    + Interface: group related functionality together --> keep interfaces cohesive
+  - Dependency Inversion Principle: depend on abstractions, not on concretions
+    + Class: should not building dependency themselves --> either set via constructor or properties
 
 ## 5. Intro. to Design Patterns
 

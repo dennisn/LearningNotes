@@ -61,7 +61,82 @@
   - Still need runtime checking of null value, but now compiler will help you catch more cases at compile time
 
 ## 7. Equality, Immutability, and Record Types
+  - Immutability: object can't be modified after creation
+    + Pro: thread safe, validated once (at construction)
+    + Often used to "**communicate intent**": create temp. class with members that are set at init only
+  - Equality: value vs. reference equality
+    + Often need hash code implementation: `HashCode.Combine(member1, member2, etc);`
+    + **Tips**: Don't partially implement IEquatable --> Equals(T); Equals(object); operator == and !=; GethashCode() 
+  - Records: implement value equality & immutability by default
+    + All members are part of the constructor, but no null checking --> need `required` keywords to mark it as required
+    + Could define the record long-hand with property members `init` only --> need to implement `Equals(T)` & `GetHashCode()`
+    + Other ability: PrimtMembers(), Deconstruction()
+    + We can make a new copy of a record and only mention the differences from the original using the `with` keyword
+      ```
+      var normalized = NormalizeAddress(mailingInfo) with
+      {
+        FullName = mailingInfo.FullName.ToUpper(),
+      };
+      ```
+  - Record Structs: value types vs Record: reference type ==> best suited as a light weight PropertyBag to pass between methods
+    + Can't be inherited
+    + Not a reference, or no reference equality needed
+    + is not "**immutable**", unless it's declared as `readonly`
+    + can use initializer syntax for the whole thing
+    + **Tips**: Favor record structs for DTOs or parameter objects
 
-## 8. OO Examples
+## 8. OO Examples: Options Pattern
+  - Define a settings class, with members matching settings expected in a section, then retrieve it from configuration
+    + Pros: can add behavior like default value
+    ```
+    var configuration = new ConfigurationBuilder()
+          .AddJsonFile("appsettings.json", false, true)
+          .Build();
+  
+    var sampleSettings = configuration.GetSection(SampleSettings.SectionName).Get<SampleSettings>();
+    ```
+  - With IoC, we can add option, set it to bind to specific section, and also trigger validation of the settings with annotations
+    ```
+    var serviceCollection = new ServiceCollection().AddTransient<XXX, YYY>();
+    serviceCollection
+        .AddOptions<SampleSettings>()
+        .Bind(configuration.GetSection(SampleSettings.SectionName))
+        .ValidateDataAnnotations()
+        .ValidateOnStart()
+    ```
+  - For full dependency injection on CLI with upfront validation:
+    ```
+    static async Task Main(string[] args)
+    {
+      await Host.CreateDefaultBuilder(args)
+          .ConfigureAppConfiguration( configBuilder =>
+          {
+              configBuilder.AddJsonFile("appsettings.json", false, true).Build();
+          })
+          .ConfigureServices((context, serviceCollection) => 
+          {
+              serviceCollection
+                .AddOptions<SampleSettings>()
+                .Bind(configuration.GetSection(SampleSettings.SectionName))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+              serviceCollection.AddTransient<ISettingsLogger, SettingsLogger>();
+              serviceCollection.AddHostedService<ProgramService>();
+          })
+          .RunConsoleAsync();
+    }
+
+    class ProgramService : IHostedService 
+    {
+      ...
+      public Task StartAsync(CancellationToken cancellationToken) { ... }
+      public Task StopAsync(CancellationToken cancellationToken) { ... }
+    }
+    ```
+  - Different IOptionXX interface:
+    + IOptions<T>: return the option at started time
+    + IOptionsSnapshot<T>: return the option snapshot at request time (more fore ASP.Net)
+    + IOptionsMonitor<T>: raises events when the settings file changes
+  - More about Options Pattern in .Net: MS document (https://learn.microsoft.com/en-us/dotnet/core/extensions/options)
 
 ## 9. Putting it all together

@@ -34,7 +34,7 @@
     + Trade off: pre-packaged configuration, limited choice of tools --> application compatibility constraint
   - SaaS: Cloud-based applications, pay for what you subscribe --> minimal management overhead
     + Client responsibility: accounts & identities (authentication), device management, information & data on the service
-    + Main points: For specific use, subscription model 
+    + Main points: For specific use, subscription model, but can access anywhere, with hosting & scaling provided
   - Defense in Depth: to stop/slow unauthorized data access --> using layered defense (e.g. similar to a castle)
     + Physical security: first line of defense --> often by vendor
     + Identity & access: user management

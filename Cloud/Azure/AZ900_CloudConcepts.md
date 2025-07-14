@@ -24,5 +24,24 @@
     + Cloud model = Consumption-based (e.g. OpEx)
 
 ## Cloud services types
+  - Cloud Service Types: 3 main types: more control = more customer responsibiltiy
+  - IaaS: Basic computing infrastructure, pay for what you allocate --> more management overhead
+    + Often through Virtual Machines (VMs) = Virtual computer: CPU/Memory, Disk, Networking, Network Controls (Firewall), maybe event OS --> often hosted on physical server (hypervisor)
+  - PaaS: Pre-packaged cloud services, Pay for what you use  --> less management overhead
+    + Vendor managed Development/Deployment services: development tools, database/storage and analytics --> user focus on developing solutions
+      - OS, storage, software licenses, auto-scaling
+    + Serverless: extreme form of PaaS, where all resource is managed for you --> user only focus on run code
+    + Trade off: pre-packaged configuration, limited choice of tools --> application compatibility constraint
+  - SaaS: Cloud-based applications, pay for what you subscribe --> minimal management overhead
+    + Client responsibility: accounts & identities (authentication), device management, information & data on the service
+    + Main points: For specific use, subscription model 
+  - Defense in Depth: to stop/slow unauthorized data access --> using layered defense (e.g. similar to a castle)
+    + Physical security: first line of defense --> often by vendor
+    + Identity & access: user management
+    + Perimeter: firewalls/DDoS protection
+    + Network: secure (by limit) connectivity between resources
+    + Compute: secure virtual machines, endpoint, OS patching
+    + Application: design/fix security holes, secure secrets/password
+    + Data: primary target --> control access to db, disk, SaaS application
 
 ## Cloud benefits

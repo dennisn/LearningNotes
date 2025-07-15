@@ -2,6 +2,12 @@
 
 ## Principles
 
+Essentially, OO is about hiding complexity & re-use
+  - Abstraction: hiding code (i.e. implementation)
+  - Encapsulation: hiding data
+  - Inheritance: re-use code (of the same/similar types)
+  - Polymorphism: re-use code, that operates on similar types
+
 ### Four pillar of OO
 
   - Abstraction: Hide the details implementation, show the public interface => Ease of implementation change

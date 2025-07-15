@@ -140,3 +140,4 @@
   - More about Options Pattern in .Net: MS document (https://learn.microsoft.com/en-us/dotnet/core/extensions/options)
 
 ## 9. Putting it all together
+_Example only_

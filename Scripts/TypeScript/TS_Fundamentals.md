@@ -101,8 +101,59 @@
     + Sample: `let releaseFunc: (someYear: number) => string;` --> match `function SomeFunc(year: number): string {}` ==> so can assign it: `releaseFunc = SomeFunc;`, then call it `let msg = releaseFunc(2024);`
 
 ## 5. Interfaces
+  - Interface: contract that define a type, which can be checked by compiler --> collection of methods & attributes 
+    + variable declared to be of specific interface ==> should have the exact methods & attributes (**no extra**)
+    + "Duck-typing": object satisfied the type definition, can be used as if it is of that type, even though it was not explicitly declared itself to be of that type
+    + NOTE: JavaScript doesn't have anything equivalent to interface, so they will be removed when compiled to JavaScript
+    + Example:
+      ```
+      interface Book {
+        id: number;
+        title: string;
+        pages?: number;
+        markDamanged: (reason: string) => void;
+      }
+      ```
+  - Function type (i.e. function pointer): define the parameters & return value of a function --> as a interface
+    + Example: `let IdGenerator: (chars: string, nums: number) => string;` --> function pointer
+    + Interfaces of Function Type example:
+      ```
+      interface StringGenerator {
+        (chars: string, nums: number): string;
+      }
+      ```
+  - Extending interface: `interface Encyclopedia extends LibraryResource, Book {}`
 
 ## 6. Classes
+  - Classes in JS: similar to others language
+  - Constructors: method named "constructor" - max of one per class
+    + Sample: `constructor(title: string, publisher?: string) {}`
+  - Properties:
+    ```
+    class ReferenceItem {
+      numOfPages: number;
+
+      get editor(): string {
+        // custom get logic, return a "string" value        
+      }
+      set editor(newEditor: string) {
+        // custom set logic
+      }
+    }
+    ```
+    + Parameter properties: a short-hand way to declare & init. a class properties in the constructor
+      ```
+      class Author {
+        constructor(public name: string) {} // create property "name", which is set at construction
+      }
+      ```
+    + Static properties: `static description: string = 'A source of knowledge';` --> must access it via the class, not object
+  - Access modifier: by default to be "public"
+    + Other is "private" and "public"
+    + Newer feature: private field, by putting a `#` symbol in front of field names --> in newer environment, will have extra protection
+  - Extending classes
+  - Abstract classes
+  - Using class expression
 
 ## 7. Organizing your code with Modules
 

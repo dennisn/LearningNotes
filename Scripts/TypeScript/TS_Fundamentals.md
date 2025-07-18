@@ -144,18 +144,48 @@
     + Parameter properties: a short-hand way to declare & init. a class properties in the constructor
       ```
       class Author {
-        constructor(public name: string) {} // create property "name", which is set at construction
+        // create property "name", which is set at construction
+        // access modifier can be "public" or "private" --> the modifier will apply to the property
+        constructor(public name: string) {} 
       }
       ```
+    + Note: all class members must be prefixed with `this.` when access from within the class
     + Static properties: `static description: string = 'A source of knowledge';` --> must access it via the class, not object
-  - Access modifier: by default to be "public"
+  - Access modifier: by default, all are "public"
     + Other is "private" and "public"
     + Newer feature: private field, by putting a `#` symbol in front of field names --> in newer environment, will have extra protection
-  - Extending classes
-  - Abstract classes
-  - Using class expression
+  - Extending classes: using `extends` keyword
+  - Abstract classes: add `abstract` keyword infrom of the class/method name
+  - Using class expression: class without name
+    + Example:
+      ```
+      let Musical = class extends Video {
+        printCredits(): void {}
+      }
+      ```
 
 ## 7. Organizing your code with Modules
+  - Why Module: Create higher-level abstractions to hide implementation details, while enhance reuse-ability
+    + Use compiler option to specify JavaScript module format: AMD, CommonJS, UMD, System, ES2015, etc.
+    + Also need a module loader/bundler to help load the modules: RequreJS, SystemJS, Webpack
+  - Exporting: prefix interface/function/class with the keyword `export`
+    + If use `export default` --> mark it as the default item exported from this module
+    + Can export multiple entities: `export { Person, methodName, Employee as StaffMember };`
+  - Importing: witm `import` keyword
+    + Sample: `import { Person, methodName } from './person';` --> relative reference
+    + Import default item: `import Worker from './person';` --> import the default item from person as "Worker"
+    + Import with alias: `import {StaffMember as CoWorker } from './person';`
+    + Import the whole module: `import * as HR from './person';` -->  can then call method from person as `HR.methodName();`
+  - Module resolution: can leave off the extension
+    + Relative import: direct the path with prefixes "/", "./", "../"
+    + Absolute import: don't include any reference to a directory structure before the module name
+    + TIPS: use relative import for own module
+    + `--moduleResolution Class | Node`: two basic mode for resolution ("Classic" is for backward compatibility only)
+      - CommonJS module is default to "Node", while others is "Classic" --> mostly apply to absolute references
+      - Node: walk up the directory tree, looking for a folder named "node_modules" to find the reference file
+        + It also read a `package.json` file if present for more configuration
+      - Classic: walks up the directory tree looking for a module starting in the location of the importing file
+  - Convert an application to use module
 
 ## 8. Asynchronous code
 

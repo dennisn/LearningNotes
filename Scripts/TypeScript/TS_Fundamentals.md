@@ -215,9 +215,34 @@
       ```
 
 ## 9. Generics
+  - Very similar to C#
+  - Constraints is with `<T extends Class/InterfaceName>` instead of `<T>`
 
 ## 10. Type declaration files
+  - Type declaration files (definition files): wrapper for JavaScript libraries --> development-time tools only
+    + Extensions: `.d.ts`
+    + Often included with the library we want to use, or in crowdsource "**DefinitelyTyped**"
+      - Installed with npm, from "@types/<name>"
+  - Misc: JS libraries from "www.npmjs.com"
+  - Example:
+    ```
+    # install lodash library
+    npm install lodash
+
+    # install lodash type definition
+    npm install @types/lodash
+    ```
 
 ## 11. Decorators
+  - A decorator is just a function that's applied to other code in your application
+    + Similar to `attribute` in C#, or `annotation` in Java
 
 ## 12. Debugging
+  - Source maps: map source TS code to JS output --> so can set breakpoints, watches, etc. in TypeScript source
+    + Enabled with compiler option: `--sourceMap`, or in tsconfig.json, set it to `true`
+  - To debug in Chrome's DevTools, need 
+    + JavaScript generated with "sourceMap" option to true
+    + A html page to reference the generated JavaScript (not TypeScript)
+    + A button to activate the TypeScript function
+    + In "Sources" panel of DevTools, can now add breakpoints, watch, etc. as with VS code
+  - More in depth about Chrome's DevTools: "Debugging Sites with Chrome DevTools" by Brice Wilson

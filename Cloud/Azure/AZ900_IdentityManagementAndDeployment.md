@@ -25,7 +25,7 @@
 
 ### Zero Trust Concepts
   - Classic trust model: by location (i.e. within a private network), rather than identity --> not suitable with mobile devices, nor it's fine-grain enough
-  - Zero Trust model: trusted by identity
+  - Zero Trust model: trusted by identity --> all users assumed untrustworthy unless proven otherwise
 
 ### Multi-Factor Authentication
   - MFA: based on combination of mroe than 1 thing: something you know, you have, or something you're.
@@ -36,6 +36,7 @@
   - Policy that specified certain conditions --> grant/block access
     + Conditions: users/groups, application, location (i.e. IP), devices
     + Access decisions: grant/block, MFA requirement
+  - MFA is often implemented with Conditional Access as further security
 
 ### Password-less authentication
   - Multi-Factor Authentication (MFA): more secure but **less convenient** (slower, more steps) --> password-less authentication: one possible solution
@@ -48,6 +49,7 @@
     + FIDO2 security key: hardware key that need to plug into the computer, may even have a finger-print on it
 
 ### External Guest Access
+  - External Guest acess: enables security outside of your oganisational boundaries --> visibility of external guest activity within your organisational ID borders
   - For external access: Entra External ID for partners (Azuare AD B2B) and Entra External ID for customers (Azure AD B2C)
     + ID for partners (B2B): invite users to create new ID with us, based on their existing ID from external provider --> will authenticate by us, to access our resources
     + ID for customers (B2C): authenticated by 3rd party, to access our "external-facing" applications --> still need to assign access rights for that entity
@@ -56,7 +58,7 @@
   - Legacy apps: 
     + Unable to use modern authentication protocols (e.g. OAuth 2.0)
     + Require traditional AD management/protocols (e.g. Group policy, LDAP, NTLM, Kerberos)
-  - Azure AD Domain Service for legacy apps
+  - Azure AD Domain Service for legacy apps --> migrating or integrating legacy apps
     + Managed service: no need for OS config/management
     + One-way sync. from Entra ID to Azure AD
     + Behind the scenes: two Windows domain controllers for high-availability
@@ -74,5 +76,9 @@
     + Role segregation: fine grain permission --> avoid combined roles with conflict permissions
     + Limit scope to avoid permission sprawl
     + Review, audit & document
+
+### Defense in Depth
+  - At identity level --> user identity is the data to protect
+    + Defense in Depth: conditional access (e.g. physical limitation), MFA, password
 
 ## 3. Management and Deployment Tools

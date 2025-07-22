@@ -188,6 +188,31 @@
   - Convert an application to use module
 
 ## 8. Asynchronous code
+  - Asynchronous benefit: more responsive, more efficient, especially with "slow" tasks
+  - `Promise`: represents the eventual completion or failure of an asynchronous operation and its resulting value
+    + native support in ES2015 --> similar to `Tasks` in C#
+    + Basic example:
+      ```
+      function doAsyncWork(resolve, reject) {
+        // perform async tasks
+
+        if (success) resolve(data); // data is return data
+        else reject(reason);
+      }
+
+      let p: Promise<string> = new Promise(doAsyncWork);
+
+      p.then(stringResult => console.log(stringResult))
+       .catch(reason => console.log(reason));
+      ```
+  - async/await syntax: similar to how it was used in C#
+    + Example
+      ```
+      async function doAsyncWork() {
+        let result = await GetDataFromServer();
+        Console.log(result);
+      }
+      ```
 
 ## 9. Generics
 

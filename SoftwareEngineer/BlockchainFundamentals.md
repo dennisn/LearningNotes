@@ -58,3 +58,27 @@ When "**NOT**" to use Blockchain
     + Emergency stop: needed for catastrophic failure
     + Composability: build from components --> re-usability & reduce complexity/mistake
   
+## Development environment
+  - Tools: Winget, NodeJS, VS Code, Chrome, Security configuration, React App, MetaMask
+    + getting eth for testing
+    ```
+    # install NodeJS using winget
+    winget install OpenJS.NodeJS.LTS
+
+    # Visual Studio code
+    winget install Microsoft.VisualStudioCode -e
+
+    # Chrome
+    winget install --id=Google.Chrome -e
+    ```
+    + Change script execution policy: risky but needed: `set-executionpolicy remotesigned`
+    + Create react app tool: `npm install -g create-react-app`
+  - MetaMask and "Eth" for testing
+    + MetaMask: chrome extensions --> create crypto wallet
+    + Show test networks --> join Sepolia test network
+    + Test fund: Alchemy faucet (sepoliafaucet.com) or Infura (infura.io)
+
+## Smart Contract Basics with Solidity
+
+
+## Sample Application: The Globomantics Bodymap

@@ -364,5 +364,3 @@ Based on "**ASP.NET Core Web API Fundamentals**" by Kevin Dockx on PluralSight.c
 
 
 ### 11. Testing and Deploying your API
-
-## Core Minimal

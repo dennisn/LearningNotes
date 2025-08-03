@@ -8,9 +8,9 @@
   - Identity: who/what, a person/object claim to be --> "who/what I am"
   - Authentication: validating an identity claim --> "proof of who/what I am"
   - Authorization: what an identity can do
-  - In Azure, "Identity" is a **unique identifier**, where "Authentication" is to **proves** that identity, while "Authorization" is about the **scopes** of that identity
+  - In Azure, "Identity" is a **unique identifier**, where "Authentication" is to **prove** that identity, while "Authorization" is about the **scopes** of that identity
 
-### Azure Active Directory (Azure AD) --> re-brand as Entran ID
+### Azure Active Directory (Azure AD) --> re-brand as Entra ID
   - Ms Entra: a product **family** include Azure AD (i.e. Entra ID), Permissions Management and Verified ID
   - Azure Active Directory (e.g. Azure AD == Entra ID) vs Active Directory (AD): 
     + Entra ID: uses modern architecture, protocols, and methods (e.g. MFA), and has a cloud‑native design.
@@ -82,3 +82,12 @@
     + Defense in Depth: conditional access (e.g. physical limitation), MFA, password
 
 ## 3. Management and Deployment Tools
+  - Azure Resource Manager (ARM): for create, update and delete of resources in an Azure account
+    + provides consistent & convenience control of Azure resources
+    + can access by portal, CLI or SDKs
+  -  Azure Portal: web-based, visual interface for interacting with Azure
+    + visual representation of resources --> for deployment, monitoring & alert, cost estimation & billing
+    + Could create dashboards for vital information about important resources on log in
+  - Azure portal global search: for resources & services, and documentation
+  - Azure CLI: platform agnostic
+    + can be run through Azure cloud shell (in Azure portal) or in local terminal (Azure CLI has to be installed)

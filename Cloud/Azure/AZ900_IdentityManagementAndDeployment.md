@@ -89,5 +89,19 @@
     + visual representation of resources --> for deployment, monitoring & alert, cost estimation & billing
     + Could create dashboards for vital information about important resources on log in
   - Azure portal global search: for resources & services, and documentation
-  - Azure CLI: platform agnostic
+  - Azure CLI: platform agnostic, executable package
     + can be run through Azure cloud shell (in Azure portal) or in local terminal (Azure CLI has to be installed)
+    + More terse, can be used with multiple terminal types
+    + Prefer options if don't want PowerShell environment limitation
+  - Azure PowerShell (for scripting)
+    + Basic form: `Verb-Noun -Switch01 -Switch02 ...`
+    + More verbose, need PowerShell 5+
+    + Prefer options if previous experience/current environment is PowerShell, or prefer "outputs as objects" rather than text
+  - Azure Cloud Shell: command-line interface built into Azure --> accessible through Azure Portal and local terminals
+    + Automatic authentication
+    + Direct access to Azure storage
+    + Can use Azure PowerShell or CLI --> choice of shell
+  - Azure ARM Templates: JSON file(s) define the infrastructure and configuration of resources in Azure
+    + Benefit: is declarative, repeatable. Modular structures that is testable and exportable
+    + ARM vs Bicep: a more readable, tools supported format that will be transcoded into ARM during deploying
+    + Main benefit (from declarative): allow for configuration changes to be implemented without redeploying --> Azure will recognise the differences that can be "implemented" by changing existing deployment

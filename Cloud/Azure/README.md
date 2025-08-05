@@ -6,3 +6,4 @@
 
 ## AI-900: Azure AI Engineer Associate
   1. [Artificial Intelligence Workloads and Considerations](./AI900_WorkloadsAndConsiderations.md)
+  1. [Fundamental Principles of Machine Learning on Azure](AI900_PrinciplesOfMachineLearning.md)

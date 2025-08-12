@@ -69,3 +69,11 @@
     + Create from Azuire AI Language through REST API, SDK or the language studio
     + The knowledge base data: generate from FAQ, chit-chat data source or input manually
     + Using: deploy to be used with client application, or Azure AI bot service
+
+## Exam tips
+  - Entity recognition vs key phrases: entity recognition include category & confidence
+  - Text analytics vs OCR
+  - Tokenization: break down a phrase
+  - Speech recognition vs speech synthesis
+  - Azure AI Translator vs Azure AI Speech
+  - Language understanding: differences between utterances, entities & intents

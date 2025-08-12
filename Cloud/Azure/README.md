@@ -6,5 +6,6 @@
 
 ## AI-900: Azure AI Engineer Associate
   1. [Artificial Intelligence Workloads and Considerations](./AI900_WorkloadsAndConsiderations.md)
-  1. [Fundamental Principles of Machine Learning on Azure](./AI900_PrinciplesOfMachineLearning.md)
-  1. [Computer Vision Workloads on Azure](./AI900_ComputerVisionWorkloads.md)
+  2. [Fundamental Principles of Machine Learning on Azure](./AI900_PrinciplesOfMachineLearning.md)
+  3. [Computer Vision Workloads on Azure](./AI900_ComputerVisionWorkloads.md)
+  4. [Natural Language Processing (NLP) Workloads on Azure](./AI900_NaturalLanguageProcessing.md)

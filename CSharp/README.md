@@ -6,6 +6,7 @@
   1. [Dependency Injection](./DependencyInjection.md)
   1. [C# Playbook](./Playbook.md)
   1. [Benchmarking and Profiling](./BenchmarkingAndProfiling.md)
+  1. [C# Performance Playbook](./PerformancePlaybook.md)
 
 ## Design 
   1. [Object-oriented Design with C#](./ObjectOrientedDesignWithCSharp.md)

@@ -32,3 +32,35 @@ It will be divided into subsections for each main technology branches:
 ## Misc
   - [Books](./Books/README.md)
   - [Executive Briefing](./ExecBrief/README.md)
+
+## Mindmap
+
+### Learning tree
+
+```mermaid
+mindmap
+  root((Learning))
+    id)Database(
+      Ms Sql Server
+    id)Programming(
+      Python
+      C#
+      Java
+    id)Scripts(
+      NodeJs
+      TypeScript
+    id((Infrastructure))
+      Container
+        Docker (Kubernete)
+          OpenShift
+      id)Cloud(
+        AWS
+        Azure
+    id((Engineer))
+      id)Artificial Intelligent(
+        Large Language Model - LLM
+      id)Software Engineer(
+        Object Oriented
+        Security
+      id)Software Architecture(
+```

@@ -85,7 +85,7 @@
   - Checking type: `typeof(something) == 'string';` --> return the "actual" type of the value within the variable
 
 ## 4. Functions
-  - Type annotation to functions: `function funFunc(score: number, msg: string); string {}`
+  - Type annotation to functions: `function funFunc(score: number, msg: string): string {}`
   - the `-noImplicitAny` compilter option: --> get error if params is implicitly infered into Any
   - Optional, Default and Rest parameters
     + Optional: must appear after all required params: `age?: number`
@@ -94,7 +94,7 @@
     + Rest params: mechanism for passing a variable number of additional parameters after required params
       - Sample: `function GetBooksRead(name: string, ...bookIds: numer[])`
   - "Lambda" function: "parameters => function-body"
-    + Sample: `let squareit = (x) => x * x;`
+    + Sample: `let squareit = (x: number): number => x * x;`
   - Function overloads: same function name, different parameter type --> JavaScript don't have type annotation ==> in TypeScript, may use type guards to determine which overload was called
     + To emulate overload, declare multiple functions with different signature, but one "catch all" implementation
   - Function Types: combination of parameter types & return type
@@ -152,7 +152,7 @@
     + Note: all class members must be prefixed with `this.` when access from within the class
     + Static properties: `static description: string = 'A source of knowledge';` --> must access it via the class, not object
   - Access modifier: by default, all are "public"
-    + Other is "private" and "public"
+    + Other is "private" and "protected"
     + Newer feature: private field, by putting a `#` symbol in front of field names --> in newer environment, will have extra protection
   - Extending classes: using `extends` keyword
   - Abstract classes: add `abstract` keyword infrom of the class/method name
@@ -171,7 +171,7 @@
   - Exporting: prefix interface/function/class with the keyword `export`
     + If use `export default` --> mark it as the default item exported from this module
     + Can export multiple entities: `export { Person, methodName, Employee as StaffMember };`
-  - Importing: witm `import` keyword
+  - Importing: with `import` keyword
     + Sample: `import { Person, methodName } from './person';` --> relative reference
     + Import default item: `import Worker from './person';` --> import the default item from person as "Worker"
     + Import with alias: `import {StaffMember as CoWorker } from './person';`
@@ -234,8 +234,30 @@
     ```
 
 ## 11. Decorators
-  - A decorator is just a function that's applied to other code in your application
-    + Similar to `attribute` in C#, or `annotation` in Java
+  - A decorator is just a function that's applied to other code in your application --> The decorator will effectively replace the existing method with a new method
+    + Some what similar to `attribute` in C#, or `annotation` in Java
+  - Example
+    ```
+    # Decorator implementation for "logmethodInfo"
+    export function logmethodInfo(origMethod: any, _context: classmethodDecoratorContext) {
+
+      function replacementMethod(this: any, ...args: any[]) {
+        console.log('Decorated construct: ${_context.kind}');
+
+        const result = origMethod.call(this, ...args);
+        return result;
+      }
+
+      return replacementMethod;
+    }
+
+    # Use decorator in method "printItem()"
+    @logMethodInfo
+    printItem(): void {
+      ...
+    }
+    ```
+
 
 ## 12. Debugging
   - Source maps: map source TS code to JS output --> so can set breakpoints, watches, etc. in TypeScript source

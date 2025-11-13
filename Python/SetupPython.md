@@ -54,3 +54,47 @@ This assume the virtual environment has been created and actived
       c.ServerApp.root_dir = 'c:/git/wtg'
 	  ```
 	+ Start the jupyter notebook from command line (not windows link): `jupyter notebook`
+
+## Tools
+
+### Pylint
+  - Popular tools for code style checking
+  - Can be installed with pip
+
+**Example**:
+```
+# run on all file in folder ./server
+pylint ./server
+
+# Customize Pylint
+# 1. generate configuration file
+pylint --generate-rcfile > .pylintrc
+
+# 2. Run Pylint with custome configuration
+pylint --rcfile=.pylintrc example.py
+```
+
+### Ruff
+  - Similar to Pylint, written in Rust --> faster, focus on common linting & formatting, could fix many violation
+    + Shallower static analysis, no codesmell
+  - Configuration file: `ruff.toml`, or `pyproject.toml`
+  - Similar to `Black` in ability to automatically format code
+
+**Example**:
+```
+# Check the current directory with ".", or "path/to/code"
+ruff check .
+
+# Fix automatically
+ruff check --fix .
+
+# Format code
+ruff format .
+```
+
+### pre-commit framework
+  - to manage & run Git hooks in Python project --> automates code quality checks & formatting befor code is committed
+
+### linter in VS Code
+  - Can install extensions for Pylint, Ruff, etc.
+  - Can then run these tools from the IDE (i.e. With Ruff: right click -> format code)

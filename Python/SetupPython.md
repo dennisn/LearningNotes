@@ -98,3 +98,9 @@ ruff format .
 ### linter in VS Code
   - Can install extensions for Pylint, Ruff, etc.
   - Can then run these tools from the IDE (i.e. With Ruff: right click -> format code)
+
+## Documentation
+  - Using **docstring** to document code: first string of module/function
+    + Normally surround by 3 double-quote:`"""some description"""`
+  - Generate documentation from doc-string --> Using "**Sphinx**"
+    + Sphinx use `reStructuredText` as input

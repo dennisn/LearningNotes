@@ -166,3 +166,12 @@ Ways to optimise python code
     + `dask`: integrates with NumPy, Pandas --> scaling from laptop to cluster on the cloud
     + `ray`: similar to `dask`, but designed to be general purpose
     + Kubernetes: general purpose cloud managed service
+
+# Clean Code Practices
+
+## Exception
+  - Determine modules's responsibility --> decide whether to catch an exception
+  - Logging: always good, then the exception can re-raise with `raise`
+  - Custom exception: to simplify exception handling in client, and hide exception details
+    + Better include the source exception when re-raise: `raise XXXException from e`
+    + To hide the original exception: `raise XXXException from None`

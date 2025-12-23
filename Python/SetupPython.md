@@ -21,6 +21,30 @@ The quickest way is when you have a `requirements.txt` file:
   - To install the requirements in the current virutal env: `pip install -r requirements.txt`
     - The **requirements.txt** file is created by `python -m pip freeze > requirements.txt`
     - Notebook then can be started with: `jupyter notebook`
+  - Can have multiple requirements file, that reference each other: Dev -> Test -> Prod
+    ```
+    # Prod: requirements-prod.txt
+
+    # Test: requirements-test.txt
+    -r requirements-prod.txt
+
+    # Dev: requirements-dev.txt
+    -r requirements-test.txt
+    ```
+
+### Secrets with version control and Dot-env
+- Store local secrets: API key, password, etc
+- Should be ignored by version control
+- To use, need `python-dotenv` package
+  ```
+  from dotenv import load_dotenv
+
+  # Loading
+  load_dotenv()
+
+  # Usage
+  os.getenv('API_KEY')
+  ```
   
 #### Jupyter notebook setup from scratch
 
@@ -54,6 +78,45 @@ This assume the virtual environment has been created and actived
       c.ServerApp.root_dir = 'c:/git/wtg'
 	  ```
 	+ Start the jupyter notebook from command line (not windows link): `jupyter notebook`
+
+### PIP
+
+Download package from PyPI.org (Python Package Index) by default
+  - Install: `python -m pip install arrow` --> good practice in case `pip` is mapped to something else
+    + Specify version: `python -m pip install arrow=1.0.0` === `python -m pip install "arrow = 1.0.0"`
+    + Upgrade existing: `python -m pip install --upgrade arrow` === `python -m pip install -U arrow`
+    + Constraint version: `python -m pip install "arrow > 1.0.0, < 3.0"`
+    + Install from repos: `python -m pip install "demo_pkg @ git+<GITHUB_URL>"` --> more details from "VCS support" in pip documentation
+    + Install from file: `python -m pip install <FILE_PATH>` --> process the "**pyproject.toml**", build a "wheels" file, then install 
+  - Uninstall: `python -m pip uninstall arrow` --> not uninstall dependency
+  - List package: `python -m pip list`
+  - Show dependency: `python -m pip show anyio` --> show it "Required-by", as well as its own "Requires"
+
+In Dev, we can do "editable" installs: not creating wheel file, but add the project file into search path --> changes in file will reflect immediately in running environment
+  - Example: `pip install -e ~/projects/demo_pkg`
+
+#### Alternative to PIP
+  1. UV: written in Rust, very fast and can completely replace PIP, Poetry, Pipenv
+    - Main URL: https://docs.astral.sh/uv
+    ```
+    # installation
+    pip install uv
+
+    # init. new project
+    uv init uv-demo
+
+    # add dependency (first, need to get into the project dir)
+    # will also add virtual env
+    cd uv-demo
+    uv add requests
+
+    # run pip to list installed packages in virtual env
+    uv add pip
+    uv run pip list
+    ```
+    - uv create a uv.lock with details about the virtual environment, so it could be recreated exactly very fast when needed
+  2. Poetry: Focus on manage project dependencies, with friendly UI
+  3. Pipenv: also more about project dependencies
 
 ## Tools
 

@@ -32,6 +32,7 @@ It will be divided into subsections for each main technology branches:
 ## Misc
   - [Books](./Books/README.md)
   - [Executive Briefing](./ExecBrief/README.md)
+  - [Soft Skills](./SoftSkills/README.md)
 
 ## Mindmap
 

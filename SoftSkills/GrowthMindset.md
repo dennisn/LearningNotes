@@ -22,3 +22,26 @@
   - Fixed mindset: more judgemental --> seeing other success as thread
     + Comparison trap: afraid of failure --> further avoid tasks that have failed before
     + Growth mindset: see other success as inspiration
+
+### Organisation
+  - Fixed mindset organisation: hire people with "required" ability, not expecting further growth
+  - Growth mindset: encourage innovation, empower employee to take risk & growth
+  - Leadership for growth mindset: willing to mentor team member (i.e. retell past mistake, constructive critisim), seeking feedback from team member
+  - Positive quotient: Optimistic vs. Pessimistic vs. Defensive Pessimistic
+    + Defensive Pessimistic: (1) agree of the goal, but slow down to (2) prepare for possible mishap 
+      - Maybe mistake for Pessimistic 
+      - Alternative approach: confirm your commitment to the goal (1), before explore possible mishaps & contigency plans
+  - Avoid "**Group thinking**": noone want to challenge the group process
+    + Ask for anonymous feedback
+    + Dedicate someone to act as "devil advocate"
+    + Explicitly let team member voice their concerns about change that they're nervous about
+
+### Giving and Receiving feedback
+  - Failures/negative feedback:
+    + Fixed-mindset: perceive as permanent stigma, label --> always torment his/herself about it
+    + Growth-mindset: after some self-pity time, would attempt to learn/growth from it
+  - Giving feedback: Focus on (1) **efforts**, (2) **strategies** and (3) **outcomes**
+
+### Notes
+  - Mindset is not permanent, but may change by situations
+  - Growth mindset --> Need constant practice

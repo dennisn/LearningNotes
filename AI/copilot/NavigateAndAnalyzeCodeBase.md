@@ -21,3 +21,8 @@
   + Shared within team
   + Living documentation
   + Can include extensible content types: code standard, common pitfalls, links to external docs
+
+# Tracing code path
+- Decide starting context file with `#<filename>`
+- Using the whole codebase as context with `#codebase`
+- We could ask copilot to generate ASCII diagram, UML diagram (with specific dialect, such as plantUml)

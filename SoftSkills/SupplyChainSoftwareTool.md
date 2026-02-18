@@ -7,30 +7,28 @@
     + Apply AI: assist in analysis/decision making, using natural language
 
 ## Trends in areas
-  - Forecast: Besides using AI to improve accuracy, the forecast process can also be automated, and collaborate with partners (i.e. production + retails) to share each other forecast --> improve forecast accuracy
-  - Distribution
-    + Smart warehousing + robotics
-    + Last-mile delivery optimization + drones
-  - Technical tools for Supply Chain Management
-    + Cloud-based + real-time data sharing --> improve efficiency
-    + IoT --> real-time tracking
-  - Sustainability
-    + Green logistics practices to reduce environment impact
-    + Blockchain to ensure transparency
-  - Planning:
+  - **AI & Advanced Analytics**
+    + AI-powered demand forecasting & sensing --> improve accuracy, optimise inventory
+    + Predictive maintenance --> reduce downtime
+    + Sentiment analysis & market/weather/political risk management with early warnings & mitigation
+    + Autonomous operations: self-driving vehicles, drones, robotics
+  - **Real-Time Data & Integration**
+    + IoT for real-time tracking across the supply chain
+    + Data lakes & data virtualisation: combine raw data from multiple sources into one repository for comprehensive analysis
+    + Real-time streaming & Complex Event Processing (CEP) --> react to events quickly
+    + BI dashboards for real-time insights & pattern identification
+  - **Cloud & Collaboration**
+    + Cloud-based platforms for real-time data sharing & integration across partners
+    + Collaborative forecasting between production & retail partners --> shared visibility
+    + Omni-channel management to unify demand signals across sales channels
+  - **Distribution & Logistics**
+    + Smart warehousing with robotics & optimised layouts
+    + Last-mile delivery optimization & drone delivery
+    + Route optimization
+  - **Planning & Risk**
     + Resource forecasting & allocation using advanced software
-    + Data-driven: BI dashboards & tools for real-time insights --> identify patterns for planning
-    + Scenario planning for risk management with scenario modeling software
-  - Demand
-    + Analyse real-time data, AI-powered sentiment analysis for demand forecast
-    + Personalization & Omni-channel management to improve demand forecasting across multiple sales channels
-  - Big data
-    + Data lake & meta data: put raw data from different sources together in one repository --> analysis can combine them to spot trends
-    + Real-time streaming + Complex Event Processing (aka CEP) --> react to events quickly
-    + Data virtualisation + federated querying: present the combined data from different source as one + query data across various sources --> comprehensive insights & faster data retrieval
-  - AI
-    + Autonomous task: such as self-driving vehicles, drones
-    + Predictive maintenance --> reduce down time
-    + Manage risk, from weather to market/political, and provide warnings + mitigation strategies
-    + Demand forecast/sensing --> optimise inventory level
-    + Optimise operation, such as route optimization, warehouse layout
+    + Scenario modeling for risk management
+    + Data-driven planning with federated querying across sources
+  - **Sustainability**
+    + Green logistics practices to reduce environmental impact
+    + Blockchain for supply chain transparency & traceability

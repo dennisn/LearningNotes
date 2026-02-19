@@ -32,3 +32,23 @@
   - **Sustainability**
     + Green logistics practices to reduce environmental impact
     + Blockchain for supply chain transparency & traceability
+
+# Supply chain software & technology
+
+## Enterprise Resource Planning (ERP)
+ - Benefits:
+   + Automates manual process --> faster & more accurate
+   + Real-time visibility --> Data-driven decision making ==> easier decision-making
+   + Improve control --> reduce cost (e.g. excess stock, miss stock), yet improve quality of service (e.g. accurate order fulfillment, real-time order update)
+ - ERP master data
+   + Bill of material (BOM): a list of components & materials + quantity required to manufacture a product
+   + Product catalog: name, description, pricing and unit of measurement (e.g. each or box of 5)
+   + Inventory policies: Re-rder point (e.g. the stock amount that would trigger re-order) & safety stock level (e.g. the amount of buffer against unexpected demand spikes or supply disruption)
+   + Data maintenance: Update data regularly as its change (e.g. update status of discontinued products)
+ - Review inventory availability: to prevent stockouts, ensure timely reorders yet optimise our storage space
+   + Check current stock level, re-order the appropriate amount, from selected supplier, with instruction for expected delivery date
+   + Could create replenish schedule, or re-order trigger based on current inventory + forecast demand
+
+## Planning tools
+
+## Technology-based solutions

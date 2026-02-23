@@ -50,5 +50,18 @@
    + Could create replenish schedule, or re-order trigger based on current inventory + forecast demand
 
 ## Planning tools
+ - Benefits:
+   + Optimise inventory level
+   + Efficient allocation of resources
+   + Optimise costs (transport, production & inventory costs)
+   + Real-time visibility
+ - Integrate with other system (e.g. ERP - enterprice resource planning, WMS - Warehouse Management, TMS - Transport) --> better overal decision making as more & better, more comprehensive data are available, at almost real-time
+ - Scenario planning:
+   + Data collection & validation: using tools to automate the validation process
+   + Demand planning: tools supplied various forecasting models & algorithms
+   + Production planning --> simulate different production scenario
+   + Inventory planning --> optimize inventory levels based on demand forecast & production plans; consider factors such as service level targets, lead times, demand variability & costs.
+   + Distribution planning --> optimize the distribution network
+ - Plan will change --> need review & adjustments, especially with new info/feedbacks. Also need monitoring & control
 
 ## Technology-based solutions

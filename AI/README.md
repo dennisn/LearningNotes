@@ -7,3 +7,7 @@
 
   1. [Model Context Protocol](./Dev/ModelContextProtocol.md)
   1. [Agents & Chatbots with LangGraph](./Dev/AgentsAndChatbotsWithLangGraph.md)
+
+## Github Copilot
+  1. [Navigating and Analyzing Codebases with GitHub Pilot](./copilot/NavigateAndAnalyzeCodeBase.md)
+  2. [Google AI Professional](./GoogleAI_Professional.md)

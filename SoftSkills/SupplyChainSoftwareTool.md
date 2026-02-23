@@ -65,3 +65,22 @@
  - Plan will change --> need review & adjustments, especially with new info/feedbacks. Also need monitoring & control
 
 ## Technology-based solutions
+
+# AI Capabilities in supply chain analytics
+
+## Types of AI used in Supply Chain Management 
+  - Cognitive technology: simulate human thought processes & intelligent behavior
+    + NLP (natural language processing) --> more effective communication between humans & systems
+    + Machine learning --> learn from data to make decisions
+    + Computer vision --> analyse & interpret visual information --> product identification, package tracking or automated inspection, etc.
+    + RPA (Robotic Process Automation): automate repetitive & rule-based tasks (e.g. data entry, invoice processing, order tracking, etc.)
+    + Intelligent automation: combines various technologies above to automate complex processes & decision-making
+  - AI-power projection: use of AI techniques, such as ML & predictive analytics, to generate accurate forecasts
+    + Demand forecast
+    + Inventory optimization --> supply & demand matching
+    + Transportation planning (e.g. route optimise, combined shipments, etc.)
+    + Risk assessment --> identify possible issues
+
+## Benefits of AI in the supply chain
+
+## How AI benefits the Supply Chain Analyst

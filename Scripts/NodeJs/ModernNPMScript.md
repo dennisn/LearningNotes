@@ -30,3 +30,34 @@ Notes:
       husky \
       lint-staged
     ```
+
+# Containerization & Environment Automation
+  - Shipping code + dependency, but re-use kernel --> reduce size, yet maintain consistency between environments
+  - Multi-stage dockerfiles: separated "build" image vs. "run" image
+    + "Run" image can have the minimal set of dependencies
+  - Docker compose: combined & coordinate multiple services, in different containers, together into an application
+  - Docker build context: context for docker to run its build
+    + Include all the files/folders in the work dir --> filter unused files/folders in `.dockerignore` file to spped up docker build
+    + `node_modules`: should be the 1st candidate for `.dockerignore`
+
+# Scaling to Monorepos and CI/CD
+  - Monorepos: house multiple applications & libraries in the same directory
+    + Simplify dependency management, easire refactoring & consistent dev experience --> improve collaboration
+    + Sample:
+      - In root package.json: `"workspaces": [ "packages/*", "apps/*"]`
+      ```
+      my-monorepo/
+       +- package.json (root)
+       +- packages/
+           +- ui-components/
+               +- package.json
+           +- utils/
+               +- package.json
+       +- apps/
+           +- web-app/
+               +- package.json
+           +- api-server/
+               +- package.json
+      ```
+# Editor integration & Development containers
+  - In Visual Studio Code, there is Dev Containers extension that can run IDE within a container for development

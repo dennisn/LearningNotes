@@ -84,3 +84,34 @@
 ## Benefits of AI in the supply chain
 
 ## How AI benefits the Supply Chain Analyst
+ 
+# Preparing for a job as a supply chain analyst
+
+## Comprehensive resume
+  - Format: clean & professional
+    + Reverse chronological order: For normal, continuous professional career path
+    + Functional: Emphasizes skills & qualitification, or if there are break in employment
+    + Combined: Balance skills & experience ==> start with skills section, then follow with job history
+  - Summary/Objective: short, concise, focus on the job --> use industry-specific keywords, job aspirations
+  - Tips:
+    + Highlight skills with concret examples & achievement, use action verbs
+    + Include portfolio or samples of work
+
+## Research jobs
+  - LinkedIn: Combined networking + job listings
+  - Indeed: aggregates job postings from various sources --> also have company review
+  - Glassdoor: Company research, interview insights
+  - CareerBuilder, Monster: job boards with extra resources
+  - SimplyHired: aggregates listings with salary estimator
+  - Dice: forcused on tech & IT roles
+ 
+## Applying for a jobs
+  - Cover letter: best included to show interest
+    - Highlight relevant information, address recruitment criteria
+  - Follow up letter: wait a week, or however long the interviewer process would be
+    + Sample: 
+      ```
+      Dear [Employer's Name], 
+      I hope this email finds you well. 
+      I wanted to follow-up on my application for the [Job Title] position at [Company Name], I'm still very interested in the role and wanted to express my continued enthusiasm. Thank you once again for considering my application and I look forward to hearing from you soon.
+      ```

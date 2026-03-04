@@ -9,3 +9,6 @@
   2. [Fundamental Principles of Machine Learning on Azure](./AI900_PrinciplesOfMachineLearning.md)
   3. [Computer Vision Workloads on Azure](./AI900_ComputerVisionWorkloads.md)
   4. [Natural Language Processing (NLP) Workloads on Azure](./AI900_NaturalLanguageProcessing.md)
+  5. [Generative AI Workloads on Azure](./AI900_GenerativeAI.md)
+
+  - [Exam preps](./AI900_AIFundamentalsExam.md)

@@ -20,3 +20,4 @@
   3. [AI for Research & Insights](./GoogleAI/AI_ResearchAndInsights.md)
   4. [AI for Writing & Communicating](./GoogleAI/AI_WritingAndCommunicating.md)
   5. [AI for Content creation](./GoogleAI/AI_ContentCreation.md)
+  6. [AI for Data Analysis](./GoogleAI/AI_DataAnalysis.md)

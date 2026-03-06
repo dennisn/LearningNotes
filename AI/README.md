@@ -18,3 +18,5 @@
   1. [AI Fundamentals](./GoogleAI/AI_Fundamentals.md)
   2. [AI for Brainstorming & Planning](./GoogleAI/AI_BrainstormingAndPlanning.md)
   3. [AI for Research & Insights](./GoogleAI/AI_ResearchAndInsights.md)
+  4. [AI for Writing & Communicating](./GoogleAI/AI_WritingAndCommunicating.md)
+  5. [AI for Content creation](./GoogleAI/AI_ContentCreation.md)

@@ -15,5 +15,6 @@
   1. [Navigating and Analyzing Codebases with GitHub Pilot](./copilot/NavigateAndAnalyzeCodeBase.md)
 
 ## Google AI
-  1. [Google AI Professional](./GoogleAI/AI_Fundamentals.md)
-  2. [Google AI for Brainstorming & Planning](./GoogleAI/AI_BrainstormingAndPlanning.md)
+  1. [AI Fundamentals](./GoogleAI/AI_Fundamentals.md)
+  2. [AI for Brainstorming & Planning](./GoogleAI/AI_BrainstormingAndPlanning.md)
+  3. [AI for Research & Insights](./GoogleAI/AI_ResearchAndInsights.md)

@@ -21,3 +21,4 @@
   4. [AI for Writing & Communicating](./GoogleAI/AI_WritingAndCommunicating.md)
   5. [AI for Content creation](./GoogleAI/AI_ContentCreation.md)
   6. [AI for Data Analysis](./GoogleAI/AI_DataAnalysis.md)
+  7. [AI for App Building](./GoogleAI/AI_AppBuilding.md)

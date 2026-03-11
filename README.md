@@ -11,6 +11,7 @@ It will be divided into subsections for each main technology branches:
   - [Python](./Python/README.md)
     + [Spark](./Python/Spark/README.md)
   - Scripts
+    + [JavaScript](./Scripts/JavaScript/README.md)
     + [NodeJs](./Scripts/NodeJs/README.md)
     + [TypeScript](./Scripts/TypeScript/README.md)
 

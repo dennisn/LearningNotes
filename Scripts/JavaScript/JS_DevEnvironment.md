@@ -40,5 +40,35 @@
   - Windows Subsystem for Linux (WSL2): recommended as package may not be Windows compatible
 
 # Managing packages with NPM
+  - Main `npm` commands:
+    + `npm install`: install all project dependencies
+    + `npm install/update <package>`: install/update specific package(s) --> updated only up to "wanted" version
+    + `npm outdated`: which package can be upgrade
+    + `npm uninstall <package>`: uninstall specific package(s)
+  - npm mechanism:
+    + read `package.json` for list of dependencies metadata
+    + download from npm registry --> saved into node_modules
+    + save the actual version being used in package-lock.json: version & checksum of each pacakge
+  - Initialize project: create folder, then in terminal within that folder: `npm init` and `npm install`
+  - Add package: `npm install <package-name> --save`
+    + development only package: `npm install <package-name> --save-dev` (e.g. eslint)
+    + update to latest: `npm install <package-name>@latest`
+  - VS code integration: using NPM extension --> GUI for management
+    + Use auto-generated `jsconfig.json` for extra configuration
+    + Add "typeAcquisition" section to include "Node.js" --> activate code hints/annotation for Node.js variables
+      ```
+      "typeAcquisition": {
+        "include": ["node"]
+      },
+      ```
+  - Troubleshooting:
+    + Peer dependency error: check the pkg website before use "--force" or "--legacy-peer-deps" to bypass this check, or use an older version
+    + Nuclear option: delete the "node_modules" to reset --> may not work still when the cache is corrupted
+      - `npm cache clean --force`: clean up local npm cache (or `npm cache verify`)
 
 ## Debugging with VS Code
+  - In VS Code, use the "**JavaScript Debug Terminal**" (new terminal "+" --> Select "JS debug terminal")
+    + Can also open through "Run & Debug" view
+    + For debug web page, create a launch.json file & start from there
+  - Debug Console (open via Command Palette, or "View" menu)
+    + Can be used to execute snipplets on local variables

@@ -1,143 +1,201 @@
 # Microservices
 
-## The big picture
-  - Service: an independently deployable component (e.g. software that can be installed by itself)
-    + support interoperability via message-based communication: can be invoked via message, even by software of different language
-  - Microservice: small, autonomous services that work together
-    + a service perform a specific business function
-    + can be big/small in code terms, depending on complexity of the function
-    + Consequence: smaller, independent teams vs. one big team for the whole applications
-  - Monilith: Simple, but cumbersome, especially when it grow large
+## The Big Picture
 
-## Elements
-  - Split into sub-domains
-  - Each handled by its own team, sized to its complexities
-    + can have its own version
-  - Data stores are separated
-    + no longer immediate consistency, but eventual consistency: change in one sub-system may take time to propagate to others
-  - User interface: use UI composition to give the feel of one system
-    + each with its own set of components
-    + can be done from server or client
-  - Inter-service communications: different styles
-    + Remote method invocation: Synchronous or Asynchronous
-    + Message or event via a broker/channel/bus --> async, and may buffer to improve spike in load
-  - API & contract: the point of communication/invokation of services
-    + include data structure, routines & protocol
-    + May be different per device types, to best fit their usage/capability
-  - Service registry: allow service to know where other services are (e.g. Zookeeper, Eureka, Consul, etc.)
-    + service starts by self-registered
-  - Cross-origin Resource sharing (i.e. "cors"): normal Http don't allow script to talk to other server for security reason
-    + Services would often be on different server --> need specific headers to do service call on different servers
-  - Circuit Breaker: temporarily blocking requests to a failing service --> allow it to recover without being overwhelmed.
-    + to avoid the domino effect when failures in services downstream causing failure in services upstream
-    + Operate in 3 stats: 
-      - Closed: all requests flow through
-      - Open: all requests are rejected --> trigger when the no of failures exceeds a configured threshold
-      - Half-open: after a timout period --> allows a limited number of requests to pass through to see if the service has recovered
-    + Some service breakers: Hystrix, JRugged
-  - Gateway: sit between the services and the UI
-    + single entry point --> can do authentication, service look up, etc.
-    + API translation: translate data to the appropriate format for each device type
-    + Example: Zuul, Netty, Finagle
+- Service: an independently deployable component (software that can be installed and run by itself).
+  - Supports interoperability via message-based communication.
+  - Can be invoked by software written in different languages.
+- Microservices: small, autonomous services that work together.
+  - Each service performs a specific business function.
+  - Service size varies by business complexity, not line count.
+  - Organizational impact: smaller independent teams instead of one large team for a monolith.
+- Monolith:
+  - Simpler to start.
+  - Can become cumbersome as the system grows.
 
-### Security
-  - Security: authenticate (i.e. who is the caller) & authorization (i.e. is the caller allowed to call specific service)
-    + Can be delegated to Identity & Access Management (IAM) system at service gateway
-    + Single Sign-on: more convenient
-    + Example: kerberos, OpenId, OAuth 2.0, etc.
-    + Some well-known IAM: Okta, Keycloak, Shiro
-  - Access Token: stores information about user, to exchange between services
-    + Each service verify the token before accept the claims within
-    + Example: JSON Web Token
+## Core Elements
 
-### DevOps
-  - Scalability
-    + Vertical: Increase RAM & CPU (physical resources)
-    + Horizontal: increase the no of instance + Load balancing (e.g. Ribbon, Meraki)
-  - Availability: 
-    + Single Point of Failure (SPOF): critical junction where failure will stop the system working
-    + Example: Gateway, Broker, Registry, IAM
-    + Horizontal scaling (e.g. increase the # of instances) --> reduce risk
-  - Monitoring & Dashboard: centralised visual health, resources status of all subsystems
-    + Example: Kibana, Grafana, Splunk
-    + Health Check API: a HTTP endpoint for the health status of the service
-  - Log aggregator: aggregate logs from each services to understand the overal behaviors
-    + Example: LogStash, Splunk, PaperTrail
-  - Exception Tracking: would be difficult to find in general logs --> should be collected in centralized exception tracking system
-  - Performance metrics: measure service performance, which can be aggregate into centralized service for report & alert
-    + Example: DropWizard, Actuator, Prometheus
-  - Auditing: record usage behaviors --> optimised/scale subsystem over-utilised
-  - Rate limiting: defend against DoS attacks
-    + Also can be used to monetize our APIs: each rate range have different price 
-  - Alerting: let admin. know when certain pre-configured conditions are met --> early warning of problems
-  - Distributed tracing: requests span multiple services --> harder to identified & linked
-    + Given a unique code for request, which is passed betwen service
-    + Example: Dapper, HTrace, Zipkin
+- Split system into subdomains.
+- Assign each subdomain to its own team based on complexity.
+  - Each service can have its own versioning.
+- Separate data stores per service.
+  - Leads to eventual consistency instead of immediate consistency.
+- User interface composition:
+  - Present one unified system to users.
+  - Built from components owned by multiple services.
+  - Can be server-side or client-side composition.
+- Inter-service communication styles:
+  - Remote method invocation (synchronous or asynchronous).
+  - Messaging/events via broker, channel, or bus (asynchronous, can buffer traffic spikes).
+- API and contracts:
+  - Define communication and invocation boundaries.
+  - Include protocol, routines, and data structures.
+  - Can vary by device/client type.
+- Service registry:
+  - Helps services discover each other (for example: Zookeeper, Eureka, Consul).
+  - Services self-register at startup.
+- CORS (Cross-Origin Resource Sharing):
+  - Browsers restrict cross-origin scripts by default.
+  - Microservices often run on different hosts, so proper CORS headers are required.
+- Circuit breaker:
+  - Temporarily blocks requests to failing downstream services.
+  - Prevents cascading failures in upstream services.
+  - States:
+    - Closed: all requests pass through.
+    - Open: requests are rejected after failure threshold is exceeded.
+    - Half-open: after timeout, limited requests are allowed to test recovery.
+  - Examples: Hystrix, JRugged.
+- Gateway:
+  - Sits between UI/clients and backend services.
+  - Single entry point for auth, routing, service lookup, and policy.
+  - Can perform API translation for different device/client formats.
+  - Examples: Zuul, Netty, Finagle.
 
-### Deployment
-  - Containers: package each service & its dependencies --> ease of use from dev to test then prod
-    + Also ease to scale up & down
-    + Example: Docker, Rocket
-  - Orchestrator: help with the management of multiple containers that depends/connect with each other
-    + Example: Kubernetes, Mesos, Docker Swarm, Marathon
-  - Continuous Delivery: ensure reliable delivery by automate the Build->Test->Deploy process directly from version control
-    + Example: Jenkins, Asgard, Aminator
-  - Environments: Dev, Test, QA/integration, Staging & Prod
-    + Each environment need different configuration --> externalize the configuration into external storage (e.g. Database, Archaius, Consul, Decider)
+## Security
 
-## Pros & Cons
-  - In competitive world, need robust & agile technology --> **Time-to-market** is critical
-    + Microservice: can speed up development time (by divide in small batches)
-  
-  1. Business: need Agile & DevOps
-    - Pros: Low cost (small cost base, open-source usage), faster time-to-market
-    - Cons: Not single support, no standard to follow
-  2. Technical
-    - Pros: flexible tech stacks, ease to improve performance, maintainability & extensibility
-    - Cons: Integration test is hard, so is design & data synchronisation --> problem with distributed system
-  3. Production
-    - Pros: Portable -> scalability & availability, more flexible in infrastructure
-    - Cons: Containuous Integration & Monitor, difficulty setup test environments
-==> Use microservice for: Time to market, extensibility, replaceability & scalability
+- Security has two concerns:
+  - Authentication: who the caller is.
+  - Authorization: what the caller is allowed to do.
+- Often delegated to IAM systems at the gateway layer.
+- Single Sign-On improves usability.
+- Protocol examples: Kerberos, OpenID, OAuth 2.0.
+- IAM product examples: Okta, Keycloak, Shiro.
+- Access tokens carry user claims between services.
+  - Each service validates token claims before accepting requests.
+  - Example token format: JWT (JSON Web Token).
 
-### Business concerns:
-  - Organisation: small teams --> manage inter-team communications
-  - Recruiting: easier as it's trendy
-  - Training: small -> flexible on tech stacks + Mixed junior & senior
-    + may be mired on different techs --> restricted inter-team movement
-  - Standard: no standard on microservices --> won't have single point of support
-  - Open-source: benefits from lots of open-source products
-  - Cost: can start small & cheap, then grow when needed
-  - Time-to-Market: faster, small batches of work --> faster revenue
+## DevOps and Operations
 
-### Technical conerns:
-  - Design: how to split the system
-    + Almost an art, depending on complexity --> use Domain-driven design techniques
-  - Technical choice: flexible (pick the right tool for the right job)
-  - User interface: small -> simple
-    + But aggregate all UI together --> hard/tricky
-  - Distributed: highly complicated
-    + Network failure will occur --> ready to deal with
-    + Circuit breaker is very important
-  - Data store: one per sub-domain -> flexibility
-    + Difficult in keeping data in sync
-    + Best avoid distributed transaction
-  - Performance: each service can be optimized
-    + Integration, network may slow the whole system down
-  - Security: difficult, multiply by the number of services --> increase point of failure
-  - Testing: ease to code services in isolation
-    + Complex integration test envinronment
-    + **Chaos testing**: create failure for resilient test
-  - Maintainability: less code to maintain & **understand**
-  - Extensibility: extensible by design (e.g. simply add new microservice, contract, etc.)
+- Scalability:
+  - Vertical scaling: increase CPU and RAM.
+  - Horizontal scaling: add instances and use load balancing (for example: Ribbon, Meraki).
+- Availability:
+  - SPOF (Single Point of Failure): critical component whose failure breaks the system.
+  - Typical hotspots: gateway, broker, registry, IAM.
+  - Horizontal scaling reduces risk.
+- Monitoring and dashboards:
+  - Centralized health and resource visibility across services.
+  - Examples: Kibana, Grafana, Splunk.
+  - Health-check endpoint: HTTP endpoint exposing service health.
+- Log aggregation:
+  - Collect logs across services to understand overall behavior.
+  - Examples: Logstash, Splunk, PaperTrail.
+- Exception tracking:
+  - Centralize exceptions for faster incident investigation.
+- Performance metrics:
+  - Measure and aggregate service metrics for reporting and alerting.
+  - Examples: Dropwizard, Actuator, Prometheus.
+- Auditing:
+  - Track usage behavior to optimize and scale overloaded subsystems.
+- Rate limiting:
+  - Protect against DoS attacks.
+  - Also supports API monetization tiers.
+- Alerting:
+  - Notify operators when configured thresholds/conditions are met.
+- Distributed tracing:
+  - Requests span multiple services, so end-to-end tracing is required.
+  - Propagate a unique request ID across service boundaries.
+  - Examples: Dapper, HTrace, Zipkin.
 
-### Production conerns:
-  - DURS (Deploy, Update, Replace, Scale): independent per service
-  - CI and CD: important to identify errors early
-    + more difficult because of # of subsystem
-  - Portability: use container to support CICD
-  - Infrastructure: often end up with hybrid (e.g. traditional IT, private & public cloud)
-  - Scalability: should be easier
-  - Availability: available by design --> still need to enable graceful degradation (i.e. service must be able to handle other services not being available)
-  - Monitoring: complex but required since so many subsystems --> failure will happen
-  
+## Deployment
+
+- Containers:
+  - Package each service and its dependencies consistently from dev to test to prod.
+  - Simplify scale up/down.
+  - Examples: Docker, Rocket.
+- Orchestration:
+  - Manage many connected containers and their lifecycle.
+  - Examples: Kubernetes, Mesos, Docker Swarm, Marathon.
+- Continuous Delivery:
+  - Automate Build -> Test -> Deploy directly from version control.
+  - Examples: Jenkins, Asgard, Aminator.
+- Environments:
+  - Dev, Test, QA/Integration, Staging, Production.
+  - Keep environment-specific config externalized (for example: database, Archaius, Consul, Decider).
+
+## Pros and Cons
+
+- In competitive markets, time-to-market is critical.
+  - Microservices can improve delivery speed by dividing work into smaller batches.
+  - Best fit when priorities are time-to-market, extensibility, replaceability, and scalability.
+
+### 1. Business
+
+- Pros: lower initial cost, open-source ecosystem, faster time-to-market.
+- Cons: no single support vendor, no universal standard.
+
+### 2. Technical
+
+- Pros: flexible stack choices, better maintainability/extensibility, targeted performance optimization.
+- Cons: hard integration testing, difficult distributed system design, data synchronization complexity.
+
+### 3. Production
+
+- Pros: portability, scalability, availability, infrastructure flexibility.
+- Cons: CI/CD and monitoring complexity, harder environment setup.
+
+## Business Concerns
+
+- Organization:
+  - Small teams are effective, but inter-team communication must be managed.
+- Recruiting:
+  - Easier due to market interest in microservices.
+- Training:
+  - Teams can be flexible with stacks and skill mix.
+  - Risk: deep stack specialization can reduce cross-team mobility.
+- Standards:
+  - No single microservices standard; support model can be fragmented.
+- Open source:
+  - Strong ecosystem and tooling availability.
+- Cost:
+  - Can start small/cheap, then scale with demand.
+- Time-to-market:
+  - Smaller deliverables can accelerate feedback and revenue.
+
+## Technical Concerns
+
+- Service design/splitting:
+  - Often difficult and context-specific.
+  - Domain-Driven Design helps define boundaries.
+- Technology choice:
+  - Flexibility is a strength (right tool for the right job).
+- User interface:
+  - Individual service UIs can stay simple.
+  - Aggregating into one coherent UX can be tricky.
+- Distributed systems complexity:
+  - Network failures are inevitable.
+  - Patterns like circuit breaker are essential.
+- Data stores:
+  - Per-service stores improve independence.
+  - Cross-service consistency is harder.
+  - Avoid distributed transactions when possible.
+- Performance:
+  - Per-service optimization is possible.
+  - Network/integration overhead can reduce overall throughput.
+- Security:
+  - More services mean more attack surface and failure points.
+- Testing:
+  - Unit/service tests are easier in isolation.
+  - Integration test environments are complex.
+  - Chaos testing helps validate resilience.
+- Maintainability:
+  - Smaller codebases are easier to understand and maintain.
+- Extensibility:
+  - New capability can be added via new services and contracts.
+
+## Production Concerns
+
+- DURS (Deploy, Update, Replace, Scale): independent per service.
+- CI/CD:
+  - Critical for early error detection.
+  - Harder as subsystem count increases.
+- Portability:
+  - Containerization supports consistent CI/CD and runtime portability.
+- Infrastructure:
+  - Often hybrid across traditional IT, private cloud, and public cloud.
+- Scalability:
+  - Usually easier than monoliths when designed correctly.
+- Availability:
+  - Designed for resilience, but still requires graceful degradation patterns.
+- Monitoring:
+  - Mandatory due to subsystem count and inevitable failures.

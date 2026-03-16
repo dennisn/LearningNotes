@@ -1,84 +1,114 @@
 # Blockchain Fundamentals
 
-## Concept
-  - Using cryptography & distributed network to ensure transparent & tamper-free transactions ==> ensure trust between parties participate in transactions
-  - public vs private: similar to distributed storage shared between everyone/community vs. group of organisations
-  - Permissioned vs Consortium
-    + Permissioned: need invitation, may not have the same access rights
-    + Consortium: for organisation, with shared responsibility
-  - Characteristics: 
-    + Global singleton
-    + Non-stoppable
-    + Accessible: anyone can access it
-    + Verifiable: anyone can verify the transactions on it
-  - Hashing: to **quickly** verify that the content **hasn't been changed**
-    + Content is not exposed (i.e. very hard to work out the content from hash value)
-    + Nounce: single use value that can be added to content to control the format of the hash value (e.g. starts with "ff")
-    + Merkel Tree: using hash of hashes --> can use 1 hash to verify that multiple hashes are still consistent
-  - The block structure: 
-    + block no: to order blocks in chain
-    + message
-    + Nounce
-    + Hash
-    + Timestamp
-    + Previous
-  - Proof of work vs proof of stake
-    + Proof of work: low initially, but becomes extremely high now --> inefficiency
-    + Proof of stake: replace proof of work, to ensure everyone acting nicely 
-  - Data: blockchain store the transactions --> need to re-run the tranactions to know the current state
-    + Everyone has access to the chain can see the data --> to keep content private, have to obsfucate the id, or encrypt the actual content
-  - Forks: change in blockchains
-    + Soft: as a software upgrades, to add new functionalities/fixes --> backward compatible
-    + Hard: breaking changes, major disputes in the community --> often resulted in separated chains
-  
-### Acquired blockchain
-  - Mining: not so feasible now
-  - Buying through unregulated market: may unwittingly participate in money laundering
-  - Buying through an exchange: need sign up and verifying identity
-    + Need care of picking the exchange, as your private info. has to be provided
+## Concepts
 
-### Usages:
-  - Internet of things: secure transaction between devices
-  - Product lifecycle: attached information about the product throughout its lifecycle
-  - Certification: issue certifications in tamper-free manner
-  - Secure information sharing: similar to certification, but can also used for sharing of sensitive info. such as health information
-  - Virtual products: use blockchain to control access to digital products
-  - NFT: Non-fungible token: 
+- Blockchain uses cryptography and distributed networks to enable transparent, tamper-resistant transactions.
+- The goal is to establish trust between parties participating in transactions.
+- Public vs private blockchain:
+  - Public: shared across open communities.
+  - Private: shared within controlled organizations/groups.
+- Permissioned vs consortium:
+  - Permissioned: invitation required; participants may have different access rights.
+  - Consortium: operated by multiple organizations with shared responsibility.
+- Core characteristics:
+  - Global singleton.
+  - Non-stoppable.
+  - Accessible (participants can access network data by policy).
+  - Verifiable (transactions can be independently verified).
+- Hashing:
+  - Used to quickly verify content has not changed.
+  - Content is not directly exposed from hash output.
+  - Nonce: single-use value added to input to influence hash output format.
+  - Merkle tree: hash-of-hashes structure, enabling efficient verification of many records.
+- Typical block structure:
+  - Block number/index.
+  - Message/data.
+  - Nonce.
+  - Hash.
+  - Timestamp.
+  - Previous hash.
+- Proof of Work vs Proof of Stake:
+  - Proof of Work: historically useful, but expensive and inefficient at scale.
+  - Proof of Stake: alternative consensus model designed to reduce resource usage.
+- Data model:
+  - Blockchain stores transactions.
+  - Current state is derived by replaying/processing transaction history.
+  - If data privacy is needed, use obfuscation, encryption, or store only references on-chain.
+- Forks (changes in blockchain rules):
+  - Soft fork: backward-compatible upgrades.
+  - Hard fork: breaking changes; can result in separate chains.
 
-When "**NOT**" to use Blockchain
-  - When data is shared in a closed-system between known & trusted parties --> add no value, but overhead  
+## Acquiring Blockchain Assets
 
-## Smart Contract
-  - Similar to physical contract, but run by blockchain network --> no human intervention, scalability
-    + can be programmed to self-destructed, but otherwise can run forever (in theory) until there is no fund left to run the contract
-  - Smart contract: can hold a balance, read other contract, decide to do action locally, or send money/execute other contracts
-  - Gas: payment for node to process (validate/mine) the block
-  - Important design point:
-    + contract live forever/a long time: need built-in versioning/upgradability
-    + Emergency stop: needed for catastrophic failure
-    + Composability: build from components --> re-usability & reduce complexity/mistake
-  
-## Development environment
-  - Tools: Winget, NodeJS, VS Code, Chrome, Security configuration, React App, MetaMask
-    + getting eth for testing
-    ```
-    # install NodeJS using winget
-    winget install OpenJS.NodeJS.LTS
+- Mining: generally less feasible for individuals today.
+- Buying via unregulated markets: higher legal/compliance risk.
+- Buying via exchanges:
+  - Requires account setup and identity verification.
+  - Exchange selection matters because sensitive personal data is involved.
 
-    # Visual Studio code
-    winget install Microsoft.VisualStudioCode -e
+## Usage Examples
 
-    # Chrome
-    winget install --id=Google.Chrome -e
-    ```
-    + Change script execution policy: risky but needed: `set-executionpolicy remotesigned`
-    + Create react app tool: `npm install -g create-react-app`
-  - MetaMask and "Eth" for testing
-    + MetaMask: chrome extensions --> create crypto wallet
-    + Show test networks --> join Sepolia test network
-    + Test fund: Alchemy faucet (sepoliafaucet.com) or Infura (infura.io)
+- Internet of Things: secure transactions between devices.
+- Product lifecycle tracking: append tamper-resistant lifecycle events.
+- Certification: issue verifiable credentials.
+- Secure information sharing: controlled sharing of sensitive records (for example, health data).
+- Virtual products: control ownership/access for digital assets.
+- NFT: non-fungible tokens for unique digital items.
+
+## When Not to Use Blockchain
+
+- Do not use blockchain if data is shared in a closed system among trusted parties and no decentralization is required.
+- In those cases, blockchain often adds cost and operational overhead without clear value.
+
+## Smart Contracts
+
+- Smart contracts are like digital contracts executed by blockchain nodes.
+- They run without manual intervention and can scale across participants.
+- Contracts can be programmed with lifecycle controls (for example, pause/stop patterns).
+- Smart contracts can:
+  - Hold balances.
+  - Read from other contracts.
+  - Perform local logic.
+  - Send funds or invoke other contracts.
+- Gas:
+  - Transaction fee paid for network computation/validation.
+- Important design considerations:
+  - Upgradability/versioning for long-lived contracts.
+  - Emergency stop mechanism for catastrophic failures.
+  - Composability to improve reuse and reduce complexity.
+
+## Development Environment
+
+- Typical tools: `winget`, `Node.js`, `VS Code`, `Chrome`, security configuration, React app tooling, `MetaMask`.
+- Setup examples:
+
+```powershell
+# Install Node.js LTS using winget
+winget install OpenJS.NodeJS.LTS
+
+# Install Visual Studio Code
+winget install Microsoft.VisualStudioCode -e
+
+# Install Chrome
+winget install --id=Google.Chrome -e
+```
+
+- PowerShell script policy (use with caution): `Set-ExecutionPolicy RemoteSigned`
+- Create React app tooling: `npm install -g create-react-app`
+
+### MetaMask and Test ETH
+
+- MetaMask:
+  - Chrome extension used as a crypto wallet.
+  - Enable test networks and connect to Sepolia.
+- Test funds/faucets:
+  - Alchemy faucet: `sepoliafaucet.com`
+  - Infura: `infura.io`
 
 ## Smart Contract Basics with Solidity
 
+- Placeholder for Solidity basics notes.
 
 ## Sample Application: The Globomantics Bodymap
+
+- Placeholder for sample app notes.

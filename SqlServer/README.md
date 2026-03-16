@@ -1,2 +1,4 @@
-  - [T-Sql](./TSql.md)
-  - [Columnstore Indexes](./ColumnstoreIndexes.md)
+# Overview
+
+- [T-Sql](./TSql.md)
+- [Columnstore Indexes](./ColumnstoreIndexes.md)

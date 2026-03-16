@@ -73,8 +73,12 @@
 
 ## Conditional Logic and Control Flow
 
-- Equality check: `===` and `!==` for strict comparison (i.e. no type convertion, different type mean not equals)
-  - Lose equality: `==` and `!=`: may result in strange result (e.g. 5 -= '5', 0 == false, null == undefined)
+- Equality check: `===` and `!==` for strict comparison (i.e. no type convertion, different type mean not equals) --> `'42' !== 42`
+  - Object equality: compare the reference, not the value (NOTE: String is still compare by value)
+  - Lose equality: `==` and `!=`: may result in strange result (e.g. `5 == '5'`, `0 == false`, `null == undefined`)
+- Assignment operator: can prefix with other Math operator (e.g. `+=`, `**=`)
+- Boolean value: `Boolean("false") === true`: all non-empty string is true
+- '**switch**': same as java
 
 ## Collections and Loops
 

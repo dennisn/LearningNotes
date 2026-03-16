@@ -37,11 +37,11 @@
 ## Installing Node.js
 
 - Use `nvm` (aka Node Version Manager) to manage different version of Node
-  - Different version manager can be used. See https://nodejs.org/en/download
+  - Different version manager can be used. See <https://nodejs.org/en/download>
 
 ### Troubleshooting installation issues
 
-- `JavaScript heap out of memory`: Increase Node's memory limit (see https://stackoverflow.com/a/64409997)
+- `JavaScript heap out of memory`: Increase Node's memory limit (see <https://stackoverflow.com/a/64409997>)
   - `export NODE_OPTIONS="--max-old-space-size=8192"`: for 16gb machine
 - Windows Subsystem for Linux (WSL2): recommended as package may not be Windows compatible
 

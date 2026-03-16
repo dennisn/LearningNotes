@@ -1,270 +1,306 @@
-# TypeScripts Fundamentals
-  - Based on TypeScript 5
+# TypeScript Fundamentals
 
-## 2. Getting started
-  - Install NodeJs, then use it to install TypeScript
-  - Using VS code, 
-    + Create default TypeScript config with : `tsc --init`
-      - may config: `"outDir": "./js"`
-    + Create type script compile task
-      ```
-      {
-			"label": "Compile TypeScript",
-			"type": "shell",
-			"command": "tsc",
-			"presentation": {
-				"echo": false,
-				"reveal": "silent",
-				"focus": false,
-				"panel": "shared",
-				"showReuseMessage": false,
-				"clear": false
-			}
-		}
-      ```
-    + Create VS code launch task that refer to typescript compile task
-      ```
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}\\js\\app.js",
-            "outFiles": [
-                "${workspaceFolder}/**/*.(m|c|)js",
-                "!**/node_modules/**"
-            ],
-            "preLaunchTask":"Compile TypeScript",
-            "internalConsoleOptions": "openOnSessionStart"
-        }
-      ```
-  - Official document: https://www.typescriptlang.org/docs
+- Based on TypeScript 5.
 
-## 3. Basic syntax & Data Types
-  - Basic datatype: boolean, number, string, array and **Enum**
-  - Variable declaration: `let someString = 'Hello World';`
-    + Hoisting: in normal JavaScript, all variable declarations are moved to the top of the code block --> confusing ==> not happened in typescript
-  - Constants declaration: `const someString = 'Hello World';`
-  - Type annotation: `let x: string = 'I will forever be a string';` --> fix the type of x to be string only
-    + Type annotation is optional, as compiler may infer the type from declaration --> good practice though
-  - Other built-in types: Void, Null, Undefined, Never
-    + Void: returned type for functions that don't return a value
-    + Null and Undefined: special types that can be assigned to all other types
-    + Never: assigned to value that never occur (e.g. function that will never return)
-    + Any: can be assigned any value (i.e. no type checking) --> most useful when working with 3rd party library, which doesn't guarantee specific return type
-  - Union types: a way of defining several types that may be assigned to a variable
-    + Sample: `let someValue: number | string;`
-  - `--strictNullChecks`: null & undefined can't be assigned to variable, unless their type explicitly include null or undefined
-  - Arrays: two way to declar:
-    + Sample 1: `let strArr1: string[] = ['here', 'are', 'strings'];`
-    + Sample 2: `let strArr2: Array<string> = ['more', 'strings', 'here'];`
-    + Sample 3: `let anyArr: any[] = [42, true, 'banana'];` --> mixed type array
-  - Loop "**for**": `for (let i=1; i<=10; i++)`
-    + Loop through an arrays: `for (const name of cast) {}`
-  - Loop "**while**":
-    ```
-    let i: number = 1;
-    while (i <= 10) 
-    {
-      i++;
-    }
-    ```
-  - Conditional "**switch**":
-    ```
-    let fruit: string = 'apple';
-    switch (fruit) {
-      case 'apple':
-        ...
-        break;
-      default:
-        ...
-    }
-    ```
-  - Checking type: `typeof(something) == 'string';` --> return the "actual" type of the value within the variable
+## 2. Getting Started
+
+- Install Node.js, then use it to install TypeScript.
+- In VS Code:
+  - Create default TypeScript config with `tsc --init`.
+  - Optional config in `tsconfig.json`: `"outDir": "./js"`.
+  - Create a TypeScript compile task:
+
+```json
+{
+  "label": "Compile TypeScript",
+  "type": "shell",
+  "command": "tsc",
+  "presentation": {
+    "echo": false,
+    "reveal": "silent",
+    "focus": false,
+    "panel": "shared",
+    "showReuseMessage": false,
+    "clear": false
+  }
+}
+```
+
+- Create a VS Code launch task that references the TypeScript compile task:
+
+```json
+{
+  "type": "node",
+  "request": "launch",
+  "name": "Launch Program",
+  "skipFiles": [
+    "<node_internals>/**"
+  ],
+  "program": "${workspaceFolder}\\js\\app.js",
+  "outFiles": [
+    "${workspaceFolder}/**/*.(m|c|)js",
+    "!**/node_modules/**"
+  ],
+  "preLaunchTask": "Compile TypeScript",
+  "internalConsoleOptions": "openOnSessionStart"
+}
+```
+
+- Official docs: <https://www.typescriptlang.org/docs>
+
+## 3. Basic Syntax and Data Types
+
+- Basic data types: `boolean`, `number`, `string`, `array`, and `enum`.
+- Variable declaration: `let someString = 'Hello World';`
+  - Hoisting: in normal JavaScript, variable declarations are moved to the top of the block, which can be confusing; TypeScript helps avoid common hoisting pitfalls.
+- Constant declaration: `const someString = 'Hello World';`
+- Type annotation: `let x: string = 'I will forever be a string';`.
+  - Type annotation is optional because the compiler can infer types from declarations, but explicit types are often a good practice.
+- Other built-in types: `void`, `null`, `undefined`, `never`, `any`.
+  - `void`: return type for functions that do not return a value.
+  - `null` and `undefined`: special types.
+  - `never`: for values that never occur (for example, functions that never return).
+  - `any`: can hold any value (no type checking). Useful with third-party libraries that do not guarantee specific return types.
+- Union types: define multiple allowed types for a variable.
+  - Example: `let someValue: number | string;`
+- `--strictNullChecks`: `null` and `undefined` cannot be assigned unless explicitly included in the type.
+- Arrays: two declaration styles.
+  - Example 1: `let strArr1: string[] = ['here', 'are', 'strings'];`
+  - Example 2: `let strArr2: Array<string> = ['more', 'strings', 'here'];`
+  - Example 3: `let anyArr: any[] = [42, true, 'banana'];` (mixed-type array)
+- `for` loop: `for (let i = 1; i <= 10; i++) {}`
+  - Loop through arrays: `for (const name of cast) {}`
+- `while` loop:
+
+```ts
+let i: number = 1;
+while (i <= 10) {
+  i++;
+}
+```
+
+- `switch` conditional:
+
+```ts
+let fruit: string = 'apple';
+switch (fruit) {
+  case 'apple':
+    // ...
+    break;
+  default:
+    // ...
+}
+```
+
+- Check type: `typeof something === 'string';` returns the runtime type.
 
 ## 4. Functions
-  - Type annotation to functions: `function funFunc(score: number, msg: string): string {}`
-  - the `-noImplicitAny` compilter option: --> get error if params is implicitly infered into Any
-  - Optional, Default and Rest parameters
-    + Optional: must appear after all required params: `age?: number`
-    + Default (treated as optional if it's after required params): `title: string = 'Some string'`
-      - Can use function return for default param: `title: string = GetMostPopularBook()`
-    + Rest params: mechanism for passing a variable number of additional parameters after required params
-      - Sample: `function GetBooksRead(name: string, ...bookIds: numer[])`
-  - "Lambda" function: "parameters => function-body"
-    + Sample: `let squareit = (x: number): number => x * x;`
-  - Function overloads: same function name, different parameter type --> JavaScript don't have type annotation ==> in TypeScript, may use type guards to determine which overload was called
-    + To emulate overload, declare multiple functions with different signature, but one "catch all" implementation
-  - Function Types: combination of parameter types & return type
-    + Sample: `let releaseFunc: (someYear: number) => string;` --> match `function SomeFunc(year: number): string {}` ==> so can assign it: `releaseFunc = SomeFunc;`, then call it `let msg = releaseFunc(2024);`
+
+- Function type annotation: `function funFunc(score: number, msg: string): string {}`
+- `--noImplicitAny` compiler option: reports an error when parameters are implicitly inferred as `any`.
+- Optional, default, and rest parameters:
+  - Optional: must appear after required parameters, for example `age?: number`.
+  - Default (treated as optional if after required parameters): `title: string = 'Some string'`.
+  - Can use a function return as default: `title: string = GetMostPopularBook()`.
+  - Rest parameters: variable number of additional parameters after required ones.
+    - Example: `function GetBooksRead(name: string, ...bookIds: number[]) {}`
+- Arrow function (`lambda`): `parameters => function-body`.
+  - Example: `let squareit = (x: number): number => x * x;`
+- Function overloads: same function name with different parameter types.
+  - JavaScript does not have type annotations, so TypeScript can use type guards to determine which overload was called.
+  - To emulate overloads, declare multiple signatures and one catch-all implementation.
+- Function types: combination of parameter types and return type.
+  - Example: `let releaseFunc: (someYear: number) => string;`
+  - Matches `function SomeFunc(year: number): string {}`.
+  - Then assign and call: `releaseFunc = SomeFunc;` and `let msg = releaseFunc(2024);`
 
 ## 5. Interfaces
-  - Interface: contract that define a type, which can be checked by compiler --> collection of methods & attributes 
-    + variable declared to be of specific interface ==> should have the exact methods & attributes (**no extra**)
-    + "Duck-typing": object satisfied the type definition, can be used as if it is of that type, even though it was not explicitly declared itself to be of that type
-    + NOTE: JavaScript doesn't have anything equivalent to interface, so they will be removed when compiled to JavaScript
-    + Example:
-      ```
-      interface Book {
-        id: number;
-        title: string;
-        pages?: number;
-        markDamanged: (reason: string) => void;
-      }
-      ```
-  - Function type (i.e. function pointer): define the parameters & return value of a function --> as a interface
-    + Example: `let IdGenerator: (chars: string, nums: number) => string;` --> function pointer
-    + Interfaces of Function Type example:
-      ```
-      interface StringGenerator {
-        (chars: string, nums: number): string;
-      }
-      ```
-  - Extending interface: `interface Encyclopedia extends LibraryResource, Book {}`
+
+- Interface: a contract that defines a type checked by the compiler; it is a collection of methods and properties.
+  - A variable declared as a specific interface should have the required methods and properties.
+  - Duck typing: if an object satisfies a type definition, it can be used as that type even if not explicitly declared as that type.
+  - TypeScript interfaces are removed when compiled to JavaScript.
+  - Example:
+
+```ts
+interface Book {
+  id: number;
+  title: string;
+  pages?: number;
+  markDamaged: (reason: string) => void;
+}
+```
+
+- Function type via interface (function pointer style).
+  - Example function pointer: `let idGenerator: (chars: string, nums: number) => string;`
+  - Interface example:
+
+```ts
+interface StringGenerator {
+  (chars: string, nums: number): string;
+}
+```
+
+- Extending interfaces: `interface Encyclopedia extends LibraryResource, Book {}`
 
 ## 6. Classes
-  - Classes in JS: similar to others language
-  - Constructors: method named "constructor" - max of one per class
-    + Sample: `constructor(title: string, publisher?: string) {}`
-  - Properties:
-    ```
-    class ReferenceItem {
-      numOfPages: number;
 
-      get editor(): string {
-        // custom get logic, return a "string" value        
-      }
-      set editor(newEditor: string) {
-        // custom set logic
-      }
-    }
-    ```
-    + Parameter properties: a short-hand way to declare & init. a class properties in the constructor
-      ```
-      class Author {
-        // create property "name", which is set at construction
-        // access modifier can be "public" or "private" --> the modifier will apply to the property
-        constructor(public name: string) {} 
-      }
-      ```
-    + Note: all class members must be prefixed with `this.` when access from within the class
-    + Static properties: `static description: string = 'A source of knowledge';` --> must access it via the class, not object
-  - Access modifier: by default, all are "public"
-    + Other is "private" and "protected"
-    + Newer feature: private field, by putting a `#` symbol in front of field names --> in newer environment, will have extra protection
-  - Extending classes: using `extends` keyword
-  - Abstract classes: add `abstract` keyword infrom of the class/method name
-  - Using class expression: class without name
-    + Example:
-      ```
-      let Musical = class extends Video {
-        printCredits(): void {}
-      }
-      ```
+- Classes in JavaScript are similar to other languages.
+- Constructors: method named `constructor`; max one per class.
+  - Example: `constructor(title: string, publisher?: string) {}`
+- Properties:
 
-## 7. Organizing your code with Modules
-  - Why Module: Create higher-level abstractions to hide implementation details, while enhance reuse-ability
-    + Use compiler option to specify JavaScript module format: AMD, CommonJS, UMD, System, ES2015, etc.
-    + Also need a module loader/bundler to help load the modules: RequreJS, SystemJS, Webpack
-  - Exporting: prefix interface/function/class with the keyword `export`
-    + If use `export default` --> mark it as the default item exported from this module
-    + Can export multiple entities: `export { Person, methodName, Employee as StaffMember };`
-  - Importing: with `import` keyword
-    + Sample: `import { Person, methodName } from './person';` --> relative reference
-    + Import default item: `import Worker from './person';` --> import the default item from person as "Worker"
-    + Import with alias: `import {StaffMember as CoWorker } from './person';`
-    + Import the whole module: `import * as HR from './person';` -->  can then call method from person as `HR.methodName();`
-  - Module resolution: can leave off the extension
-    + Relative import: direct the path with prefixes "/", "./", "../"
-    + Absolute import: don't include any reference to a directory structure before the module name
-    + TIPS: use relative import for own module
-    + `--moduleResolution Class | Node`: two basic mode for resolution ("Classic" is for backward compatibility only)
-      - CommonJS module is default to "Node", while others is "Classic" --> mostly apply to absolute references
-      - Node: walk up the directory tree, looking for a folder named "node_modules" to find the reference file
-        + It also read a `package.json` file if present for more configuration
-      - Classic: walks up the directory tree looking for a module starting in the location of the importing file
-  - Convert an application to use module
+```ts
+class ReferenceItem {
+  numOfPages: number;
 
-## 8. Asynchronous code
-  - Asynchronous benefit: more responsive, more efficient, especially with "slow" tasks
-  - `Promise`: represents the eventual completion or failure of an asynchronous operation and its resulting value
-    + native support in ES2015 --> similar to `Tasks` in C#
-    + Basic example:
-      ```
-      function doAsyncWork(resolve, reject) {
-        // perform async tasks
+  get editor(): string {
+    // custom get logic
+    return 'editor';
+  }
 
-        if (success) resolve(data); // data is return data
-        else reject(reason);
-      }
+  set editor(newEditor: string) {
+    // custom set logic
+  }
+}
+```
 
-      let p: Promise<string> = new Promise(doAsyncWork);
+- Parameter properties: shorthand to declare and initialize class properties in the constructor.
 
-      p.then(stringResult => console.log(stringResult))
-       .catch(reason => console.log(reason));
-      ```
-  - async/await syntax: similar to how it was used in C#
-    + Example
-      ```
-      async function doAsyncWork() {
-        let result = await GetDataFromServer();
-        Console.log(result);
-      }
-      ```
+```ts
+class Author {
+  // Creates property `name` and initializes it at construction.
+  // Access modifier can be `public` or `private`.
+  constructor(public name: string) {}
+}
+```
+
+- Note: class members are accessed with `this.` inside class methods.
+- Static properties: `static description: string = 'A source of knowledge';`
+  - Access static members through the class, not the object.
+- Access modifiers: default is `public`; others include `private` and `protected`.
+- Newer feature: private fields using `#` prefix for stronger runtime privacy in modern environments.
+- Extending classes: use `extends`.
+- Abstract classes: add `abstract` before class or method names.
+- Class expressions: classes without a name.
+  - Example:
+
+```ts
+let Musical = class extends Video {
+  printCredits(): void {}
+};
+```
+
+## 7. Organizing Code with Modules
+
+- Why modules: create higher-level abstractions, hide implementation details, and improve reusability.
+  - Use compiler options to specify JavaScript module format: `AMD`, `CommonJS`, `UMD`, `System`, `ES2015`, etc.
+  - You may also need a module loader or bundler: `RequireJS`, `SystemJS`, `Webpack`.
+- Exporting: prefix interface/function/class with `export`.
+  - `export default` marks the default export from a module.
+  - Export multiple entities: `export { Person, methodName, Employee as StaffMember };`
+- Importing: use `import`.
+  - Example: `import { Person, methodName } from './person';` (relative reference)
+  - Default import: `import Worker from './person';`
+  - Alias import: `import { StaffMember as CoWorker } from './person';`
+  - Import whole module: `import * as HR from './person';` and call `HR.methodName();`
+- Module resolution: file extensions can be omitted.
+  - Relative import: use `/`, `./`, `../`.
+  - Absolute import: do not include directory path before module name.
+  - Tip: use relative imports for your own modules.
+  - `--moduleResolution Classic | Node`: two resolution modes (`Classic` is mostly for backward compatibility).
+    - `CommonJS` defaults to `Node`; others may default to `Classic`.
+    - `Node`: walks up directories looking for `node_modules` and may read `package.json` for configuration.
+    - `Classic`: walks up directories looking for a matching module near the importing file.
+- Convert an application to use modules.
+
+## 8. Asynchronous Code
+
+- Benefits: better responsiveness and efficiency, especially for slow tasks.
+- `Promise`: represents eventual completion or failure of an async operation and its resulting value.
+  - Native support in ES2015; conceptually similar to `Task` in C#.
+  - Basic example:
+
+```ts
+function doAsyncWork(resolve: (v: string) => void, reject: (r: unknown) => void) {
+  // perform async tasks
+
+  if (success) resolve(data);
+  else reject(reason);
+}
+
+let p: Promise<string> = new Promise(doAsyncWork);
+
+p.then(stringResult => console.log(stringResult))
+ .catch(reason => console.log(reason));
+```
+
+- `async`/`await` syntax is similar to C#.
+  - Example:
+
+```ts
+async function doAsyncWork() {
+  let result = await GetDataFromServer();
+  console.log(result);
+}
+```
 
 ## 9. Generics
-  - Very similar to C#
-  - Constraints is with `<T extends Class/InterfaceName>` instead of `<T>`
 
-## 10. Type declaration files
-  - Type declaration files (definition files): wrapper for JavaScript libraries --> development-time tools only
-    + Extensions: `.d.ts`
-    + Often included with the library we want to use, or in crowdsource "**DefinitelyTyped**"
-      - Installed with npm, from "@types/<name>"
-  - Misc: JS libraries from "www.npmjs.com"
-  - Example:
-    ```
-    # install lodash library
-    npm install lodash
+- Very similar to C#.
+- Constraints use `<T extends ClassOrInterfaceName>` instead of plain `<T>`.
 
-    # install lodash type definition
-    npm install @types/lodash
-    ```
+## 10. Type Declaration Files
+
+- Type declaration (definition) files are wrappers for JavaScript libraries and are used by development tools.
+  - Extension: `.d.ts`
+  - Often included with the library, or provided via DefinitelyTyped.
+  - Install from npm as `@types/<name>`.
+- JavaScript libraries are available on <https://www.npmjs.com>.
+- Example:
+
+```bash
+# install lodash library
+npm install lodash
+
+# install lodash type definition
+npm install @types/lodash
+```
 
 ## 11. Decorators
-  - A decorator is just a function that's applied to other code in your application --> The decorator will effectively replace the existing method with a new method
-    + Some what similar to `attribute` in C#, or `annotation` in Java
-  - Example
-    ```
-    # Decorator implementation for "logmethodInfo"
-    export function logmethodInfo(origMethod: any, _context: classmethodDecoratorContext) {
 
-      function replacementMethod(this: any, ...args: any[]) {
-        console.log('Decorated construct: ${_context.kind}');
+- A decorator is a function applied to other code in your application.
+  - It can effectively replace an existing method with a new method.
+  - Similar to attributes in C# or annotations in Java.
+- Example:
 
-        const result = origMethod.call(this, ...args);
-        return result;
-      }
+```ts
+// Decorator implementation for `logMethodInfo`
+export function logMethodInfo(origMethod: any, _context: ClassMethodDecoratorContext) {
+  function replacementMethod(this: any, ...args: any[]) {
+    console.log(`Decorated construct: ${_context.kind}`);
 
-      return replacementMethod;
-    }
+    const result = origMethod.call(this, ...args);
+    return result;
+  }
 
-    # Use decorator in method "printItem()"
-    @logMethodInfo
-    printItem(): void {
-      ...
-    }
-    ```
+  return replacementMethod;
+}
 
+// Use decorator on method `printItem()`
+@logMethodInfo
+printItem(): void {
+  // ...
+}
+```
 
 ## 12. Debugging
-  - Source maps: map source TS code to JS output --> so can set breakpoints, watches, etc. in TypeScript source
-    + Enabled with compiler option: `--sourceMap`, or in tsconfig.json, set it to `true`
-  - To debug in Chrome's DevTools, need 
-    + JavaScript generated with "sourceMap" option to true
-    + A html page to reference the generated JavaScript (not TypeScript)
-    + A button to activate the TypeScript function
-    + In "Sources" panel of DevTools, can now add breakpoints, watch, etc. as with VS code
-  - More in depth about Chrome's DevTools: "Debugging Sites with Chrome DevTools" by Brice Wilson
+
+- Source maps map TypeScript source to JavaScript output, so you can set breakpoints and watches in TypeScript source.
+  - Enable with compiler option `--sourceMap`, or set `"sourceMap": true` in `tsconfig.json`.
+- To debug in Chrome DevTools, you need:
+  - JavaScript generated with source maps enabled.
+  - An HTML page that references generated JavaScript (not TypeScript directly).
+  - A button or trigger to execute the TypeScript function.
+  - In DevTools `Sources`, you can set breakpoints and watches similarly to VS Code.
+- More depth on Chrome DevTools: "Debugging Sites with Chrome DevTools" by Brice Wilson.

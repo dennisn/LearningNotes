@@ -82,6 +82,22 @@
 
 ## Collections and Loops
 
+- Collections: hold multiple items in a variable
+  - Array: ordered, index start from zero, and new items added using `push()`
+  - Maps: dictionary with `set` and `get` for add & retrieval, `delete` for removal
+  - Sets: prevent duplicated, but no ordered. New items are added with `add()`
+- *ARRAY*:
+  - `shift()/unshift()`: Remove/adding value to beginning of array
+  - `splice(x, 0, [value])`: insert value at specific index --> new value will be at index "x"
+    - `splice(x, y)`: remove "y" items from index "x"
+- *MAP*: very similar to object, but keys can be value, object, even function
+- *SET*: similar to Map, but don't have value
+- *LOOP*:
+  - Basic loop: `while() { .. }`, `do { .. } while()`, `for() { .. }`
+  - looping array: `for (let val of array) { .. }`
+  - looping through object properties: `for (let key in obj) { .. }` --> "key" will be property name
+  - `continue` and `break`: beside normal use, could include "label" to jump to outer scope
+
 ## Functions
 
 ## Asynchronous JavaScript and Error Handling

@@ -1,6 +1,6 @@
 # JavaScript
 
-- Follow PluralSight path JavaScript 2022 (https://app.pluralsight.com/paths/skills/javascript-2022)
+- Follow PluralSight path JavaScript 2022 (<https://app.pluralsight.com/paths/skills/javascript-2022>)
 
 ## Novice
 
@@ -27,3 +27,4 @@
 
   1. [Object-oriented Concepts](./JS_ObjectOriented.md)
   2. [Functional programming concepts](./JS_FunctionalProgramming.md)
+  

@@ -1,12 +1,12 @@
 
 # JavaScript fundamentals
 
-- Pluralsight course: https://app.pluralsight.com/ilx/video-courses/fundamentals-javascript/course-overview
+- Pluralsight course: <https://app.pluralsight.com/ilx/video-courses/fundamentals-javascript/course-overview>
 - Versions:
   - Node.js 18 LTS
   - JavaScript ES2022
   - VS Code 1.73.4
-- Main online docs: http://developer.mozilla.org/en-US/docs/Web/JavaScript
+- Main online docs: <http://developer.mozilla.org/en-US/docs/Web/JavaScript>
 
 ## Syntax, Variables and Data Types
 

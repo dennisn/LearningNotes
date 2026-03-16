@@ -1,6 +1,6 @@
 # JavaScript Big picture
 
-- Pluralsight course: https://app.pluralsight.com/ilx/video-courses/javascript-big-picture/course-overview
+- Pluralsight course: <https://app.pluralsight.com/ilx/video-courses/javascript-big-picture/course-overview>
 
 ## Why JavaScript
 

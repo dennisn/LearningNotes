@@ -1,6 +1,6 @@
 # Building a JavaScript Development Environment
 
-- Pluralsight course: https://app.pluralsight.com/ilx/video-courses/javascript-building-development-environment/course-overview
+- Pluralsight course: <https://app.pluralsight.com/ilx/video-courses/javascript-building-development-environment/course-overview>
 
 ## Integrated Development Environment (IDE)
 

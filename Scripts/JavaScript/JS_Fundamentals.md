@@ -100,7 +100,50 @@
 
 ## Functions
 
+- Declaration;
+  - Basic: `function isXXX(inputOne) {}`
+  - Expression (anonymous): `const isXXX = function(input) {}`
+  - Arrow function: `const isXXX = (input) => {}`
+- Function can also be passed as argument to other function, especially useful with arrow function
+  - Example: `const foundObj = arrayObjects.find(o => o.Id === 10);`
+- Higher-order function: a function with one/more params and returns another function as its return value
+  
+  ```Javascript
+  const isIntValid = (min, max) => {
+    return (input) => {
+      return input >= min && input <= max;
+    }
+  }
+  ```
+
 ## Asynchronous JavaScript and Error Handling
+
+- 3 ways for async: callback, promise & async/await
+- error handling: try/catch, easiest with async/await
+  - Promise --> has its own: `promise.then(data => {}).catch(err => {});`
+- Callback
+  - callback function -> at least 2 params: error & data
+- Promise: specify the logic that needs to be executed once the "promise" has completed
+  - logic *as function* -> 1 param: data
+  - Can chain multiple promise, with one catch: `promise.then(data => {}).then(data => {}).catch(err => {});`
+  - Callback API can be used to create customed Promise:
+
+    ```JavaScript
+    const promiseApi = async(param) => {
+      return new Promise((resolveFunc, rejectFunc)) => {
+        callbackApi.doCall(param, (err, data) => {
+          if (err) {
+            rejectFunc(err);
+          }
+          resolveFunc(data);
+        });
+      }
+    }
+    ```
+
+- Async/await: syntatic sugar --> still use Promise
+  - Use async function as a Promise: `asyncFunc().then(data => {})`
+  - Later version of Node (>18): can use await outside of async function --> assume top level scope is within an async function
 
 ## Modules
 

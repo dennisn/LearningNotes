@@ -147,4 +147,16 @@
 
 ## Modules
 
+- Two standard: CommonJS vs. ESM
+  - ESM: later standards, will be one going forward, using `import` and `export` keywords
+  - CommonJS: originally for Node.jS, but deprecated, using `required` and `export`
+- Modules: hosted by npmjs.com (i.e. NPM registry), can access by various client (e.g. npm)
+  - Locally, packages are specified in `package.json` file, created with `npm init`
+  - `npm install [pkg-name] --save` ==> download pkg into "node_modules" & add its metadata to "package.json" file under "dependencies"
+
 ## Code Formatting and Testing
+
+- Unittest -> CI/CD mean run unittests with new check-in
+- Code Linting (e.g. ESLint for JS): standardise code format
+  - Team can have their own lint configuration --> customised code format standard
+  - Can automatically fix source file on saved

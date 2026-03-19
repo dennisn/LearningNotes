@@ -31,7 +31,7 @@ tsc -w
 - Collection of object of the same type (vs. JS: object of mixed types)
 - Construction/init.:
 
-  ```javascript
+  ```Typescript
   let genericArray: any = []; # Old style:
 
   let newArray: Array<string> = []; # new style

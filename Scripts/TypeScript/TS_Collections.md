@@ -1,4 +1,4 @@
-# Typescript 5: Using arrays and Collections
+# TypeScript 5: Using arrays and Collections
 
 ## Setup
 
@@ -40,7 +40,7 @@ tsc -w
 
 - add element to the end: `array.push(x1, .., x2);` --> return new length
 - add element to the start: `array.unshift(x1, .., x2);`
-- remove last element: `array.pop();` vs. `shift();`: remove first element --> return removed-item, or `undefined` if array is empty
+- remove last element: `array.pop();` vs. `shift();`: remove first element --> both return removed item, or `undefined` if array is empty
 - `array.splice(startIndex, deleteCount, ...itemsToAdd);` --> delete & add to existing array
 - Concatenate array:
   - Using "concat()": `aOne.concat(aTwo, aThree);`
@@ -64,6 +64,24 @@ tsc -w
   - for-of loop: `for (let n of numbers) { ... }`
   - for-in loop: `for (let n in numbers) { ... }` --> n is the index of the array
 
-## Typescript Tuples
+## TypeScript Tuples
 
-## Typescript Sets
+- Tuples (aka records): array-like object with the fixed number of fields of mixed types
+  - NOTE: current implementation treats it like an array that accepts all of mixed types --> type checking may not work all the time
+- Example: `let firstTuple = [string, number, object | null, boolean?] = ['I'm a string', 100, null];`
+- Can created tuple type: `type Game = [string, number, string?];`
+  - Can then create array of tuples: `let games: Game[] = [];`
+- Destruct a tuple (similar to C#): `let [gameName, gameYear, gamePlatform] = game;`
+  - if variable is not provided when destruct, the value will be discarded: `let [,, gamePlatform] = game;`
+
+## TypeScript Sets
+
+- Set: array of distinct values: `let ourSet = new Set<string>('Tetris', 'Pong');`
+  - Set is object, not array
+  - `add/delete`: add/remove item from set
+- Looping through set: can't use index --> can only use `for/of`
+
+## TypeScript Maps
+
+- Map creation: `let ourMap = new Map<string, number>([['Tetris', 40], ['Pong', 30]]);`
+- Access methods: set, get, has, delete, clear and property size

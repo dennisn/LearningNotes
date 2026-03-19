@@ -10,41 +10,41 @@
   - Optional config in `tsconfig.json`: `"outDir": "./js"`.
   - Create a TypeScript compile task:
 
-```json
-{
-  "label": "Compile TypeScript",
-  "type": "shell",
-  "command": "tsc",
-  "presentation": {
-    "echo": false,
-    "reveal": "silent",
-    "focus": false,
-    "panel": "shared",
-    "showReuseMessage": false,
-    "clear": false
-  }
-}
-```
+    ```json
+    {
+      "label": "Compile TypeScript",
+      "type": "shell",
+      "command": "tsc",
+      "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
+      }
+    }
+    ```
 
 - Create a VS Code launch task that references the TypeScript compile task:
 
-```json
-{
-  "type": "node",
-  "request": "launch",
-  "name": "Launch Program",
-  "skipFiles": [
-    "<node_internals>/**"
-  ],
-  "program": "${workspaceFolder}\\js\\app.js",
-  "outFiles": [
-    "${workspaceFolder}/**/*.(m|c|)js",
-    "!**/node_modules/**"
-  ],
-  "preLaunchTask": "Compile TypeScript",
-  "internalConsoleOptions": "openOnSessionStart"
-}
-```
+  ```json
+  {
+    "type": "node",
+    "request": "launch",
+    "name": "Launch Program",
+    "skipFiles": [
+      "<node_internals>/**"
+    ],
+    "program": "${workspaceFolder}\\js\\app.js",
+    "outFiles": [
+      "${workspaceFolder}/**/*.(m|c|)js",
+      "!**/node_modules/**"
+    ],
+    "preLaunchTask": "Compile TypeScript",
+    "internalConsoleOptions": "openOnSessionStart"
+  }
+  ```
 
 - Official docs: <https://www.typescriptlang.org/docs>
 
@@ -72,25 +72,25 @@
   - Loop through arrays: `for (const name of cast) {}`
 - `while` loop:
 
-```ts
-let i: number = 1;
-while (i <= 10) {
-  i++;
-}
-```
+  ```ts
+  let i: number = 1;
+  while (i <= 10) {
+    i++;
+  }
+  ```
 
 - `switch` conditional:
 
-```ts
-let fruit: string = 'apple';
-switch (fruit) {
-  case 'apple':
-    // ...
-    break;
-  default:
-    // ...
-}
-```
+  ```ts
+  let fruit: string = 'apple';
+  switch (fruit) {
+    case 'apple':
+      // ...
+      break;
+    default:
+      // ...
+  }
+  ```
 
 - Check type: `typeof something === 'string';` returns the runtime type.
 
@@ -122,24 +122,24 @@ switch (fruit) {
   - TypeScript interfaces are removed when compiled to JavaScript.
   - Example:
 
-```ts
-interface Book {
-  id: number;
-  title: string;
-  pages?: number;
-  markDamaged: (reason: string) => void;
-}
-```
+    ```ts
+    interface Book {
+      id: number;
+      title: string;
+      pages?: number;
+      markDamaged: (reason: string) => void;
+    }
+    ```
 
 - Function type via interface (function pointer style).
   - Example function pointer: `let idGenerator: (chars: string, nums: number) => string;`
   - Interface example:
 
-```ts
-interface StringGenerator {
-  (chars: string, nums: number): string;
-}
-```
+    ```ts
+    interface StringGenerator {
+      (chars: string, nums: number): string;
+    }
+    ```
 
 - Extending interfaces: `interface Encyclopedia extends LibraryResource, Book {}`
 
@@ -150,30 +150,30 @@ interface StringGenerator {
   - Example: `constructor(title: string, publisher?: string) {}`
 - Properties:
 
-```ts
-class ReferenceItem {
-  numOfPages: number;
+  ```ts
+  class ReferenceItem {
+    numOfPages: number;
 
-  get editor(): string {
-    // custom get logic
-    return 'editor';
-  }
+    get editor(): string {
+      // custom get logic
+      return 'editor';
+    }
 
-  set editor(newEditor: string) {
-    // custom set logic
+    set editor(newEditor: string) {
+      // custom set logic
+    }
   }
-}
-```
+  ```
 
 - Parameter properties: shorthand to declare and initialize class properties in the constructor.
 
-```ts
-class Author {
-  // Creates property `name` and initializes it at construction.
-  // Access modifier can be `public` or `private`.
-  constructor(public name: string) {}
-}
-```
+  ```ts
+  class Author {
+    // Creates property `name` and initializes it at construction.
+    // Access modifier can be `public` or `private`.
+    constructor(public name: string) {}
+  }
+  ```
 
 - Note: class members are accessed with `this.` inside class methods.
 - Static properties: `static description: string = 'A source of knowledge';`
@@ -185,11 +185,11 @@ class Author {
 - Class expressions: classes without a name.
   - Example:
 
-```ts
-let Musical = class extends Video {
-  printCredits(): void {}
-};
-```
+    ```ts
+    let Musical = class extends Video {
+      printCredits(): void {}
+    };
+    ```
 
 ## 7. Organizing Code with Modules
 
@@ -221,29 +221,29 @@ let Musical = class extends Video {
   - Native support in ES2015; conceptually similar to `Task` in C#.
   - Basic example:
 
-```ts
-function doAsyncWork(resolve: (v: string) => void, reject: (r: unknown) => void) {
-  // perform async tasks
+    ```ts
+    function doAsyncWork(resolve: (v: string) => void, reject: (r: unknown) => void) {
+      // perform async tasks
 
-  if (success) resolve(data);
-  else reject(reason);
-}
+      if (success) resolve(data);
+      else reject(reason);
+    }
 
-let p: Promise<string> = new Promise(doAsyncWork);
+    let p: Promise<string> = new Promise(doAsyncWork);
 
-p.then(stringResult => console.log(stringResult))
- .catch(reason => console.log(reason));
-```
+    p.then(stringResult => console.log(stringResult))
+    .catch(reason => console.log(reason));
+    ```
 
 - `async`/`await` syntax is similar to C#.
   - Example:
 
-```ts
-async function doAsyncWork() {
-  let result = await GetDataFromServer();
-  console.log(result);
-}
-```
+    ```ts
+    async function doAsyncWork() {
+      let result = await GetDataFromServer();
+      console.log(result);
+    }
+    ```
 
 ## 9. Generics
 
@@ -259,13 +259,13 @@ async function doAsyncWork() {
 - JavaScript libraries are available on <https://www.npmjs.com>.
 - Example:
 
-```bash
-# install lodash library
-npm install lodash
+  ```bash
+  # install lodash library
+  npm install lodash
 
-# install lodash type definition
-npm install @types/lodash
-```
+  # install lodash type definition
+  npm install @types/lodash
+  ```
 
 ## 11. Decorators
 
@@ -274,25 +274,25 @@ npm install @types/lodash
   - Similar to attributes in C# or annotations in Java.
 - Example:
 
-```ts
-// Decorator implementation for `logMethodInfo`
-export function logMethodInfo(origMethod: any, _context: ClassMethodDecoratorContext) {
-  function replacementMethod(this: any, ...args: any[]) {
-    console.log(`Decorated construct: ${_context.kind}`);
+  ```ts
+  // Decorator implementation for `logMethodInfo`
+  export function logMethodInfo(origMethod: any, _context: ClassMethodDecoratorContext) {
+    function replacementMethod(this: any, ...args: any[]) {
+      console.log(`Decorated construct: ${_context.kind}`);
 
-    const result = origMethod.call(this, ...args);
-    return result;
+      const result = origMethod.call(this, ...args);
+      return result;
+    }
+
+    return replacementMethod;
   }
 
-  return replacementMethod;
-}
-
-// Use decorator on method `printItem()`
-@logMethodInfo
-printItem(): void {
-  // ...
-}
-```
+  // Use decorator on method `printItem()`
+  @logMethodInfo
+  printItem(): void {
+    // ...
+  }
+  ```
 
 ## 12. Debugging
 

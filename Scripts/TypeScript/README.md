@@ -9,7 +9,7 @@
 ## Intermediate
 
   1. [Arrays and Collections](./TS_Collections.md)
-  2. Configuring and Compiling TypeScript 5 Projects
+  2. [Configuring and Compiling TypeScript 5 Projects](./TS_ConfigureAndCompileTS5.md)
   3. TypeScript in Practice: Debugging
   4. Consuming Web APIs with TypeScript 5
   5. TypeScript in Practice: DOM Manipultation
@@ -21,4 +21,3 @@
 
   1. TypeScript in Practice: Best Practices
   2. TypeScript 5 Deep Dive
-  

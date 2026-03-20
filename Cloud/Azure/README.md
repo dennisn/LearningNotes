@@ -14,3 +14,8 @@
   5. [Generative AI Workloads on Azure](./AI900_GenerativeAI.md)
 
 - [Exam preps](./AI900_AIFundamentalsExam.md)
+
+## Azure Developer Associate (AZ-204)
+
+- [AZ-204: Overview](./AZ204_Overview.md)
+- [AZ-204: Implementing App and Container Solutions](./AZ204_ImplementingAppAndContainerSolutions.md)

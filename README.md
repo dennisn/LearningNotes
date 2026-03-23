@@ -16,9 +16,10 @@ It will be divided into subsections for each main technology branches:
   - [NodeJs](./Scripts/NodeJs/README.md)
   - [TypeScript](./Scripts/TypeScript/README.md)
 
-## Database system
+## Data system
 
-- [Ms Sql Server](./SqlServer/README.md)
+- [Data Engineer](./Data/DataEngineer/README.md)
+- [Ms Sql Server](./Data/SqlServer/README.md)
   
 ## Engineer
 
@@ -46,27 +47,38 @@ It will be divided into subsections for each main technology branches:
 ```mermaid
 mindmap
   root((Learning))
-    id)Database(
-      Ms Sql Server
-    id)Programming(
-      Python
-      C#
-      Java
-    id)Scripts(
-      NodeJs
-      TypeScript
+    id((Data))
+      DataEngineer
+      MsSql Server
+      SnowFlake
+    id((Programming))
+      id)Language(
+        Python
+        C#
+        Java
+      id)Scripts(
+        NodeJs
+        JavaScript
+          TypeScript
     id((Infrastructure))
-      Container
-        Docker (Kubernete)
+      id)Container(
+        Docker
+          Kubernete
           OpenShift
+      id)Queue/Bus(
+        Kafka
+        Redis
+        RabbitMq
       id)Cloud(
         AWS
         Azure
+        GCP
     id((Engineer))
-      id)Artificial Intelligent(
+      id)AI(
         Large Language Model - LLM
       id)Software Engineer(
         Object Oriented
         Security
       id)Software Architecture(
+        Microservice
 ```

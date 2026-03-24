@@ -1,8 +1,9 @@
 # NodeJS
 
 - [Big pictures](#big-pictures)
-- [IO](./NodeJS_IO.md)
+- [Node.js: File System, Streams, Async IO, Uploads, and Pipes](./NodeJS_IO.md)
 - [Modern NPM script](./ModernNPMScript.md)
+- [Node.js in the Terminal](./NodeJS_InTheTerminal.md)
 
 ## Big pictures
 

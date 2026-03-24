@@ -49,6 +49,7 @@ mindmap
   root((Learning))
     id((Data))
       DataEngineer
+      Elastic
       MsSql Server
       SnowFlake
     id((Programming))

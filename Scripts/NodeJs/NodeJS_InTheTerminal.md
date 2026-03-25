@@ -35,10 +35,46 @@
 
 ## Manage Files and Folders
 
+- Need to import file system module: `import fs from "fs";`
+- Other useful modules:
+  - `url`: convert file URL to path: `url.fileURLToPath(import.meta.url)`
+  - `path`: for path utilities, such as getting directory from file path: `path.dirname(fileName)`
+
 ## Create a simple HTTP server
+
+- The base module for HTTP server is "*http*": `import http from "http";`
+  - More complicated server is better use framework like "*express*", which is built on top of "*http*"
 
 ## Handle Events
 
+- `EventEmitter` from `node:events` is the main base class for events handling
+  - Node.js runtime provide `process` object, which is an extension of EventEmitter --> use `process.on()` to add event listener
+  - `http.Server` object also have "on()" method to add event listener
+- Custom EventEmitter object: can be used to de-couple emitters & handlers
+  - register handlers on EventEmitter object: `emitter.on(eventName, listener)`
+  - event producer: call `emitter.emit(eventName, [..args])`
+- **NOTE**: event handler is synchronous --> can use `setImmediate()` to make callback function asynchronous
+
 ## Test your code
 
+- Basic test example
+
+  ```JavaScript
+  import Stats from "./stats.js";       // the module to be tested
+  import { test } from "node:test";
+  import assert from "assert";
+
+  test("calculates the mean of an array of numbers", () => {
+    const stats = new Stats([1, 3, 5]);
+    const actual = stats.mean();
+    const expected = 3;
+    assert.ok(actual === expected);
+  })
+  ```
+
+- run test: `node --test`
+  - run test with coverage check: `node --experimental-test-coverage --test`
+
 ## Build a CLI tool
+
+- CLI tools can be built using module "*readline/promises*", especially method `createInterface()`

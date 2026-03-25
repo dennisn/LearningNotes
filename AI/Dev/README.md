@@ -12,6 +12,11 @@
 5. [ChatGPT Advanced Data Analysis](./AiAgent_ChatGPT_AdvancedDataAnalysis.md)
 6. [Trustworthy Generative AI](./AiAgent_TrustworthyGenerativeAI.md)
 
+## AI-Assisted Coding
+
+1. [Introduction to AI-assisted Coding](./AiAssistedCoding_Intro.md)
+2. [Advanced AI-assisted Development](./AiAssistedCoding_Advanced.md)
+
 ## IBM RAG and Agentic AI Professional Certificate
 
 - Coursera from IBM <https://www.coursera.org/professional-certificates/ibm-rag-and-agentic-ai>

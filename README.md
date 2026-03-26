@@ -55,6 +55,9 @@ mindmap
     id((Programming))
       id)Language(
         Python
+          FastAPI
+          Django
+          Flask
         C#
         Java
       id)Scripts(

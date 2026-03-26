@@ -60,4 +60,19 @@
 
 ## Orchestrate Workflow and Processes
 
+- To orchestrate "correct" program, we need two main types of inputs:
+  1. User Prompt: what user want --> iteratively toward the program goal
+  2. Skills: define iteration constraints: how to iterate, specilized guidance to maintain quality in code generation
+     - only load relevant parts of skills to avoid pollute the context
+- Could create "orchestrator" agent, which can delegate its tasks to specialized agents
+  - The cost of agent usage seems less --> doesn't cover the cost of creating & maintaining the various agents, nor the human in the loop
+  - Using multi-shots approach --> demanding continuous human attention, but may resulted in higher quality
+  - But after initial setup, coding loop maybe much shorter (note: *Could developer really read through & understand all the generated code ?* )
+
 ## Automate the Software Development Lifecycle
+
+- Developer now create agent to do the code --> meta-programming !
+  - Transfer skills: front-end skills to back-end developer, senior to junior (*Could it be done with proper review ?*)
+- Value stream alignment (*???*)
+- Cloud agent: more like un-attended workflow --> can we trust it ?
+- May lead to re-organise development team to align with value stream ==> all are full-stack developers

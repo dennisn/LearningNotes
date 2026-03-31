@@ -37,7 +37,7 @@
   - Use plan mode: lower token usage
   - Start fresh conversation
   - Break tasks into smaller chunks
-- Truncated output: when response is too long 
+- Truncated output: when response is too long
   - Pompt "please continue from where you left off"
   - Ask for smaller response
 - Stuck in a loop: Claude tries same failing approach repeatedly

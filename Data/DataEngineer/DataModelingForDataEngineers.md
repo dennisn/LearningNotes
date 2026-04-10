@@ -54,4 +54,53 @@
 
 ## Physical Data Modeling and Database Design
 
+- Key steps:
+  1. Choose the platform
+  2. Translate logical entities into physical tables
+  3. Establish relationships
+  4. Apply normalization/denormalization
+     - OLTP (Online Transactional Processing): production data --> 3NF
+     - OLAP (Online Analytical Processing): analysis of large scale historical data --> de-normalized to eliminate joints & improve performance
+  5. Apply table constraints --> ensure integrity
+  6. Create indexes and/or partitions --> increase efficiency
+  7. Extends with programmatic object (i.e. stored procedures, triggers, functions, etc.)
+- Main aim: ensure efficiency, optimal performance, and scalability
+
+### NoSQL dabase
+
+- To store non-structured/semi-structured data --> increasingly needed
+- Key characters:
+  - flexible schemas --> mostly not support ACID transactions
+  - horizontal scaling (i.e. add machines to increase capacity)
+  - fast queries: by eliminate complex `JOIN` & optimize data for specific access patterns
+- Types:
+  - Document: such as JSON, XML
+  - Key-Value: similar to dictionary or hash map
+  - Wide-columns: with table & rows, but columns is not dynamic (i.e. rows may have different # of columns)
+  - Graph database: store data as nodes (e.g. people, places, things, etc.) and edges (e.g. information about relationship between nodes)
+
+### Optimization techniques
+
+#### Table partition
+
+- split one into multiple smaller sub-tables --> reduce the scanning time
+
+#### Index
+
+- Index types: column-store vs. row-store, clustered vs non-clustered
+- Clustered index: used to sort the physical data --> at most **1 clusterd index**/table, often the primary key --> stored with the data
+- Non-Clustered index: stored separately from data, can have more than **1 non-clustered index**/table --> need extra storage, normally slower (i.e. need to perform look up)
+- Columnstore indexes: store data by column --> higher compression --> **faster analytical** queries that scan a few columns only on large Db, but **slower** on small Db, and bad at small/frequent inserts/updates
+  - Clustered index can be one of rowstore or columnstore
+  - But rowstore table can have non-clustered column store indexes, and vice versa
+- Cost of indexes:
+  - Space: for storage
+  - Time: for Insert/Update/Delete statements
+- Design choice:
+  - Workload type: Rowstore for OLTP vs. columnstore for OLAP
+  - Filtering conditions: focus on columns used in `WHERE`, `HAVING`, `JOIN`
+  - Column data type: less costly on integers vs. text/variable string (i.e. more variants, also slower arithmetic operation)
+  - Data selectivity: index on column with large cardinality (i.e. more distinct values)
+  - Column order matters: multi-columns index --> sort by ordered of columns
+
 ## Data Modeling in Different Contexts

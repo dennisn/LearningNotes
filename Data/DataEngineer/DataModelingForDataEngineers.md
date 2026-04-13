@@ -104,3 +104,36 @@
   - Column order matters: multi-columns index --> sort by ordered of columns
 
 ## Data Modeling in Different Contexts
+
+- ACID:
+  - Atomicity: as a single unit
+  - Consistency: db in valid state after finishing (irrespective of success or failure)
+  - Isolation: valid state even with concurrent transactions
+  - Durability: once committed, the changes are saved (i.e. not loss)
+
+- OLTP (Online Transactional Processing): for high volume of transactions (i.e. "WRITE" heavy)
+  - Often normalized to 3NF --> faster "change-processing" (e.g. Insert/Update/Delete)
+  - Convenient for ad-hock queries
+  - Focus on data integrity
+- OLAP (Online Analytical Processing): focus on aggregated data (i.e. "READ" heavy)
+  - Can be de-normalized to increase aggregation performance
+  - Data often from multiple source --> collected into some repository
+  - Repository: data are transformed/cleaned into a central location (single source of truth)
+    - Transform data: to address data anomalies, cleaning missing/dirty data, convert to suitable format
+
+### Big data
+
+- Recommend data modeling strategy:
+  - Key characteristics: understand the structure; schema on read vs. write
+  - Data architecture requirement: centralized vs. de-centralized; batch vs. real-time
+  - Business need: key requirements & constraints, reporting needs
+  - Modeling approache: relational vs non-relational vs dimensional (i.e. OLAP), or a combination
+  - Technology stack: matching modeling approach ?
+
+- Implementation notes:
+  - Data profiling & cleaning --> improve data quality
+  - Data governance: for data management in the whole organisation
+    - Roles/responsibility
+    - Data dictionaries
+    - Standardise data formatas & naming convention
+  - Scalability & performance: ensure performance is not reduced when data size growth

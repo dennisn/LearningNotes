@@ -62,3 +62,22 @@
 - Data Management: MongoDb (JSON-based), Cassandra (Wide-column format), Redis (In-memory storage)
 
 ## Understanding Big Data Analytics and Insights
+
+- Techniques in Big Data analytics
+  - Data wrangling & preprocessing: transforming and mapping the raw data that you have into a more useful format
+    - How: data collection --> cleaning --> transformation --> organizing
+    - Why: ensure quality & integrity
+  - Data mining: discovering patterns & relationships in large datasets
+    - How: clustering, classification & anomaly detection
+    - Why: uncover hidden patterns, predict trends
+  - Predictive analytics: analyze historical data and making predictions about future events or outcomes
+    - How: regression analysis & time series analysis
+    - Why: pro-active decision making, reduce risk & optimized operations
+  - Machine learning: learn from data to make predictions or decisions
+    - How: Supervised/Unsupervised learning, Re-inforced learning
+    - Why: automate analytical model building, handle "very" complex data/model
+- Ethical consideration & challenges
+  - Privacy: data anonymization, consent management, data breaches
+  - Security: encryption, access control, incident response
+  - Bias & fairness: algorithmic bias, representation, fairness in decision-making
+  - Transparency & accountability: explainability, auditability & regulatory compliance

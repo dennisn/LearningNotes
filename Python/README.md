@@ -6,7 +6,7 @@
 ## Python 3
 
 - Development Environments and Package Management in Python 3
-- Classes and Object-oriented Programming in Python 3
+- [Classes and Object-oriented Programming in Python 3](./Python3_ClassesAndOOP.md)
 - Testing in Python 3
 - Building a REST API with Python 3
 - Python 3 Best Practices

@@ -72,9 +72,46 @@ class Employee:
     - If parent class doesn't use "slots", child class can't use it either
 - Multiple inheritance: `class Developer(SlotsInspectorMixin, Employee):`
   - Method resolution order --> defined in `__mro__`: return the tupe of order in which the methods will be searched for
-  - Normally, will look into subclass first, then by the declared order of parent classes
+  - Normally, will search in its class definition first, then by the declared order of parent classes
   - May "invalidate" slot if some parents don't use slots (NOTE: class without attribute still need empty slot: `__slots__ = ()`)
 
 ## Accessing Class Attributes and Methods
 
+- Function is also an object, where function name is like variable: a named pointer to the function itself
+- "Class Attribute": needed to be defined in class scope --> similar to instance method
+  - *Could be overridden with the instance's attribute with same name !*
+- "Class Method": defined with decorator `@classmethod`, and first param is the class itself
+  - Useful for operation on "Class Attribute", or as factory functions
+
+  ```python
+  @classmethod
+  def change_class_attribute(cls, new_value):
+    pass
+
+  @classmethod
+  def new_employee(cls, name, dob):
+    age = date.today().year - dob.year
+    return cls(name, age, cls.minimum_wage)
+  ```
+
+- "Static method": decorated with `@staticmethod`: unlike class method, it doesn't receive the class, or the instance as first parameter
+  - Static method is for utility method mostly --> shouldn't be used anymore, but as normal function in module
+
 ## Using Data Classes
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Project:
+  name: str
+  payment: int
+  client: str
+```
+
+- Data class: will automatic provide `__init__()` and `__repr__()`
+  - `@dataclass`: defined in module "dataclasses" --> to use, import with `from dataclasses import dataclass`
+  - also can contain `__slots__` & other methods --> just like normal class
+  - from "**3.10**", can abbreviate `__slots__` declaration with `@dataclass(slots=True)`
+- Type hinting: help with static type checking --> require import of `typing`
+  - can use tool like "**mypy**" to check

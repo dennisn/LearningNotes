@@ -193,6 +193,57 @@ with Session(engine) as session:
 
 ## Using a Local NoSQL database - Mongita
 
+- Conceptual: MongoDb is a group of collections --> collection: group of documents --> document: data in JSON
+- Mongita: subset of MongoDb API (i.e. `PyMongo`), but for local files --> Python only package
+  - Used for embedded database, or unit testing
+
+```python
+from mongita import MongitaClientDisk
+
+client = MongitaClientDisk
+
+# get/create the portfolio database
+db = client.portfolio 
+
+# get/create the investments collection
+investments = db.investments
+
+# insert a document into the investments collection 
+# insert_many() for many documents
+investments.insert_one({"coin_id": "bitcoin", "currency": "usd", "amount": 1.0})
+
+# get all documents with a coin_id of bitcoin --> return a cursor, or None if none is found
+# Use find_one() to find "first" document
+bitcoin_inv = investments.find({"coin_id": "bitcoin"})
+all_investments = investments.find({})
+```
+
+- `update_many(<filter_json>, {<update_op>: {'key': 'value'}})`: update all documents matching filter, using the update operation
+- `delete_one(<filter_json>)`: delete the first document matching filter --> use `delete_many()` for deletion of all matching documents
+
 ## Using a NoSQL Database - MongoDB and pymongo
+
+- Everything in Mongita works with PyMongo
+- Connecting with pymongo:
+
+  ```python
+  from pymongo import MongoClient
+
+  client = MongoClient() # default connection to localhost:27017
+  ```
+
+- Filtering with multiple conditions
+
+  ```python
+  investments.find({"$and": [
+    {"coin": "bitcoin"},
+    {"amount": {"$gt": 2}}
+  ]})
+  ```
+
+- Embedded documents & lists --> model relationship
+  - For 1-1 relationship --> 1 embedded dictionary
+  - For 1-Many relationship --> a field with a list of dictionaries
+  - Use `$push` & `$pull` operators to add/remove embedded documents
 
 ## Using an ODM - MongoEngine

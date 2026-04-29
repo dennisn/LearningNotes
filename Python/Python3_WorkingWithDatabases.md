@@ -247,3 +247,56 @@ all_investments = investments.find({})
   - Use `$push` & `$pull` operators to add/remove embedded documents
 
 ## Using an ODM - MongoEngine
+
+- Object Document Mapper (ODM): map Python objects to documents in MongoDb --> similar to ORM
+  - For Mongo: MongoEngine --> can't work with other NoSQL db ==> similar to Django ORM
+
+### MongoEngine example
+
+```python
+from mongoengine import Document
+from mongoengine import fields
+
+class Investment(Document):
+  coin = fields.StringField(max_length=32)
+  currency = fields.StringField(max_length=3)
+  amount = fields.FloatField(min_value=0.00001)
+  timestamp = fields.DateTimeField(default=datetime.datetime.now)
+  sell = fields.BooleanField(default=False)
+
+# Create new investment & save it
+bitcoin = Investment('bitcoin", "USD", 1.0)
+bitcoin.save()
+  
+# query all investments:
+for investment in Investment.object:
+    print(investment.coin);
+
+# query with filter
+small_investments = Investment.object.filter(amount__lt=1.0)
+```
+
+### Embedded document
+
+```python
+from mongoengine import Document, EmbeddedDocument
+from mongoengine import fields
+
+class WatchlistMetadata(EmbeddedDocument):
+    currency = fields.StringField(max_length=3)
+    description = fields.StringField
+    date_created = fields.DateField(default=datetime.datetime.now().date)
+
+class WatchList(Document):
+    name = fields.StringField(max_length=256)
+    metadata = fields.EmbeddedDocumentField(watchlistMetadata)
+
+# add document with embedded document
+metadata = WatchlistMetadata("It's a watchlist", currency=USD)
+watchlist = Watchlist("My watchlist", metadata=metadata, coins = [])
+watchlist.save()
+
+# Query 
+one_w = datetime.datetime.now().date() - datetime.timedelta(days=7)
+recent_lists = watchlist.objects(metadata__date_created__gte=one_w)
+```

@@ -85,4 +85,18 @@
 
 ## Improving Test Coverage and Maintainability
 
+- `approvaltest`: test verification library by comparing the actual output against previously approved result
+  - Normal "assertion": for small & quick unittest vs. `approvaltest`: complex, large object/legacy code
+  - Important of Printer design
+    - Layout text on multiple lines --> easier to see diffs
+    - Exclude irrelevant details
+  - Has facility to generate test cases for all "combination" of parameters --> used to increase unittest coverage with small amount of codes
+    - May quickly increase the # of test cases & test time because of overlapped
+  - All-Pairs: another facility to try optimise the "combination" of parameters to reduce overlapped
+- `coverage`: package to show coverage of unittests
+  - Shows which lines are test
+- Branch coverage: different to code coverage, this specifically about cases at conditional statements (e.g. `if` statements)
+  - Mutation testing: insert a bug to see if existing unittests fail --> identify test improvements
+  - Very time & resource intensive --> may not be feasible
+
 ## Code That's Difficult to Test

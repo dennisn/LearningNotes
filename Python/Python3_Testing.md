@@ -64,7 +64,24 @@
 
 ## Testing by Developers: Why and When
 
+- Why unittest:
+  1. To ensure the code works as expected --> act as document of the code
+  2. To prevent unexpected regression in the future
+- Test After vs. Test Driven Development (TDD):
+  - Test after: discover bugs/design problem late in the development cycle
+  - TDD: interleave design test cases with design code --> result:
+    - Loose coupling & High cohesion
+    - Frequent chances to refactor
+- Continuous integration: ensure "shared" unittests are all passed --> alert teams to potential problems (i.e. tests outdated, ..)
+
 ## Using Test Doubles
+
+- Test Double: "fake" objects that mimic the real dependency --> control the test environment
+- **Dummy**: a place holder that is not used --> often a sign that parameter should be optional with default
+- **Stub**: same interface, "no implementation" but what you put there
+- **Fake**: same interface, but "simple implementation" not suitable for production (e.g. file IO vs. string IO, Db vs in-memory Db, etc.)
+- **Spy**: similar to **Stub**, but records the method calls & parameters it received --> can make assertion about method calls
+- **Mock**: similar to **Spy**, but will assert & throw error if expected method calls are not correctly invoked
 
 ## Improving Test Coverage and Maintainability
 

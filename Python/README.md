@@ -10,7 +10,7 @@
 - [Working with Databases](./Python3_WorkingWithDatabases.md)
 - [Classes and Object-oriented Programming in Python 3](./Python3_ClassesAndOOP.md)
 - [Testing in Python 3](./Python3_Testing.md)
-- Building a REST API with Python 3
+- [Building a REST API with Python 3](./Python3_Building_a_RestAPI.md)
 - Python 3 Best Practices
 - Python 3 Performance
 - Python 3 Decorators

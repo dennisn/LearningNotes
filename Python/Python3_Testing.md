@@ -100,3 +100,24 @@
   - Very time & resource intensive --> may not be feasible
 
 ## Code That's Difficult to Test
+
+- Hard-to-test code
+  - Poor separation of concerns
+  - Lack of encapsulation
+- Easy-to-test code
+  - Pure functions (no side effects)
+  - Can easily isolate with code "double"
+- Peel and Slice: when a small amount of hard-to-test code mixed in
+  - **Peel** strategy: Extract the easy-to-test code into separated method for testing
+  - **Slice** strategy: Extract the hard-to-test code out --> can replace it with "double" in test
+  - End result: concentrate the hard-to-test code into one place --> still need to test somehow: manual test, or using "test double"
+- **Monkey-patching**: using `monkeypatch` fixture in pytest --> inject "test double" that similate the real behavior with static results
+  - Make tests harder to read & understand
+  - Can get Out-of-sync with real object
+  - Tied to the implementation --> harder to refactor
+- **Self-initializing Fake**: Using `vcrpy` and `pytest-recording`
+  - Record the interaction on first run, then replay it in subsequence run --> nolonger depending on the remote services
+  - Pitfalls:
+    - Still a monkey patch style
+    - Recording file can be out of sync.
+    - Still make it harder to refactor

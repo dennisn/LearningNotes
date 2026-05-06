@@ -1,7 +1,6 @@
 # General
 
 - [Setup Python](./SetupPython.md)
-- [Python 3 Performance](./Python3_Performance.md)
 
 ## Python 3
 
@@ -12,7 +11,7 @@
 - [Testing in Python 3](./Python3_Testing.md)
 - [Building a REST API with Python 3](./Python3_Building_a_RestAPI.md)
 - Python 3 Best Practices
-- Python 3 Performance
+- [Python 3 Performance](./Python3_Performance.md)
 - Python 3 Decorators
 - Design Pattern in Python 3
 - Python Requests Playbook

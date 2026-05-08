@@ -11,9 +11,9 @@ and this: <https://packaging.python.org/en/latest/tutorials/installing-packages/
   - More details can be found at: <https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles?view=powershell-7.4>
     - For new instalation, ensure pip, setuptools, and wheel are up to date: `py -m pip install --upgrade pip setuptools wheel`
 - Install virtual environment: `py -m pip install virtualenv`
-- Create virtual env.: `py -m virtualenv venv`
-- Activate virtual env.: `venv/Scripts/activate.ps1`
-  - on Linux/WSL: `source venv/Scripts/activate`
+- Create virtual env.: `py -m virtualenv .venv`
+- Activate virtual env.: `.venv/Scripts/activate.ps1`
+  - on Linux/WSL: `source .venv/Scripts/activate`
 
 ### Setup python environment
 

@@ -84,3 +84,16 @@ Document python code with Sphinx and PEP257 (docstring standard)
   - class attribute: `:ivar`
 
 ## Improve your code with Type Checking
+
+- Dynamic typing disadvantage: no type info. in code --> type errors happen at runtime
+- Type hints: from after 3.5
+  - Mostly for statictical analysis (i.e. IDE checking)
+  - Act as a documentation
+  - On running, Python will ignore all type hints
+- **Duck typing**: hints describe the behavior only
+  - Within `typing`: already have a lots of pre-defined Protocol: `Iterator`, `Iterable`, `Optional`, etc.
+    - List of [predefined protocols](https://mypy.readthedocs.io/en/stable/protocols.html#predefined-protocols-reference) in mypy documentation
+  - Using class that inherits `typing_extensions.Protocol`
+- `mypy`: static type checker tools for python --> sometime **better** than IDE
+  - Type hints [cheat sheet](https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html)
+  - Should even use as precommit hooks

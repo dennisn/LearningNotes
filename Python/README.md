@@ -12,7 +12,7 @@
 - [Building a REST API with Python 3](./Python3_Building_a_RestAPI.md)
 - [Python 3 Best Practices](./Python3_BestPractices.md)
 - [Python 3 Performance](./Python3_Performance.md)
-- Python 3 Decorators
+- [Python 3 Decorators](./Python3_Decorators.md)
 - Design Pattern in Python 3
 - Python Requests Playbook
 - Debugging in Python

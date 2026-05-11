@@ -25,3 +25,6 @@
   6. [AI for Data Analysis](./GoogleAI/AI_DataAnalysis.md)
   7. [AI for App Building](./GoogleAI/AI_AppBuilding.md)
   
+## Misc
+
+- [Structured-Prompt-Driven Development](./StructuredPromptDriven_Development.md)

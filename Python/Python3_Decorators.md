@@ -43,4 +43,69 @@
 
 ## Using Advanced Decorator Workflows
 
+- Decorator with argument --> `some_func = decorator_function(some_arg="value")(some_func)`
+  - The decorator factory create a new decorator with the decorator's argument, which accept the "original_function" as argument
+
+  ```Python
+  def decorator_function(some_arg):
+    def _decorator_function(func):
+      def wrapper():
+        print(f"Some argument: {some_arg}")
+        return func()
+      return wrapper
+    return _decorator_function
+
+  @decorator_function(some_arg="value")
+  def some_func():
+    pass
+
+  # Decorator syntax is equivalent to
+  some_func = decorator_function(some_arg="value")(some_func)
+  ```
+
+- Multiple decorator can also stack: `some_func = decorator1(decorator2(some_func))`
+  - Order of execution is from "top-to-bottom" by the order of declaration
+
 ## Decorating classes and class Decorators
+
+- Class decorator: save decorator's argument in `self`, then `__call__(self, func)` will return wrapper function
+
+  ```Python
+  class DecoratorClass:
+    def __init__(self, some_arg):
+      self.some_arg = some_arg
+
+  def __call__(self, func):
+    def wrapper():
+      print(f"Some argument: {self.some_arg}")
+      return func()
+    return wrapper
+
+  @decorator_function(some_arg="value")
+  def some_func():
+    pass
+  ```
+
+- `property`: is a class --> lowercase name to abstract (i.e. hide) that this is a class
+  - Full constructor signature: `property(fget=None, fset=None, fdel=None, doc=None)`
+  - property is a Descriptor base class
+- **Property explaination**:
+  - `@property` --> create Class attribute with name matching the function name
+  - `@x.setter` --> update the class attribute to add the set function
+  - Get: `obj.x` --> equivalent to `MyClass.x.__get__(obj)` --> `x.__get__(obj, MyClass)`
+  - Set: `obj.x = 2` --> equivalent to `MyClass.x.__set__(obj, 2)` --> `x.__set__(obj, MyClass, 2)`
+- Decorator can also be used with class --> sample
+
+  ```Python
+  def add_speak(cls):
+    cls.speak = lambda self: f"Hello, I'm a {self.__class__.__name__} instance"
+    return cls
+
+  @add_speak
+  class SomeClass:
+    pass
+  ```
+
+- Class decorators from standard library
+  - `@functools.total_ordering`: help complete rich comparison ordering method, given a class with one or more implemented comparison methods --> may trade off with performance
+  - `@dataclass`: add boilerplate methods for classes

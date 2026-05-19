@@ -28,6 +28,7 @@ It will be divided into subsections for each main technology branches:
 - [Software Enginner](./SoftwareEngineer/README.md)
   - [Object-Oriented](./SoftwareEngineer/ObjectOriented.md)
   - [Security](./SoftwareEngineer/Security.md)
+  - [GraphQL](./SoftwareEngineer/GraphQL/README.md)
 
 ## Infrastructure
 

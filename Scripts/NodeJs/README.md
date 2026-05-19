@@ -19,7 +19,7 @@
 
 ### Beginner Projects
 
-These focus on core Node.js concepts like the file system, modules, and basic HTTP servers. 
+These focus on core Node.js concepts like the file system, modules, and basic HTTP servers.
 
 1. Task Tracker CLI: Build a command-line interface (CLI) to manage a to-do list. You'll learn to handle user input and read/write data to local JSON files.
 2. Simple Web Server: Create a "Hello World" server using the built-in http module without any external frameworks. This helps you understand how requests and responses work at a fundamental level.

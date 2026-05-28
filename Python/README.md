@@ -1,7 +1,6 @@
 # General
 
 - [Setup Python](./SetupPython.md)
-- [Python 3 Performance](./Python3_Performance.md)
 
 ## Python 3
 
@@ -9,11 +8,11 @@
 - [Working with Files](./Python3_WorkingWithFiles.md)
 - [Working with Databases](./Python3_WorkingWithDatabases.md)
 - [Classes and Object-oriented Programming in Python 3](./Python3_ClassesAndOOP.md)
-- Testing in Python 3
-- Building a REST API with Python 3
-- Python 3 Best Practices
-- Python 3 Performance
-- Python 3 Decorators
+- [Testing in Python 3](./Python3_Testing.md)
+- [Building a REST API with Python 3](./Python3_Building_a_RestAPI.md)
+- [Python 3 Best Practices](./Python3_BestPractices.md)
+- [Python 3 Performance](./Python3_Performance.md)
+- [Python 3 Decorators](./Python3_Decorators.md)
 - Design Pattern in Python 3
 - Python Requests Playbook
 - Debugging in Python

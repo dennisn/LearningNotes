@@ -34,22 +34,6 @@ The quickest way is when you have a `requirements.txt` file:
     -r requirements-test.txt
     ```
 
-### Secrets with version control and Dot-env
-
-- Store local secrets: API key, password, etc
-- Should be ignored by version control
-- To use, need `python-dotenv` package
-
-  ```python
-  from dotenv import load_dotenv
-
-  # Loading
-  load_dotenv()
-
-  # Usage
-  os.getenv('API_KEY')
-  ```
-
 #### Jupyter notebook setup from scratch
 
 This assume the virtual environment has been created and actived
@@ -137,6 +121,35 @@ In Dev, we can do "editable" installs: not creating wheel file, but add the proj
 
   2. Poetry: Focus on manage project dependencies, with friendly UI
   3. Pipenv: also more about project dependencies
+
+## Snippets
+
+### Secrets with version control and Dot-env
+
+- Store local secrets: API key, password, etc
+- Should be ignored by version control
+- To use, need `python-dotenv` package
+
+  ```python
+  from dotenv import load_dotenv
+
+  # Loading
+  load_dotenv()
+
+  # Usage
+  os.getenv('API_KEY')
+  ```
+
+### Clean up resources
+
+- Resource declared in `try` section may be found with `locals()`
+  ```python
+  try: 
+    conn = ...
+  finally:
+    if 'conn' in locals() and conn.is_connected():
+      conn.close()
+  ```
 
 ## Tools
 

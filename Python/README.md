@@ -51,6 +51,8 @@
 
 ### Python for Data Engineers
 
+- [Database Connection and Data Extraction with Python](./ForDataEngineer/DatabaseConnectionAndDataExtraction.md)
+- Build and Deploy ETL Pipelines with Python
 - Data Pipeline Automation and Orchestration with Python
 - Log, Monitor, and Debug Data Pipelines with Python
 - Messaging Systems with Python

@@ -25,7 +25,7 @@
 - Imports: should be on separate lines, into 3 groups
   - Standard library
   - Third-party library
-  - Local appliation/library
+  - Local application/library
 - Naming:
   - Modules: short, lowercase
   - Classes: Capitalized

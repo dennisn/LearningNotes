@@ -14,6 +14,7 @@ If you are starting from scratch or want to transition into the Microsoft data e
 - <https://learn.microsoft.com/en-us/credentials/certifications/azure-data-fundamentals/?practice-assessment-type=certification>
 - Role: Data Engineer (Beginner)
 - Course syllabus: <https://learn.microsoft.com/en-us/training/courses/dp-900t00#course-syllabus>
+- [Details](./DP900_AzureFundamentals.md)
 
 ## DP-700 Microsoft Fabric Data Engineer Associate
 

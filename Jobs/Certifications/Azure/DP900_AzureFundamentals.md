@@ -56,3 +56,27 @@
 - `Azure Data Explorer`: fully managed, stand-alone big data analytics platform for log & Internet-of-things (IoT) telemetry data
 - `Microsoft Purview`: a solution for enterprise-wide data governance & discoverability --> map of data and track data lineage across multiple data sources & systems
 - `Microsoft Foundry`: unified Azure Paas for enterprise AI
+
+## Relational data in Azure
+
+### Core concepts
+
+- `SQL` or *Structured Query Language* --> popular dialects
+  - `T-SQL` (Transact-SQL): for Microsoft
+  - `pgSQL`: implemented by PostgreSQL
+  - `PL/SQL` (Procedural Language/SQL): by Oracle
+- SQL statements are grouped into 3 main group
+  - `DDL` (Data Definition Language): manage table, stored procedures, views, etc.
+  - `DCL` (Data Control Language): manage access
+  - `DML` (Data Management Language): manipulate & retrieve rows in tables
+- Level of normalization (Normal Forms)
+  1. Cells must hold single, atomic value
+  2. Remove partial dependencies (i.e. non-key columns depend on the *whole* primary key - no partial dependencies)
+  3. No transitive dependencies (i.e. non-key columns depend *only* on the primary key, not on onther non-key columns)
+     - Example: "Employee" tables with key "EmployeeId", have column "DepartmentId" and "DepartmentName" --> "DepartmentName" depends on "DepartmentId", so it shouldn't be in "Employee" table
+
+### Azure SQL services & capabilities
+
+1. SQL Server on Azure VMs: IaaS, replicate the on-prem. database --> can scale up by allocate more resources
+2. Azure SQL Managed instance: can have multiple databases, less administrative
+3. Azure SQL Databases: fully managed, high-availability, can scale up & down quickly --> can pool resources to share among multiple databases, other cloud-benefits (e.g. replicated to different region, security & auditing tracks, point-in-time restore, etc.)

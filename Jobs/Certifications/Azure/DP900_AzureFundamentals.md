@@ -59,7 +59,7 @@
 
 ## Relational data in Azure
 
-- Exercise: <https://microsoftlearning.github.io/DP-900T00A-Azure-Data-Fundamentals/Instructions/Labs/dp900-01a-postgresql-lab.html>
+- Exercise: [Explore Azure Database for PostgreSQL](https://microsoftlearning.github.io/DP-900T00A-Azure-Data-Fundamentals/Instructions/Labs/dp900-01a-postgresql-lab.html)
 
 ### Core concepts
 
@@ -87,9 +87,9 @@
 
 ### Exercise
 
-- Explore Azure Storage: <https://microsoftlearning.github.io/DP-900T00A-Azure-Data-Fundamentals/Instructions/Labs/dp900-02-storage-lab.html>
-- Explore Azure Cosmos DB: <https://microsoftlearning.github.io/DP-900T00A-Azure-Data-Fundamentals/Instructions/Labs/dp900-03-cosmos-lab.html>
-- Explore data analytics in Microsoft Fabric: <https://microsoftlearning.github.io/DP-900T00A-Azure-Data-Fundamentals/Instructions/Labs/dp900-04b-fabric-lake-lab.html>
+- [Explore Azure Storage](https://microsoftlearning.github.io/DP-900T00A-Azure-Data-Fundamentals/Instructions/Labs/dp900-02-storage-lab.html)
+- [Explore Azure Cosmos DB](https://microsoftlearning.github.io/DP-900T00A-Azure-Data-Fundamentals/Instructions/Labs/dp900-03-cosmos-lab.html)
+- [Explore data analytics in Microsoft Fabric](https://microsoftlearning.github.io/DP-900T00A-Azure-Data-Fundamentals/Instructions/Labs/dp900-04b-fabric-lake-lab.html)
 
 ### Azure Blob storage
 
@@ -169,7 +169,7 @@
   - Three throughput modes:
     - `Dedicated`: throughput reserved exclusively for a single container
     - `Shared`: throughput at database level, shared across up to 25 containers
-    - `Serverless`:no provision upfront, but pay per request --> limited to a single Azure region. For multiple regions, use a provisioned mode instead
+    - `Serverless`:n o provision upfront, but pay per request --> limited to a single Azure region. For multiple regions, use a provisioned mode instead
     - **Autoscale**: set a maximum RU/s --> scale capacity automatically within that range based on demand
 - Use case:
   - IoT and telemetry: high-frequency data, near real-time processing
@@ -192,6 +192,10 @@
 - `Data Lakehouse`: combined Data Warehouse & Data Lake
   - `Data Warehouse`: from relational databases --> aggregate into Data Warehouse --> BI & multi-dimensional models (reports, daskboards and OLAP analysis)
   - `Data Lake`: from multi-format data sources (e.g. JSON, CSV, streaming) --> batch/real-time data into Data Lake --> Data processing & analytics with Spark
+
+### Excercise
+
+- Explore Microsoft Fabric Real-Time Intelligence: <https://microsoftlearning.github.io/DP-900T00A-Azure-Data-Fundamentals/Instructions/Labs/dp900-05c-fabric-realtime-lab.html>
 
 ### Large-scale data analytics architecture
 
@@ -245,3 +249,108 @@ Three main solutions:
 - Raw data is stored as files (Delta Lake)
 - Schema + transactional consistency on top of Parquet files
 - Expose SQL analytics endpoint
+
+## Fundamentals of Real-Time Analytics
+
+### Batch and Stream processing
+
+- Differences:
+  - **Data scope**: all data in datasets vs. most recent data, or a rolling time window
+  - **Data size**: efficient with large datasets vs. individual records or **micro batches** of few records
+  - **Performance**: latency of few hours vs. seconds/milliseconds
+  - **Analysis**: complex analytics vs simple functions/aggregations
+- Combine batch & stream processing (common in real-life): streaming data are inputs to both real-time analytics & stored for later batch processing
+  - Result of stream processing can be saved for historical reports & analysis
+
+#### Basic architecture of stream processing
+
+1. Event generates some data: e.g. emitted signal from sensor, log entry being written, etc.
+2. Data is captured in streaming **source**: folder/table in database, or queue (i.e. order processing & exactly once)
+3. **Perpetual Query**: filter & project/aggregate value
+4. Results are written to an output (e.g. **sink**)
+
+- Real-time analytics service:
+  - `Microsoft Fabric Real-Time Intelligence`: toolset built into `Microsoft Fabric`, include `EventStream` (i.e. ETL/ELT), `Eventhouse` (i.e. db), `Real-Time Dashboards` and `Activator` (i.e. trigger automated action when certain conditions are met)
+  - `Spark Structured Streaming`:  open-source library based on Apache Spark
+  - `Azure Stream Analytics`: PaaS for standalone or hybrid streaming outside of `Fabric`
+- Streaming sources:
+  - `Azure Event Hubs`: event data queue service, to ensure processing order & exactly once
+  - `Azure IoT Hub`: event data queue service optimized for IoT
+  - `Azure Data Lake Store Gen 2`: scalable storage service, often used for **batch processing**, but can also be used for streaming
+  - `Apache Kafka`: pub/sub message queue
+- Streaming sinks:
+  - `Azure Event Hubs`: queue
+  - `Azure Data Lake Store Gen 2`, `Microsoft OneLake`, or `Azure blob storage`: results as files
+  - `Azure SQL Database`, `Azure Databricks` or `Microsoft Fabric`: results in table
+  - `Microsoft Power BI`: for real-time data visualization in reports & dashboards
+
+### Microsoft Fabric Real-Time Intelligence
+
+- Set of tools built into `Microsoft Fabric` for streaming data: full pipeline from arrival to visualization & automated action (i.e. Event Stream --> Event house --> Reflect)
+- `Real-time hub`: centralized data catalog
+
+### Apache Spark structured streaming
+
+- `Spark structured streaming`: library built into Spark for streaming --> treat live data stream as table with growing rows
+- `Delta Lake`: add traditional database characteristics to data lake storage:
+  - **Reliability**: track data change --> partial/failed writes won't corrupt data
+  - **Schema enforcement**: only accept data matching a defined structured
+  - **Unified batch & streaming**: can serve as both streaming sink & source for batch queries
+
+## Fundamentals of data visualization
+
+### Exercise
+
+- [Explore fundamentals of data visualization with Power BI](https://microsoftlearning.github.io/DP-900T00A-Azure-Data-Fundamentals/Instructions/Labs/dp900-pbi-06-lab.html)
+
+### Power BI tools and workflow
+
+- Power BI: to build interactive data visualizations
+- Typical workflows:
+  1. `Power BI Desktop`: from diverge data sources, combine & organise into analytics data model --> reports with interactive visualizations
+  2. `Power BI service`: cloud service for publishing Power BI reports --> only limited edit & modelling using web browser --> to schedule refreshes of data, share reports, combined into dashboards & apps
+  3. `Power BI phone app & web`: for consuming published reports
+
+### Power BI in Microsoft Fabric
+
+- In Fabric, Power BI lives in shared workspaces --> depend on the same `OneLake` storage
+- Related Fabric services:
+  - `Workspaces`: shared environments for collaborated reports & semantic models --> no need for `Power BI Desktop`
+  - `Semantic models`: defines measures, relationships & hierarchies for one or more reports
+  - `Direct Lake mode`: directly query data from `OneLake` files
+  - `Web-based report editing`: create & update reports entirely in browser
+
+### Copilot in Power BI
+
+- Available in both destkop and Power BI service, but require Fabric capacity (> F2) or Power BI Premium (> P1) 
+- Available service
+  - **Summarise a report**
+  - **Create a report pages & charts** based on user data & prompt
+  - **Generate DAX measures** from natural language description
+  - **Smart narrative visual** (don't need Copilot license): generate text summary describes the data in the report, which updates dynamically as data changes
+
+### Semantic models
+
+- Is analytical models to support analysis
+  - Defines the numeric values for analyze/report as `measures` (aka `Facts`)
+  - Entities to aggregate them by as `dimensions`
+  - E.g. Sales as `fact`, while Customer, Product & Time as `dimension`
+  - If dimention table further related to other detail tables --> `Snowflake schema`. Otherwise it's `Star schema`
+- Hierarchies: defines the level of aggregation over a dimension
+  - e.g. **Time** dimension, hierarchy may group days into months, and months into years
+
+### Considerations for data visualization
+
+- Common data visualization
+  - Tables & text: simplest --> when numerous related values must be displayed
+  - Bar and column charts: compare numeric values for discrete categories
+  - Line charts: compare categorized values & examine trends, often over time
+  - Pie charts: compare values as proportions of a total
+  - Scatter plots: compare 2 numeric measures & identify relationship/correlation between them
+  - Maps: compare values for different geographic areas/locations
+- In Power BI, visual elements for related data are automatically linked (e.g. select a category in one visualization will automatically highlight that category in related visualizations in the report)
+- AI-power visualization
+  - **Smart narratives**
+  - **Q&A visual**: user ask questions in plain English --> chart answers based on the semantic model
+  - **Key influencers**: identify factors most strongly drive selected metric, then display as an interactive visual
+  - **Decomposition tree**: interactive drill-down across multiple dimensions --> what is contributing to a value

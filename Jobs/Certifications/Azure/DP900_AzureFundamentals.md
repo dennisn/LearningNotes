@@ -44,7 +44,7 @@
   - **Azure SQL database**: fully managed Platform-as-a-Service (PaaS)
   - **Azure SQL Managed instance**: SQL server with automated maintenance --> more configuration & adminstrative for the owner
   - **Azure SQL VM**: virtual machine with SQL Server --> full management responsibility to owner
-- `Open-source databases in Azure`: managed services for `MySQL` & `PostgreSQL`
+  - **Open-source databases in Azure**: managed services for `MySQL` & `PostgreSQL`
 - `Azure Cosmos DB`: fully managed, globally distributed NoSQL, but support multi-models (e.g. can be used as MongoDb, Cassandra, or even relational Db)
 - `Azure Storage`: for data storage as blob containers, files or tables.
 - `Azure Data Factory`: for building & manage data pipelines
@@ -110,7 +110,7 @@
   3. `Geo-Redundant Storage (GRS)`: Replicate to secondary region from 1 data center in primary region
   4. `Geo-Zone-Redundant Storage (GZRS)`: Replicate to secondary region, while spread copies across availability zones in primary region
 
-### Azure Data Lake Storage Gen2
+### Azure Data Lake Storage Gen 2
 
 - An improve version of Azure Blob Storage with hierarchical namespace support (i.e. folder structure, file system interface)
 - Requirement: enable "**Hierarchical Namespace**" option of an Azure Storage account
@@ -142,7 +142,7 @@
   - Same concepts to `Azure Cosmos DB for Table`
   - Each rows also has a `timestamp` column for modification date & time
   - Data (i.e. value) is often **denormalized**, with varies number of fields
-  - Partions: for grouping related rows, can grow or shrinks independent of each other --> for scalability &performance
+  - Partions: for grouping related rows, can grow or shrinks independent of each other --> for scalability & performance
 
 ### Azure Cosmos DB
 
@@ -169,7 +169,7 @@
   - Three throughput modes:
     - `Dedicated`: throughput reserved exclusively for a single container
     - `Shared`: throughput at database level, shared across up to 25 containers
-    - `Serverless`:n o provision upfront, but pay per request --> limited to a single Azure region. For multiple regions, use a provisioned mode instead
+    - `Serverless`: no provision upfront, but pay per request --> limited to a single Azure region. For multiple regions, use above provisioned modes instead
     - **Autoscale**: set a maximum RU/s --> scale capacity automatically within that range based on demand
 - Use case:
   - IoT and telemetry: high-frequency data, near real-time processing
@@ -178,7 +178,7 @@
   - Web & mobile apps
   - NOT for:
     - Complex multi-table join --> Azure SQL
-    - Larg-scale historical analytics --> Fabric or Synapse Analytics
+    - Large-scale historical analytics --> Fabric or Synapse Analytics
 - API models: supported 5 APIS --> For ease of migration (e.g. the API as as an abstraction on top)
   - `NoSQL`: data as JSON documents, query with SQL-like syntax --> recommended for enw application
     - Can be replicated into Fabric automatically without pipeline for analytics --> no impacts on transactional workload
@@ -244,7 +244,7 @@ Three main solutions:
 - File store, often distributed for high performance data access
 - Often apply **schema-on-read**: define tabular schemas when reading for analysis, without applying constraints when it's stored
 
-#### hybrid approaches (Data Lakehouse)
+#### Hybrid approaches (Data Lakehouse)
 
 - Raw data is stored as files (Delta Lake)
 - Schema + transactional consistency on top of Parquet files
@@ -286,7 +286,7 @@ Three main solutions:
 
 ### Microsoft Fabric Real-Time Intelligence
 
-- Set of tools built into `Microsoft Fabric` for streaming data: full pipeline from arrival to visualization & automated action (i.e. Event Stream --> Event house --> Reflect)
+- Set of tools built into `Microsoft Fabric` for streaming data: full pipeline from arrival to visualization & automated action (i.e. Event Stream --> Event house --> Reflect/Trigger)
 - `Real-time hub`: centralized data catalog
 
 ### Apache Spark structured streaming
@@ -342,12 +342,12 @@ Three main solutions:
 ### Considerations for data visualization
 
 - Common data visualization
-  - Tables & text: simplest --> when numerous related values must be displayed
-  - Bar and column charts: compare numeric values for discrete categories
-  - Line charts: compare categorized values & examine trends, often over time
-  - Pie charts: compare values as proportions of a total
-  - Scatter plots: compare 2 numeric measures & identify relationship/correlation between them
-  - Maps: compare values for different geographic areas/locations
+  - `Tables & text`: simplest --> when numerous related values must be displayed
+  - `Bar and column charts`: compare numeric values for discrete categories
+  - `Line charts`: compare categorized values & examine trends, often over time
+  - `Pie charts`: compare values as proportions of a total
+  - `Scatter plots`: compare 2 numeric measures & identify relationship/correlation between them
+  - `Maps`: compare values for different geographic areas/locations
 - In Power BI, visual elements for related data are automatically linked (e.g. select a category in one visualization will automatically highlight that category in related visualizations in the report)
 - AI-power visualization
   - **Smart narratives**

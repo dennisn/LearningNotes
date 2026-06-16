@@ -55,7 +55,7 @@
 - `Azure Stream Analytics`: real-time stream processing engine
 - `Azure Data Explorer`: fully managed, stand-alone big data analytics platform for log & Internet-of-things (IoT) telemetry data
 - `Microsoft Purview`: a solution for enterprise-wide data governance & discoverability --> map of data and track data lineage across multiple data sources & systems
-- `Microsoft Foundry`: unified Azure Paas for enterprise AI
+- `Microsoft Foundry`: unified Azure PaaS for enterprise AI
 
 ## Relational data in Azure
 
@@ -134,7 +134,7 @@
   - Upload via web portal, `AzCopy` utility or `Azure File Sync`
 - Two common network file sharing protocol
   1. `Server Message Block (SMB)`: commonly used across OS (Windows, macOS, Linux)
-  2. `Network File System (NFS)`: used by Linux, but not directly on Windows/macOS --> use use SSD with virtual network for access controlled
+  2. `Network File System (NFS)`: used by Linux, but not directly on Windows/macOS --> must use SSD with virtual network for access controlled
 
 ### Azure Tables
 
@@ -180,7 +180,7 @@
     - Complex multi-table join --> Azure SQL
     - Large-scale historical analytics --> Fabric or Synapse Analytics
 - API models: supported 5 APIS --> For ease of migration (e.g. the API as as an abstraction on top)
-  - `NoSQL`: data as JSON documents, query with SQL-like syntax --> recommended for enw application
+  - `NoSQL`: data as JSON documents, query with SQL-like syntax --> recommended for new application
     - Can be replicated into Fabric automatically without pipeline for analytics --> no impacts on transactional workload
   - `MongoDB`: Data as BSON (Binary JSON) and query with MongoDB Query Language (MQL)
   - `Table`: same as Azure Table Storage  --> recommend as a replacement
@@ -202,7 +202,7 @@
 1. Data ingestion & processing:  ETL/ELT --> data is cleaned, filtered & restructured (transformed) for analysis ==> data processing may be done by distributed, parallel system
 2. Analytical data store: the data after ETL/ELT
 3. Analytical data model: pre-aggregation of analytical data store for reports, dashboards and interactive visualizations
-   - Prefer approache now is `semantic model`: defines tables, relationshhips, hierarchies and measures in  DAX (Data Analysis Expressions - formula language used to define calculations) --> aggregations computed at query time
+   - Prefer approach now is `semantic model`: defines tables, relationshhips, hierarchies and measures in  DAX (Data Analysis Expressions - formula language used to define calculations) --> aggregations computed at query time
 4. Data visualization: built from analytical models, may be performed by non-technology professionals
 5. AI-assisted analytics: extend analytical self-service to users who do not write queries or build reports
 
@@ -223,8 +223,8 @@ Two main offering:
 
 Three main solutions:
 1. `Fabric Data Factory`: via two tools: **Pipelines** (e.g. chaining activities in sequence/parallel) and **Dataflows Gen2** (visually building data transformation with Power Query)
-   - `OneLake shortcuts`: Live reference to external storage (e.g. AWS S3, Google Cloud or another OneLake) --> for when data must stay in its original location due to compliance or cost, but still needs to be queryable from Fabric
-   - `Mirroring`: replicates external database directly into OneLake in near-real-time
+   - `OneLake shortcuts`: Live reference to external storage (e.g. `AWS S3`, `Google Cloud` or another `OneLake`) --> for when data must stay in its original location due to compliance or cost, but still needs to be queryable from Fabric
+   - `Mirroring`: replicates external database directly into `OneLake` in near real-time
    - `Eventstream`: for real-time streaming ingestion from Azure Event Hubs, Apache Kafka, IoT Hub and custom endpoints --> enabling near real-time analytics on continuously arriving data
    - `Fabric Notebooks`: for custom data ingestion, or transformation logic
 2. `Azure Data Factory`: standalone service for pipelines outside of `Fabric` (e.g. destination is Azure SQL DB or external services)
@@ -286,7 +286,7 @@ Three main solutions:
 
 ### Microsoft Fabric Real-Time Intelligence
 
-- Set of tools built into `Microsoft Fabric` for streaming data: full pipeline from arrival to visualization & automated action (i.e. Event Stream --> Event house --> Reflect/Trigger)
+- Set of tools built into `Microsoft Fabric` for streaming data: full pipeline from arrival to visualization & automated action (i.e. Event Stream --> Event house --> Reflect/Activator)
 - `Real-time hub`: centralized data catalog
 
 ### Apache Spark structured streaming

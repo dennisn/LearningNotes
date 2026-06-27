@@ -20,6 +20,8 @@ If you are starting from scratch or want to transition into the Microsoft data e
 
 - <https://learn.microsoft.com/en-us/credentials/certifications/fabric-data-engineer-associate/?practice-assessment-type=certification>
 - Role: Data Engineer (Intermediate)
+- Course: <https://learn.microsoft.com/en-us/training/courses/dp-700t00>
+- [Details](./DP700_FabricDataEngineerAssociate.md)
 
 ## DP-600 Microsoft Fabric Analytics Engineer Associate
 

@@ -8,6 +8,7 @@
 - [Create & use Dataflows (Gen2) in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/05-dataflows-gen2.html)
 - [Ingest data with a pipeline in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/04-ingest-pipeline.html)
 - [Analyze data with Apache Spark in Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/02-analyze-spark.html)
+- [Work with data in a Microsoft Fabric eventhouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/12-query-data-in-kql-database.html)
 
 ## Ingest Data with Microsoft Fabric
 
@@ -229,6 +230,85 @@
   ```
 
 ### Work with real-time data in an EventHouse
+- `Eventhouse` in Fabric: contain 1 or more `KQL` databases (i.e. **Kusto Query Language**): optimized for real-time data
+  - Ingest: using `EventStream` or directly load into database
+  - Query: Using KQL or T-SQL in KQL queryset
+  - Visualize with **Real-Time Dashboard**
+  - Automate with Fabric Activator
+- `KQL database` characteristics
+  - partition data by ingestion time --> best for time-series data, 
+  - Time-series data: each is an immutable event (i.e. append-only pattern, rarely change, timestamp is as important as the value)
+- `KQL database` ingestions
+  - From local files, cloud files (e.g. Azure, Amazone S3, etc.)
+  - Streaming: Azure Event Hubs, Fabric EventStream, Real-Time hub
+  - Copy from other Azure datasource: OneLake, Dataflows, Data Factory Copy
+  - Connectors to message sources: Apache/Confluent Kafka, Apache Flink, MQTT (Message Queuing Telemetry Transport), Amazon Kinesis, Google Cloud Pub/Sub
+  - Other: 
+    - "export": enable "**OneLake availability**" for databases/tables --> expose our KQL to other OneLake
+    - "import": create shortcuts to other KQL databases, or Azure Data Explorer databases
+
+#### Kusto Query Language (KQL)
+- **KQL syntax**: case-sensitive
+  - Uses a pipeline approach --> data flows from one operation to the next using the pipe "**|**" character
+  - Sample: from *TaxiTrips* table -> only trips with fare over 20$ -> `project` (i.e. shows) only specific columns -> `take` the first 10 rows only
+    ```KQL
+    TaxiTrips
+    | where fare_amount > 20
+    | project trip_id, pickup_datetime, fare_amount
+    | take 10
+    ```
+  - Can also aggregate data ưith `summarize`: count number of trips for each unique `taxi_id` as column `trip_count`
+    ```KQL
+    TaxiTrips
+    | summarize trip_count = count() by taxi_id
+    ```
+- **KQL Queryset**:  workspace for running & managing queries against KQL database --> can save queries, organize multiple query tabs, share queries
+  - can render query results as charts, tables or other visual
+  - Can use Copilot to assist with KQL query --> Copilot for Real-Time Intelligence (need administrator enable)
+- KQL optimization
+  - Why:
+    1. Run faster <-- reduce data
+    2. Use fewer resource <-- less columns
+    3. Scale with growing data
+  - Key optimization
+    - Filter data early & effectively --> filter on indexes, **time-based filtering** for Eventhouses with time-series data
+    - Order filters --> put those eliminate the most first
+    - Reduce columns early
+    - Aggregation --> limit results when exploring data
+    - Join --> put the smaller table first
+
+#### Materialized views
+- `Materialized views`: precomputed aggregation that be updated automatically --> treated as table
+- Structure: 2 parts
+  1. **A materialized part**: precomputed aggregation results from data that has been processed
+  2. **A delta**: new data that has arrived since the last background update
+- When query --> automatically combines both parts for latest results
+  - In background, periodically update the **materialized part** with new data
+
+```kql
+.create materialized-view TripsByVendor on table TaxiTrips
+{
+    TaxiTrips
+    | summarize trips = count(), avg_fare = avg(fare_amount), total_revenue = sum(fare_amount)
+    by vendor_id, pickup_date = format_datetime(pickup_datetime, "yyyy-MM-dd")
+}
+```
+
+#### Stored Functions
+- `Stored function`: encapsulate a query, with parameter --> reuse & share of repeat common queries
+```kql
+.create-or-alter function trips_by_min_passenger_count(num_passengers:long)
+{
+    TaxiTrips
+    | where passenger_count >= num_passengers 
+    | project trip_id, pickup_datetime
+}
+```
+- Usage: like a table
+```kql
+trips_by_min_passenger_count(3)
+| take 10
+```
 
 ## Implement a Lakehouse with Microsoft Fabric
 

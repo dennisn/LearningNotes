@@ -5,11 +5,13 @@
 - Course: <https://learn.microsoft.com/en-us/training/courses/dp-700t00>
 
 ## Exercise
-- [Create & use Dataflows (Gen2) in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/05-dataflows-gen2.html)
-- [Ingest data with a pipeline in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/04-ingest-pipeline.html)
-- [Analyze data with Apache Spark in Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/02-analyze-spark.html)
-- [Work with data in a Microsoft Fabric eventhouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/12-query-data-in-kql-database.html)
-- [Create a Microsoft Fabric Lakehouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/01-lakehouse.html)
+
+1.  [Create a Microsoft Fabric Lakehouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/01-lakehouse.html)
+2.  [Analyze data with Apache Spark in Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/02-analyze-spark.html)
+3.  [Use Delta Tables in Apache Spark](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/03-delta-lake.html)
+4.  [Ingest data with a pipeline in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/04-ingest-pipeline.html)
+5.  [Create & use Dataflows (Gen2) in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/05-dataflows-gen2.html)
+12. [Work with data in a Microsoft Fabric eventhouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/12-query-data-in-kql-database.html)
 
 ## Ingest Data with Microsoft Fabric
 
@@ -427,6 +429,127 @@ trips_by_min_passenger_count(3)
   - `Semantic model`: use `Direct Lake` mode, defines relationships, measures & business logic  --> read data directly from Delta Lake Parquet files ==> fast query & latest data. Can also re-used by AI
 
 ### Work with Delta Lake tables in Microsoft Fabric
+- `Delta Lake`: add schema abstractions over data file
+  - Structure: each table = folder of *Parquet* files, and a **_delta_log** folder: transaction details in JSON format
+  - Benefit: 
+    - Relational tables: **CRUD** via Spark, **ACID** transactions
+    - Data versioning & *time travel*
+    - Support batch & streaming
+    - Standard format --> inter-operability
+
+#### Create Delta tables
+- Creating table in Fabric Lakehouse --> define a delta table in lakehouse's metastore, data is stored in Parquet file
+  - Basic **PySpark**: `df.write.format("delta").saveAsTable("MyTable")` --> data stored in `Tables` storage location
+    - *External* tables: as above, but specificed **path** --> data stored in `Files`, or external sources ==> delete table won't delete the data file
+    - **NOTE**: same syntax can use to save data without create tables: `df.write.format("delta").mode("overwrite").save(delta_path)`
+  - Create **table metadata**
+    - Use `DeltaTableBuilder` API:
+      ```Python
+      from delta.tables import *
+
+      DeltaTable.create(spark) \
+        .tableName("products") \
+        .addColumn("Productid", "INT") \
+        .addColumn("ProductName", "STRING") \
+        .addColumn("Price", "FLOAT") \
+        .execute()
+      ```
+    - Use `Spark SQL` --> adding `LOCATION` to create *external* tables ==> for table reference existing data
+      ```Python
+      %%sql
+
+      CREATE TABLE salesorders
+      (
+          Orderid INT NOT NULL,
+          OrderDate TIMESTAMP NOT NULL,
+          CustomerName STRING,
+          SalesTotal FLOAT NOT NULL
+      )
+      USING DELTA
+      # LOCATION 'Files/mydata'
+      ```
+
+#### Optimize delta tables
+- Spark parallel processing + parquet files are immuable (i.e. new files for every update/delete) --> can have large number of small files (i.e. *small file* problem)
+- `OptimizeWrite`: help prevent *small files problem* by shuffle write (i.e. combined write)
+  - enabled by default, but can change it at session level via `spark.microsoft.delta.optimizeWrite.enabled`
+
+##### Lakehouse operations for optimization
+- Operation `OPTIMIZE`: consolidates Parquet files via **Lakehouse explorer > ... > Maintenance**
+  - V-Order function: can enable with `Optimize` operation
+    - a **write-time optimization** that enhances **read speeds** by applying special *sorting, row group distribution, dictionary encoding, and compression*
+    - Write: 15% slower --> READ 10-50% faster, 50% more compressed
+    - Compliant with open-source Parquet
+    - **NOT** useful for write-intensive use, such as in staging where data only read once or twice
+- Operation `VACUUM`: remove old data file via **Lakehouse explorer > ... > Maintenance** --> reduce "*time-travel*"
+  - Depend on: retention & regulatory requirements, data change frequency, data size & storage cost
+  - can also trigger in notebook
+    ```python
+    %%sql
+    VACUUM lakehouse2.products RETAIN 168 HOURS;
+    ```
+- `PARTITION` delta tables --> fixed data layout, so think about how data is used and its granularity
+  - Useful with **large** amounts of data, which could be split into a **few** large partition
+  - Not useful: *small* data volume, *high cardinality* (i.e. large number of unique values), or column which partitioning would result in multiple levels (e.g. timestamp with implicit multi-level --> year/month/day)
+  ```python
+  df.write.format("delta").partitionBy("Category").saveAsTable("partitioned_products", path="abfs_path/partitioned_products")
+  ```
+  ```python
+  %%sql
+  CREATE TABLE partitioned_products (
+      ProductID INTEGER,
+      ProductName STRING,
+      Category STRING,
+      ListPrice DOUBLE
+  )
+  PARTITIONED BY (Category);
+  ```
+
+#### Spark with delta tables
+- Using **Spark SQL**: `spark.sql("INSERT INTO products VALUES (1, 'Widget', 'Accessories', 2.99)")`
+  - Alteratively, with `%%sql` --> SQL syntax: `UPDATE products SET ListPrice = 2.49 WHERE ProductId = 1;`
+- Use the **Delta API**
+  ```Python
+  from delta.tables import *
+  from pyspark.sql.functions import *
+
+  # Create a DeltaTable object
+  deltaTable = DeltaTable.forPath(spark, "Files/mytable")
+
+  # Update the table (reduce price of accessories by 10%)
+  deltaTable.update(
+      condition = "Category == 'Accessories'",
+      set = { "Price": "Price * 0.9" })
+  ```
+- Use *time travel* with table version
+  - First, use `DESCRIBE` SQL command to show history
+    ```Python
+    %%sql
+    DESCRIBE HISTORY products
+    # also work on delta file: DESCRIBE HISTORY 'Files/mytable'
+    ```
+  - Then, retrieve the specific version, or timestamp
+    ```python
+    df = spark.read.format("delta").option("versionAsOf", 0).load(delta_path)
+    # df = spark.read.format("delta").option("timestampAsOf", '2022-01-01').load(delta_path)
+    ```
+
+#### Delta tables with streaming data
+- **Spark Structured Streaming**: constantly read data from *source* as *boundless dataframe* -> (optionally) process data: select fields, aggregate/group values -> write result to *sink*
+  - Can read data from various streaming sources: network ports, file locations, message services (e.g. Kafka, Azure Event Hubs, etc.)
+- **Delta table**: can be used as *source* or *sink* for streaming
+  - As source: 
+    ```Python
+    stream_df = spark.readStream.format("delta") \
+        .option("ignoreChanges", "true") \
+        .table("orders_in")
+    ```
+    - NOTE: with `readStream` --> only *append* is valid. Any *update/delete* will cause error unless `ignoreChanges` or `ignoreDeletes` is enabled
+    - Check if the datafram is "streaming" with `stream_df.isStreaming` --> should be True
+  - Transform: as with normal Spark dataframe (i.e. filter, withColumn, etc.)
+  - As sink: `deltastream = transformed_df.writeStream.format("delta").option("checkpointLocation", checkpointpath).start(output_table_path)`
+    - `checkpointLocation`: for checkpoint file --> enable recovery from failure at the point where stream processing left off
+    - Stop streaming: `deltastream.stop()`
 
 ### Organize a Fabric lakehouse using Medallion architecture design
 

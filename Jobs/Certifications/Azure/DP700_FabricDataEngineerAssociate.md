@@ -9,6 +9,7 @@
 - [Ingest data with a pipeline in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/04-ingest-pipeline.html)
 - [Analyze data with Apache Spark in Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/02-analyze-spark.html)
 - [Work with data in a Microsoft Fabric eventhouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/12-query-data-in-kql-database.html)
+- [Create a Microsoft Fabric Lakehouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/01-lakehouse.html)
 
 ## Ingest Data with Microsoft Fabric
 
@@ -311,6 +312,123 @@ trips_by_min_passenger_count(3)
 ```
 
 ## Implement a Lakehouse with Microsoft Fabric
+
+### Introduction to end-to-end analytics using Microsoft Fabric
+- `Fabric`: (*SaaS*) end-to-end analytics platform based on unified data lake (i.e. `OneLake`)
+  - Data engineer works on organizing & governing data --> benefit business analysis & AI workloads
+- `OneLake`
+  - Built on **Azure Data Lake Storage Gen2** (i.e. `ADLS Gen2`) --> support formats: Delta, Parquet, CSV, JSON, etc.
+    - `Fabric` analytical engine write data in Delta-Parquet format
+    - All Fabric engines automatic store data in OneLake
+  - `Shortcuts`: data stored in **external** sources (e.g. Azure Data Lake Storage, S3, Dataverse, etc.) --> accesible without copying/moving
+  - Data are all stored in "open format" --> accessible to AI capabilities (e.g. Copilot, data agent, etc.)
+- `Workspace`: logical container to manage/organise data, reports & other assets
+  - Easier for security (e.g. access control)
+  - Allow manage compute resources, version control (e.g. Git)
+- **OneLake administration**: centralised
+  - Manage groups & permission
+  - Configure data sources & gateways
+  - Monitor usage & performance
+  - Automate common tasks & integration with other system
+  - `OneLake catalog`: analyze, monitor & maintain data governance
+
+#### Usage
+- Previously: disconnect between data engineers vs. analyst vs. scientist --> require extensive coordination ==> delay & mis-interpretations
+- With Fabrics
+  - `Data engineers`: manage the ELT/ETL with pipelines --> clean & well-governed data
+  - `Analytics engineers`: curate data assets, ensure data quality, create semantic models in `Power BI`
+  - `Data analysts`: create interactive reports with `Power BI` with *Direct Lake* mode, or upstream data transform using dataflows
+  - `Data scientists`: build ML models via integrated notebooks with Python & Spark on data in OneLake --> results as grounding data for Copilot & AI agents
+  - `Low-to-no-code users`: 
+    - Discover *curated datasets* via OneLake catalog
+    - Create reports & dashboards with *Power BI templates*
+    - Use dataflows for simple ETL
+    - Use `Copilot` for data question
+
+#### Enable & management of Fabric
+- Administration: need one of
+  - **Fabric administrator**: manages Fabric settings & configuration
+  - **Power Platform administrator**: manage Power Platform services, which include Fabric
+  - **Global Administrator**: implicit Fabric admin rights
+- Enable: via **Admin portal > Tenant settings** in Power BI service
+  - can enable for whole organisation, or specific Microsoft 365/Entra security groups
+  - can delegate this ability to other users at capacity level
+- Workspaces: manage lakehouses, warehouses & reports --> manage OneLake access
+  - Data lineage view: visual view of data flow & dependencies
+  - Settings:
+    - License type --> Fabric features
+    - OneDrive access
+    - Azure Data Lake Gen2 Storage connection
+    - Git integration
+    - Spark workload --> performance optimisation
+  - Access control via 4 roles: *admin, contributor, member and viewer* --> applied to all items in workspace ==> specific item also has item-level permissions
+- OneLake catalog: only see items (e.g. data sources) that are accessible
+  - Usage: narrow by workspaces or domains (if applicable) > default categories > keywork or item type
+- Fabric workloads
+  - `Data engineering`: create lakehouses & workflows
+  - `Data factory`: ETL/ETL & orchestrate data
+  - `Data Warehouse`: combine multiple sources for analytics
+  - `Real-Time Intelligence`: for streaming data
+  - `Industry Solutions`: third party data solution
+  - `Data science`: identify trends, outliers & predict values using ML
+  - `Power BI`: create reports & dashboards
+  - `IQ (preview)`: ontologies, graphs & semantics models (i.e. metadata about entities, attributes/properties & relationship)
+- Copilot in Fabric:
+  - **Code completion & generation**
+  - **Data transformation guidance**: in Data Factory --> code generation & plain-language explanation of complex logic
+  - **Report & insigh generation**: from user question about data in natural language
+- IQ workloads:
+  - `Fabric IQ`: metadata help agents reason with data in OneLake & Power BI
+  - `Foundry IQ`: connect structured & unstructured data from enterprise knowledgebase
+  - `Work IQ`: captures workplace contexts from email, documents, meetings, chats & workflows for agent
+
+### Get started with lakehouses in Microsoft Fabric
+- `Lakehouse`: 2 main data areas
+  - **TABLES**: structured, query-able table
+    - ACID transaction, direct SQL query --> automatic optimization & maintenance
+    - Accessed by Power BI for reporting
+  - **FILES**: raw or semi-structured data file --> any format (e.g. CSV, JSON, Parquet, images, documents, etc.)
+    - Flexible storage for exploration & processing --> staging areas before transform into table
+    - No schema, not support direct SQL queries
+  - Normal usage: Spark notebook or Dataflow Gen2 --> process *files* before loading into *tables*
+- `Delta Lake tables`: open-source, Parquet files plus transaction log for changes
+  - **Efficient** updates & delete
+  - **Relational-like characters**: Schema enforced, ACID transaction supported
+  - **Time travel**: point-in-time data
+- Lakehouse access:
+  - *Workspace roles*: control access to all items in the workspace
+  - *Item-level sharing*: read-only access for specific needs (e.g. analytics or Power BI report)
+  - *Row-level* and *Column-level* security, event *Schema-level* security: for SQL analytics endpoint only
+- AI integration: Fabric IQ, Copilot in Power BI can also use SQL analytics endpoint as data input
+
+#### Lakehouse manipulation
+- On creation --> `schemas` are enabled by default, with `dbo` automatically created
+  - Schemas: organize tables into logical groups by business domains/functions (e.g. sales, marketing, hr, etc) --> greate for permissions & AI data agent ==> access via `workspace.lakehouse.schema.table`
+- Access lakehouse in 2 modes
+  - `Lakehouse explorer`: browse & manage "items" in lakehouse (e.g. tables, files, folder, shortcuts), manage & upload data
+  - `SQL analytics endpoint`: access Delta table in *read-only* --> can't modify underlying data, but could create views, function, SQL security
+- **Ingest data**:
+  - *Upload*: files/folders directly
+  - *Load to Table*: from files/folders in Lakehouse to Delta Table --> for Parquet & CSV files
+  - *Data factory pipelines*: Using **Copy** to load data from external sources
+  - *Dataflow Gen2*: Using Power Query for ingestion
+  - *Notebook*: Using Apache Spark
+  - *Shortcuts*: for external storage --> can also create **schema shortcuts**
+
+#### Lakehouse data query
+- Via SQL analytics endpoint: for access to lakehouse **tables** with T-SQL queries
+  - **Use cases**: ad-hoc queries, BI connection for tools (e.g. Power BI, Excel, Azure Data Studio, etc), data validation
+  - Can create SQL views for reusable query logic --> apply business rule, hide complex join, provide curated data for downstream
+  - Support **row-level/column-level** security
+- Via Spark notebooks: flexible, code-based environment for querying & analyzing data
+  - **Use cases**: exploratory (e.g. patterns, outliers, relationship), complex transformation, cross-workspace query --> prepare data for ML
+- Via Power BI: in 2 ways
+  . Query `SQL analytic endpoint`: BI tools (e.g. Power BI, Excel, etc.) --> ad-hoc queries & explore data
+  - `Semantic model`: use `Direct Lake` mode, defines relationships, measures & business logic  --> read data directly from Delta Lake Parquet files ==> fast query & latest data. Can also re-used by AI
+
+### Work with Delta Lake tables in Microsoft Fabric
+
+### Organize a Fabric lakehouse using Medallion architecture design
 
 ## Implement Real-Time Intelligence with Microsoft Fabric
 

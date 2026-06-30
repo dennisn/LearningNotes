@@ -18,8 +18,9 @@ It will be divided into subsections for each main technology branches:
 
 ## Data system
 
-- [Data Engineer](./Data/DataEngineer/README.md)
-- [Ms Sql Server](./Data/SqlServer/README.md)
+- [Database](./Data/README.md)
+  - [Data Engineer](./Data/DataEngineer/README.md)
+  - [Ms Sql Server](./Data/SqlServer/README.md)
   
 ## Engineer
 

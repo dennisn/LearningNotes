@@ -80,7 +80,59 @@ ORDER BY CASE WHEN condition THEN sort_value ELSE 0 END
      ```
 8. NULL-safe equality: only supported by some db: `a IS NOT DISTINCT FROM b` --> **TRUE** when a=b=NULL
 
-### CTEs
+### Common Table Expression (CTE)
+- A **CTE**, or **Common Table Expression**, is a temporary named result set (e.g. "table") defined with `WITH`.
+  - Useful when a query has multiple logical stages
+```SQL
+WITH cte_name AS (
+    SELECT ...
+    FROM ...
+)
+SELECT ...
+FROM cte_name;
+```
+- One `WITH` block can define multiple CTE --> later CTEs can reference earlier CTEs, but not the other way around
+- **CTE** vs. **Subquery** --> Use **CTE* when:
+  - Intermediate result has a clear meaning, could be re-used
+  - Query has multiple steps (e.g. clean data > filter data > aggregate facts > final reports)
+- CTEs and column aliases: can be defined within `SELECT` statement, or after CTE name --> first one is clearer
+  ```SQL
+  WITH client_spend(client_id, total_spend) AS (
+    SELECT
+      cust_id,
+      SUM(order_amount)
+    FROM orders
+    GROUP BY cust_id
+  )
+  ```
+- **Recursive CTEs**: supported by some CTEs, for hierarchical data (e.g. parent-child relationship such as folder structure, employee)
+  - Structure: 2 parts
+    1. Anchor query: returns the starting rows.
+    2. Recursive query: repeatedly joins back to the CTE.
+    ```SQL
+    WITH RECURSIVE employee_tree AS (
+        SELECT
+            employee_id,
+            manager_id,
+            employee_name,
+            1 AS level
+        FROM employees
+        WHERE manager_id IS NULL
+
+        UNION ALL
+
+        SELECT
+            e.employee_id,
+            e.manager_id,
+            e.employee_name,
+            et.level + 1 AS level
+        FROM employees e
+        JOIN employee_tree et
+            ON e.manager_id = et.employee_id
+    )
+    SELECT *
+    FROM employee_tree;
+    ```
 
 ### Window functions
 

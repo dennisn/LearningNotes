@@ -9,8 +9,9 @@
 1.  [Create a Microsoft Fabric Lakehouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/01-lakehouse.html)
 2.  [Analyze data with Apache Spark in Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/02-analyze-spark.html)
 3.  [Use Delta Tables in Apache Spark](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/03-delta-lake.html)
-4.  [Ingest data with a pipeline in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/04-ingest-pipeline.html)
-5.  [Create & use Dataflows (Gen2) in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/05-dataflows-gen2.html)
+4.  [Create a medallion architecture in a Microsoft Fabric lakehouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/03b-medallion-lakehouse.html)
+5.  [Ingest data with a pipeline in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/04-ingest-pipeline.html)
+6.  [Create & use Dataflows (Gen2) in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/05-dataflows-gen2.html)
 12. [Work with data in a Microsoft Fabric eventhouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/12-query-data-in-kql-database.html)
 
 ## Ingest Data with Microsoft Fabric
@@ -552,7 +553,48 @@ trips_by_min_passenger_count(3)
     - Stop streaming: `deltastream.stop()`
 
 ### Organize a Fabric lakehouse using Medallion architecture design
+- **Medallion architecture**: organise data into 3 layers --> latter layer build on top of previous one
+  - `Bronze`: raw data, intentional un-modified --> for data engineer, or latter reprocess if needed
+    - Could use shortcuts
+  - `Silver`: clean, integrated dataset --> analysts and data scientists
+    - Often combine & merge data from multiple sources, enforcing quality rules (i.e. remove nulls & de-duplicating)
+    - 3 ways to transform to silva: 
+      1. `Dataflow Gen2`: low to no-code
+      2. `Notebook`: PySpark or Spark SQL: large datasets, or complex logic (e.g. custom calculation, API calls, complex join, etc.)
+      3. `Materialized lake view`: similar to `materialized view`: precomputed aggregation that be incremental refresh automatically
+         - Transformation has to be expressible as SQL
+         ```SQL
+          CREATE MATERIALIZED LAKE VIEW silver.sales
+          AS
+          SELECT
+              order_id,
+              customer_id,
+              UPPER(TRIM(region))        AS region,
+              CAST(order_date AS DATE)   AS order_date,
+              unit_price * quantity      AS total_amount
+          FROM bronze.sales
+          WHERE order_id IS NOT NULL
+         ```
+  - `Gold`: dimensional model --> business use
+    - Model often as `star schema`
+    - May have *multiple gold layers* serving different client
+    - Same tools as with `Silver`: dataflows, notebook, materialized lake view --> orchestrated by pipelines
+    - Client access via **SQL analytics endpoint** or Power BI **semantic model** --> may use `Fabric Data Warehouse` instead if client mainly works in SQL
+- Organisation approaches for separation of layers:
+  - One lakehouses, different schemas --> simpler, good for small team/early stage of project
+  - Separate lakehouses --> clearer, can apply different permissions per layer
+  - Separate workspaces --> strongest isolation ==> often for regulatory/compliance
+- Access control: 2 levels
+  - **Workspace and item permissions**: workspace roles (i.e. admin, member, contributor and viewer) apply to whole workspace. Item permissions are specific to each item ==> More isolation by putting each layer in its own workspace
+  - **OneLake data access roles**: granular control within a single lakehouse --> per tables or folders
+    - NOTE: `DefaultReader` role allows `ReadAll` users read access to all data --> modify/delete it to restrict default access
+    - To control OneLake security: **Lakehouse > Manage OneLake security**
+- Change management with **Git**
+  - Code in medallion architecture (e.g. pipeline definitions, notebook, schema definitions, etc.) --> need to stay in sync. ==> Git integration help
+  - Deployment pipelines --> allow promotion medallion workspace from "**Development > Test > Production**" ==> ability to compare diff
 
 ## Implement Real-Time Intelligence with Microsoft Fabric
 
 ## Implement a data warehouse with Microsoft Fabric
+
+## Manage a Microsoft Fabric environment

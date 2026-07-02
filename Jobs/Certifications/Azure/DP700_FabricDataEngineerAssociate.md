@@ -6,12 +6,13 @@
 
 ## Exercise
 
-1.  [Create a Microsoft Fabric Lakehouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/01-lakehouse.html)
-2.  [Analyze data with Apache Spark in Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/02-analyze-spark.html)
-3.  [Use Delta Tables in Apache Spark](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/03-delta-lake.html)
-4.  [Create a medallion architecture in a Microsoft Fabric lakehouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/03b-medallion-lakehouse.html)
-5.  [Ingest data with a pipeline in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/04-ingest-pipeline.html)
-6.  [Create & use Dataflows (Gen2) in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/05-dataflows-gen2.html)
+01. [Create a Microsoft Fabric Lakehouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/01-lakehouse.html)
+02. [Analyze data with Apache Spark in Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/02-analyze-spark.html)
+03. [Use Delta Tables in Apache Spark](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/03-delta-lake.html)
+04. [Create a medallion architecture in a Microsoft Fabric lakehouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/03b-medallion-lakehouse.html)
+05. [Ingest data with a pipeline in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/04-ingest-pipeline.html)
+06. [Create & use Dataflows (Gen2) in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/05-dataflows-gen2.html)
+07. [Get started with Real-Time Intelligence in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/07-real-time-Intelligence.html)
 12. [Work with data in a Microsoft Fabric eventhouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/12-query-data-in-kql-database.html)
 
 ## Ingest Data with Microsoft Fabric
@@ -595,6 +596,95 @@ trips_by_min_passenger_count(3)
 
 ## Implement Real-Time Intelligence with Microsoft Fabric
 
+### Get started with Real-Time Intelligence in Microsoft Fabric
+
+#### Real-Time Data Analytics
+- `Real-time analytics`: process, analyze & act on data as it's generated --> within seconds or minutes ==> immediate insights & rapid responses
+  - Also known as *near* real-time analytics
+- Real-time data:
+  - `Event`: records of things that happen --> digital records or log entries of system actitities 
+  - `Stream`: sequence of events, ordered by the occurence time --> continuous flow of events ==> allows for pattern/trend to detect over time
+- Components of real-time analytics solutions
+  - **Real-time data ingestion**: collect data from multiple sources *simultaneously*, as info. is generated 
+  - **Stream processing**: transform (e.g. filter, aggregate, join, etc.) & analyze (e.g. detect patterns) data --> minimal latency 
+  - **Interactive dashboards**: visualization that update automatically --> show current state & trends in *real-time*
+  - **Automated decision making**: rules & trigger ==> alerts, actions/workflows
+- Real-time analytics benefits:
+  - Quick response to opportunities or problem
+  - Optimize operations
+  - Enhance customer experiences (e.g. personalize notification)
+  - Prevent issues: by detect anomalies before they become problems
+
+#### Real-Time Intelligence
+- **Real-Time Intelligence**: process streaming data for continuous monitor, automate trigger & optimization workflows (e.g. route optimisation)
+- **Real-Time Intelligence components**
+  - `Eventstreams`: ingestion & processing --> filter, enrich, combined & transform data ==> route to different destinations
+  - `Eventhouse`: store realtime data in `KQL` (Kusto Query Language) databases --> designed for time-series data & fast ingestion
+  - `KQL Queryset`: workspace for running & managing KQL queries
+  - `Real-Time Dashboards`: directly connect to KQL database --> visualize data with automatic refresh ==> explore data, monitor current & historical conditions & trends
+  - `Activator`: trigger automated actions based on conditions --> notification, workflows, data pipelines or notebooks
+- `Real-Time hub`: central location to discover & manage streaming data & subscribe to Azure & Fabric events --> streaming data catalog
+  - **Data sources**: browse & connect to streaming data sources (e.g. database change, data capture feeds, external sources, ...)
+  - **Azure sources**: find & configure Azure streaming sources (e.g. Azure IoT Hub, Azure Service Bus, Azure Data Explorer DB, ...)
+  - **Fabric event**: subscribe to system events from Azure services --> for automated actions such as on files or folders in Azure blob storage
+
+#### Ingest & transform real-time data
+- Two main ways: `EventsStreams` or direct ingestion
+- **Eventsstreams**: 3 main components: **data sources** --> *optional* **transformations** --> **destinations**
+  - Data Sources: Microsoft sources (e.g. Azure Event/IoT Hubs, service bus, database Change Data Capture/CDC), Azure events, Fabric events or external sources (e.g. Kafka, Google Cloud Pub/Sub and Message Queuing Telemetry Transport/MQTT)
+  - Event transformations: make data useful & actionable
+  - Data destinations: ưhere processed data becomes available for queries/reports, dashboards, actions/alerts --> integrated with other systems
+- **Direct ingestion**: using **connectors** or through the **Get data** option in KQL database
+  - Using **update policies** to transform data *after* copying --> ELT pattern
+
+#### Store & query real-time data
+- `KQL` query statement: table name followed by operators: `take`, `filter`, `transform`, `aggregate`, or `join` data
+- Automate data processing with *management commands*: *update policies*, *materialized views* and *stored functions*
+- KQL database also support a subset of common T-SQL expressions
+- Use Copilot for help with writing queries
+
+#### Visualize real-time data
+- `Real-Time Dashboard`: created from a workspace, then configure its source.
+  - Can also create directly from a KQL queryset in an eventhouse
+- Dashboard: one or more *tiles* -- > each based on a query result
+  - Can edit tile to customize how data is shown
+  - Let user explore data: drilling into data, filter & aggregate data, change visualization type
+- **Power BI reports**: can be created from KQL database data
+
+#### Automate actions
+- `Activator` in Fabric: enables automated processing of events that trigger actions (e.g. values deviates from specific range, or when a Real-Time Dashboard is updated)
+- Core concepts:
+  - `Events`:  records represents event that has occurred at a specific point in time
+  - `Objects`: data in event record
+  - `Properties`: fields in event data --> represent state of business object
+  - `Rules`: conditions based on property values of objects in events
+
+### Use Eventstream in Microsoft Fabric
+
+### Create Real-Time Dashboard with Microsoft Fabric
+
+### Use Activator in Microsoft Fabric
+
 ## Implement a data warehouse with Microsoft Fabric
 
+### Get started with data warehouses in Fabric
+
+### Load data into a Fabric data warehous
+
+### Query a data warehouse in Fabric
+
+### Get started with Copilot in Fabric for Data Warehouse
+
+### Monitor a Microsoft Fabric data warehouse
+
+### Secure a Microsoft Fabric data warehouse
+
 ## Manage a Microsoft Fabric environment
+
+### Implement continuous integration & continuous delivery (CI/CD) in Microsoft Fabric
+
+### Monitor activities in Microsoft Fabric
+
+### Secure data access in Microsoft Fabric
+
+### Administer a Microsoft Fabric environment

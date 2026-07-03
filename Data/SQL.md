@@ -135,10 +135,134 @@ FROM cte_name;
     ```
 
 ### Window functions
+- A **window function** calculates a value across a set of rows related to the current row
+  - Different to `GROUP BY` --> not collapsing the rows
+
+#### Syntax
+```SQL
+function_name(...) OVER (
+    PARTITION BY ...
+    ORDER BY ...
+    ROWS BETWEEN ... AND ...
+)
+```
+
+Main parts:
+| Clause           | Purpose                                       |
+| ---------------- | --------------------------------------------- |
+| `PARTITION BY`   | Splits rows into groups/windows               |
+| `ORDER BY`       | Defines ordering inside each window           |
+| `ROWS` / `RANGE` | Defines the frame of rows used in calculation |
+
+- `ROWS`: count physical rows
+- `RANGE`: uses logical rows based on the `ORDER BY` --> include tied rows ==> multiple orders may have the same "running" total if they have the same "order_date" --> use `ROWS` unless specifically need `RANGE`
+
+#### Functions
+- `ROW_NUMBER()`: assigns a unique seuqnece number --> `ROW_NUMBER() OVER (..) AS order_rank`
+  - Example: latest order per customer
+    ```SQL
+    WITH ranked_orders AS (
+        SELECT
+            customer_id, order_id, order_date,
+            ROW_NUMBER() OVER (
+                PARTITION BY customer_id
+                ORDER BY order_date DESC
+            ) AS order_rank
+        FROM orders
+    )
+    SELECT *
+    FROM ranked_orders
+    WHERE order_rank = 1;
+    ```
+- `RANK()` and `DENSE_RANK()`: Use first when gaps matter (e.g. 1, 2, 2, 4), while later when you want consecutive rank (e.g. 1, 2, 2, 3)
+- `LAG()` --> return previous row by an (optional) offset
+  - Use case: revenue change, salary increase
+- `LEAD()` --> return future/next row
+- Aggregate function: `SUM()`, `AVG()`, `COUNT()`, `MIN()`, `MAX()`
+- `FIRST_VALUE()`
+- `LAST_VALUE()` --> Last of **window** (i.e. often return current row)
+  - Safer to do: `ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING`
+
+#### Use cases
+- Running totals: Order table --> for each customer, sort by order, then sum from the first row up to the current row
+  ```SQL
+  SELECT
+      customer_id, order_date, amount,
+      SUM(amount) OVER (
+          PARTITION BY customer_id
+          ORDER BY order_date
+          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) AS running_total
+  FROM orders;
+  ```
+  - Moving average: `ROWS BETWEEN 6 PRECEDING AND CURRENT ROW` --> 6 rows, not necessary 6 calendar days
+- Top **N** item: rank then select those with rank <= N
+- De-duplication pattern: order by "DESC", then get the first ranked
+
+#### Practical rule
+1. Use ROW_NUMBER() for deduplication and latest-row selection.
+2. Use RANK() or DENSE_RANK() when ties matter.
+3. Use LAG() and LEAD() for comparing adjacent events.
+4. Use aggregate window functions when you need group-level values without collapsing rows.
+5. Add explicit window frames for running totals and moving averages.
+6. Prefer ROWS over RANGE unless you intentionally need tie-aware logical ranges.
+7. Always include a deterministic tie-breaker in ORDER BY
 
 ### Anti-Joins
+- Rows from one table, where **no matching row** exists in another table --> `NOT EXISTS` with sub-query
+```SQL
+SELECT c.customer_id, c.customer_name
+FROM customers c
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM orders o
+    WHERE o.customer_id = c.customer_id
+);
+```
+- Alternative: `LEFT JOIN ... IS NULL` --> `IS NULL` check should be on a column in right hand table that is non-null when match exist (e.g. joined key or primary key)
+- AVOID careless `NOT IN` --> `NULL` value in comparison set will return no rows
+
+#### Summary
+- An anti-join returns rows from the left table that have no matching rows in the right table. 
+- The safest universal SQL pattern is usually `NOT EXISTS`, because it handles `NULL`s better than `NOT IN`. 
+- Another common implementation is `LEFT JOIN` followed by `WHERE right_table.key IS NULL`. 
+  - When using `LEFT JOIN`, right-table filters that define the match should go in the `ON` clause, not the `WHERE` clause.
+
+| Pattern                 | Recommendation                                      |
+| ----------------------- | --------------------------------------------------- |
+| `NOT EXISTS`            | Best default choice                                 |
+| `LEFT JOIN ... IS NULL` | Good and common, especially readable for join logic |
+| `NOT IN`                | Use carefully; avoid unless you handle `NULL`s      |
+| `EXCEPT` / `MINUS`      | Useful in some databases, but less universal        |
 
 ### De-duplication
+- Remove "duplicated" rows --> simplest case is `DISTINCT` ==> only remove rows where **all columns** are identical
+- **Important**:
+  - What is "duplicated" ? --> business logic
+  - Which row should survive ?
+
+```SQL
+SELECT *
+FROM (
+    SELECT
+        t.*,
+        ROW_NUMBER() OVER (
+            PARTITION BY duplicate_key
+            ORDER BY ranking_column DESC
+        ) AS rn
+    FROM table_name t
+) x
+WHERE rn = 1;
+```
+
+Common usage
+| Rule                  | SQL pattern                     |
+| --------------------- | ------------------------------- |
+| Keep latest           | `ORDER BY updated_at DESC`      |
+| Keep earliest         | `ORDER BY created_at ASC`       |
+| Keep highest value    | `ORDER BY amount DESC`          |
+| Keep best quality     | `ORDER BY quality_score DESC`   |
+| Keep preferred source | `ORDER BY source_priority DESC` |
 
 ### date logic
 

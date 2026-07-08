@@ -301,6 +301,105 @@ Distinction of separate date/time concepts
 
 ## Performance
 
+### Checking execution plan
+
+Key skill:
+- `EXPLAIN SELECT ...` --> What does the optimizer think it will do?
+- `EXPLAIN ANALYZE` --> actually **RUN** the query ==> helps detect bad estimates by the optimizer
+  - Safe for `SELECT`, but `INSERT`, `UPDATE` and `DELETE` need to be wrapped in a rollback transaction
+- `SET STATISTICS IO ON;` --> SQL server: How much data did SQL Server need to read?
+- `SET STATISTICS TIME ON;` --> SQL server: shows CPU time and elapsed time.
+
+### Indexing fundamental
+
+- Indexes help with `WHERE`, `JOIN`, `ORDER BY` and `GROUP BY`
+  - Often do not help when you wrap columns in functions
+- Composite index --> order matter ==> `Equality columns first, then range/sort columns` (e.g. greater/lesser than, order by, etc.)
+- **SARGable** (i.e. Search ARGument ABLE) --> query condition that helps to efficiently use an index to find data
+  - Avoid functions on column: `WHERE YEAR(date_col) = 2026` ==> `WHERE date_column >= '2026-01-01' AND date_column < '2027-01-01'`
+  - Avoid leading wildcards: `LIKE '%value'` force a full scan --> `LIKE 'value%'` doesn't
+  - Avoid negative operator: `NOT`, `!=` or `<>`
+  - Avoid calculation in condition: e.g. `WHERE price * 1.1 > 100` ==> `WHERE price > 100 / 1.1`
+  - Use `UNION` instead of `OR`
+    ```SQL
+    -- NOT THIS
+    SELECT * FROM Products WHERE Category = ‘A’ OR Category = ‘B’;
+
+    -- DO THIS
+    SELECT * FROM Products WHERE Category = ‘A’
+    UNION ALL
+    SELECT * FROM Products WHERE Category = ‘B’;
+    ```
+
+### JOIN performance
+- Use indexes on join keys
+- JOIN before filtering --> better to filter into Common Table Expression (i.e. `WITH`) then `JOIN`
+- Dangerous: *Many-to-Many* join --> can explode row counts
+
+### Misc.
+- For existence checks --> prefer `EXIST` over `IN`/`JOIN`
+- `UNION` remove duplicates (i.e. extra works) vs. `UNION ALL`
+
+### Summary
+
+When asked “how would you tune this SQL query?”, use this structure:
+
+01. Check the execution plan --> Identify the most expensive operation
+03. Check whether filters are **SARGable**
+04. Check indexes on:
+    - filter columns
+    - join keys
+    - sort columns
+    - group-by columns
+05. Filtering (i.e. reduce rows) as early as possible
+06. Avoid unnecessary columns
+07. Check join cardinality
+08. Rewrite subqueries, CTEs, or joins if needed
+09. Consider partitioning or clustering for very large tables
+10. Measure again after each change
+
+## Query Optimization
+
+### How SQL is logically written vs how the database physically executes it
+- SQL is written declaratively --> *what result needed*
+  - Db engine decides how to get it physically with optimiser
+- Logically Processing order
+  ```SQL
+  FROM → JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT
+  ```
+- Physical execution order
+  ```text
+  index scan → filter pushdown → join reorder → hash join → aggregate → sort → limit
+  ```
+
+### Search operation
+
+| Operation            | Main purpose                              | Often good when                                |
+| -------------------- | ----------------------------------------- | ---------------------------------------------- |
+| **Table scan**       | Read table rows directly                  | Many rows are needed                           |
+| **Index seek**       | Jump to matching index entries            | Filter is selective                            |
+| **Index scan**       | Read many/all index entries               | Index is narrower or ordered                   |
+| **Nested loop join** | Repeated lookup join                      | Small outer input + indexed inner input        |
+| **Hash join**        | Build/probe hash table                    | Large unsorted equality joins                  |
+| **Merge join**       | Join sorted inputs                        | Both sides sorted by join key                  |
+| **Sort**             | Order rows                                | Required by `ORDER BY`, `GROUP BY`, merge join |
+| **Aggregate**        | Summarise rows                            | `COUNT`, `SUM`, `GROUP BY`, etc.               |
+| **Spill to disk**    | Temporary disk use due to memory pressure | Usually a warning sign                         |
+
+### Practical rule of thumb
+
+For query tuning, look for:
+1. Large scans where a selective index seek would be better.
+2. Nested loops over large row counts.
+3. Hash joins/aggregates that spill to disk.
+4. Sorts over large row counts.
+5. Filters applied late when they could safely reduce rows earlier.
+6. Bad estimates: estimated rows very different from actual rows.
+
+*A good SQL execution plan is usually not just about avoiding scans. It is about reducing unnecessary work across the whole plan.*
+
+
+
 ## PostgreSQL Specific
 
 ## T-SQL specific

@@ -13,6 +13,7 @@
 05. [Ingest data with a pipeline in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/04-ingest-pipeline.html)
 06. [Create & use Dataflows (Gen2) in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/05-dataflows-gen2.html)
 07. [Get started with Real-Time Intelligence in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/07-real-time-Intelligence.html)
+09. [Ingest real-time data with Eventstream in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/09-real-time-analytics-eventstream.html)
 12. [Work with data in a Microsoft Fabric eventhouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/12-query-data-in-kql-database.html)
 
 ## Ingest Data with Microsoft Fabric
@@ -660,6 +661,25 @@ trips_by_min_passenger_count(3)
   - `Rules`: conditions based on property values of objects in events
 
 ### Use Eventstream in Microsoft Fabric
+- `EventStream`: low-code tool to do ETL events
+
+#### Components
+- **Sources**: where event data comes from (e.g. Event Hub, IoT Hub, Azure storage, Kafka, etc)
+- **Transformations** (optional) --> to filter, summarize, and reshape it before saving (i.e. SQL code, filter, fields, aggregate, group by, expand and join)
+- **Destinations**: where to save the "transformed" event data --> tables in event house/lakehouse, custom endpoints, or Fabric Activator
+  - *Derived stream*:  for **content-based routing** --> route subsets of data to different destinations based on the *content* of data
+  - *Custom endpoint*: to direct real-time data to an external system or application outside Fabric
+
+#### Transformation
+
+- Common transformations:
+  - **Filter** --> based on value of a field in the input
+  - **Manage fields**: Add calculated fields, remove unnecessary columns, rename fields, or change data types to match destination requirements
+  - **Aggregate**: to calculate an aggregation (i.e. Sum, Min, Max or Average)
+  - **Group by**: aggregation within time windows --> *tumbling windows* (i.e. fixed intervals) and *sliding windows* (i.e. overlapping intervals)
+  - **Union**: combines two or more separate event streams with identical schemas (shared field names and data types) into a single, unified stream --> drop any fields that do not match
+  - **Join**: combine data from two streams
+  - **Expand** --> new row for each value within an array
 
 ### Create Real-Time Dashboard with Microsoft Fabric
 

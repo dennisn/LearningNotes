@@ -264,7 +264,40 @@ Common usage
 | Keep best quality     | `ORDER BY quality_score DESC`   |
 | Keep preferred source | `ORDER BY source_priority DESC` |
 
-### date logic
+### Date logic
+
+Distinction of separate date/time concepts
+| Type                       | Meaning                                        |
+| -------------------------- | ---------------------------------------------- |
+| `DATE`                     | Calendar date only, e.g. `2026-07-08`          |
+| `TIME`                     | Time only, e.g. `14:30:00`                     |
+| `TIMESTAMP` / `DATETIME`   | Date + time, e.g. `2026-07-08 14:30:00`        |
+| `TIMESTAMP WITH TIME ZONE` | Date + time with timezone-aware interpretation |
+
+- `CURRENT_DATE` and `CURRENT_TIMESTAMP`: available for all --> preferable
+- Filtering by exact date --> with TIMESTAMP column, better of using the "**inclusive start, exclusive end**" pattern
+  ```SQL
+  WHERE created_at >= start_date 
+    AND created_at < end_date
+  ```
+- Careful with `BETWEEN` --> **inclusive** start & end
+  - Work for `DATE` column, exclude most if not all of the last date with `TIMESTAMP` column
+- Extracting parts of date
+  ```SQL
+  EXTRACT(YEAR FROM order_date)
+  EXTRACT(MONTH FROM order_date)
+  EXTRACT(DAY FROM order_date)
+  ```
+- Adding/subsctracting date --> slightly different syntax with each system
+  ```SQL
+  date + interval
+  date - interval
+  ```
+- NOTE: Avoid using function on "indexed" date column --> prevent efficient index usage
+  ```SQL
+  -- DON'T DO THIS
+  WHERE DATE(created_at) = DATE '2026-07-07'
+  ```
 
 ## Performance
 

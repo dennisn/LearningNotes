@@ -14,7 +14,9 @@
 06. [Create & use Dataflows (Gen2) in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/05-dataflows-gen2.html)
 07. [Get started with Real-Time Intelligence in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/07-real-time-Intelligence.html)
 09. [Ingest real-time data with Eventstream in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/09-real-time-analytics-eventstream.html)
+11. [Use Activator in Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/11-data-activator.html)
 12. [Work with data in a Microsoft Fabric eventhouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/12-query-data-in-kql-database.html)
+13. [Get started with Real-Time Dashboards in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/13-real-time-dashboards.html)
 
 ## Ingest Data with Microsoft Fabric
 
@@ -682,8 +684,77 @@ trips_by_min_passenger_count(3)
   - **Expand** --> new row for each value within an array
 
 ### Create Real-Time Dashboard with Microsoft Fabric
+- **Real-Time Dashboards** connect to KQL databases in `Eventhouses` and display visualizations that refresh automatically to show current data
+
+#### Real-Time Dashboard components
+- **Data sources**: real-time streaming data sources (e.g. KQL database in `Eventhouse`)
+  - Two authorisation mode: 
+    1. **Pass-through identity**: using viewer permissions
+    2. **Dashboard editor's identity**: permissions from dashboard creator
+- **Tiles**: need at least 1 tile
+  - Use KQL query to retrieve data
+  - Define the visual to represent the data (e.g. chart, map, etc.)
+  - Often has multiple tiles, sometimes has *text tiles* to provide additional info
+- **Dashboard organisation**
+  - **Pages**: default is 1, but can have more --> grouping related contents (e.g. by data sources, subject areas)
+  - **Parameters**: flexibility to filter data displayed --> can be 1 or more ==> each as a variable name that can reference in queries with "*underscore*" prefix
+  - **Auto refresh**: dashboard created with a default refresh rate --> can be adjusted by viewer
+    - *Minimum refresh rate*: can be defined by dashboard editors --> prevent too frequent refresh & manage system performance
+- **Base Queries**: avoid duplicate the same logic across multiple tiles  (i.e. maintainability)
+  - `Base query`: retrieve a general set of records relevant for multiple tiles --> assign to a variable name ==> referenced it in required tiles
 
 ### Use Activator in Microsoft Fabric
+
+- `Activator`: Microsoft Fabric's event detection and rules engine within Real-Time Intelligence
+- Sample use cases
+  - **Manufacturing** --> alert maintenance when equipment temperatrues exceed safe operating ranges
+  - **Supply chain manager**: notified when shipments deviate from planned routes, or unexpected delays
+  - **Retail manager**: trigger inventory reorders when stock level is below critical thresholds
+  - **IT operation team**: restart services when performance metrics indicate system degradation
+  - **Financial institution**: flag unusual transaction patterns for review
+  - **Healthcare facilities**: alert staff when patient monitoring detect critical changes
+
+#### Activator for data
+
+Two way to configure Activator: **Business Objects** vs. **Alerts**
+- **Business Object** model: represent the entities you want to monitor
+  - `Business Object`: one **Object** identifier, multiple **Properties** represent data attribute for each object instance ==> **Event**: data values from data sources
+  - Create objects from `EventStream`
+    1. Configure `Activator` as destination
+    2. Open the `Activator`
+       - Choose the **unique identifier** (i.e. the field that uniquely identifies the object, like PackageId or DeviceID)
+       - Select **properties**: data to be monitored
+  - Once configured, data from `EventStream` will feed into `Activator
+    - Event with *new* unique identifier --> create new object
+    - Event data update property values
+- **Alerts**: 
+  - Dashboard alerts --> directly from Real-Time Dashboard visualization
+  - System event alerts --> monitor Fabric workspace activities and OneLake file operations
+  - Query alerts --> from KQL Queryset results & visualization
+
+#### Rules in Activator
+- **Rules**: the *conditions* you want to detect on your objects and the *actions* to take when those *conditions* are met
+- **Monitor** section: configure what `Activator` watches
+  1. **Attribute**: select the specific property from event data object
+  2. **Summarization**: to avoid *noise* (e.g. brief spikes/dips in raw data)
+     - **Average, Min/Max, Count, Total**: normal summarization
+     - Timing settings: `Window size` (e.g. how much historical data to include) and `Step size` (e.g. how often to recalculate)
+- **Condition**: when to trigger `Activator`
+  - Detection approaches
+    - `Threshold monitor` --> safety limit monitoring
+    - `Change detection` --> monitor trends
+    - `Range monitoring` --> entry/exit from safe zone
+    - `Missing data` --> sensor/data pipeline failure
+  - Occurence behavior
+    - Trigger **every time** --> immediate alerts
+    - Trigger **when it has been true for some time** --> persistent problem
+  - Scope: focus the rule only to specific events via **filtering** 
+
+#### Actions in Activator
+- **Email**: send detailed info. for review --> response can be delayed, but need comprehensive context
+- **Teams** action --> immediate messages to channels/individuals ==> for quick responses & team coordination
+- **Power Automate** action --> automatically perform a series of tasks across multiple applications/systems
+- **Fabric item** action: execute data pipelines or notebooks --> process more data or advanced analysis to evaluated conditions
 
 ## Implement a data warehouse with Microsoft Fabric
 

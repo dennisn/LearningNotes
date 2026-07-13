@@ -12,6 +12,7 @@
 04. [Create a medallion architecture in a Microsoft Fabric lakehouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/03b-medallion-lakehouse.html)
 05. [Ingest data with a pipeline in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/04-ingest-pipeline.html)
 06. [Create & use Dataflows (Gen2) in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/05-dataflows-gen2.html)
+07. [Analyze data in a data warehouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/06-data-warehouse.html)
 07. [Get started with Real-Time Intelligence in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/07-real-time-Intelligence.html)
 09. [Ingest real-time data with Eventstream in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/09-real-time-analytics-eventstream.html)
 11. [Use Activator in Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/11-data-activator.html)
@@ -759,6 +760,76 @@ Two way to configure Activator: **Business Objects** vs. **Alerts**
 ## Implement a data warehouse with Microsoft Fabric
 
 ### Get started with data warehouses in Fabric
+- `Data Warehouse`: consolidates data from multiple sources into format optimized for analysis
+  - Basic steps: `Ingestion`, `Storage`, `Processing` and `Analysis and Delivery`
+- Data warehouse schema: *Star* or *Snowflake*
+- Table in data warehouse --> **Dimensional Modeling**: fact table & dimension tables
+  - `Fact tables`: numerical data to be analyzed --> large number of rows and main source of data for analysis
+  - `Dimension tables`: descriptive information about data in fact table --> few rows and provide context for the data in fact table (e.g. customers who placed orders)
+
+#### Dimension tables
+- Beside descriptive attribute columns --> include two keys:
+  1. **Surrogate Key**: unique ID in `Dimension Table` --> for consistency & accuracy
+  2. **Alternate Key**: identifies the data item in source system --> for traceability
+- *Special Types* of `Dimension Table`: 
+  - **Time dimension**: time period when an event occurred --> for data aggregation over temporal intervals
+  - **Slowly changing dimensions**: track changes to dimension attributes over time --> analyze & understand changes to data over time
+
+#### Fabric data warehouse
+- Fabric Data Warehouse
+  - **Fully Managed**
+  - **Full T-SQL support**: Data Definition/Management Language support, including *MERGE* for upsert scenario
+    - **Familiar tooling**: SQL Server Management Studio (SSMS), Azure data studio, etc.
+  - **OneLake integration**: data in Delta format --> accessible by other Fabric workloads
+    - **Cross-database querying**: Use 3-parts naming (i.e. database.schema.table) to join warehouse tables with lakehouse tables
+  - **Copilot assistance**
+- Create data warehouse: from the **create hub** or within a **workspace**
+- Ingest data: several ways --> common pattern is ELT: copy data into staging tables before transforming & loading into dimension & fact tables
+  - `COPY INTO`: bulk load data from files
+  - `OPENROWSET`: query file directly from external storage or OneLake --> ad-hoc analysis or ingestion ==> not "automatic" copy data
+  - `Pipelines` and `Dataflows Gen2` --> orchestrated data movement & transformation
+  - `Cross-database queries`
+    - Can create zero-copy table clones from data files in OneLake
+      ```SQL
+      --Clone creation within the same schema
+      CREATE TABLE dbo.Employee AS CLONE OF dbo.EmployeeUSA;
+      ```
+- Query data with 2 tools: *SQL query editor* (similar to SQL Server Management Studio - SSMS) or *Visual Query editor* (similar to Power Query online diagram view)
+- Transform data with `Views` and `Stored Procedures`
+  - `Views` --> standardise data access (e.g. combine fact & dimension tables into report-friendly formats, filtering rows for specific business context)
+  - `Stored Procedures`: for repeatable transformation tasks
+
+#### Model data in a warehouse
+- Prepare data for consumption --> surface only what's relevant & make it understandable ==> also help AI understand & generate accrate SQL or DAX
+  - Hide internal object: e.g. staging table, surrogate key columns, ETL artifacts
+  - Rename column --> business-friendly names
+  - Add descritpions to tables & columns --> consumers understand without referring to external documentation
+- Relationships between tables --> enables filtering, grouping & aggregation acrose those tables ==> 2 important properties
+  - **Cardinality**: how rows in the two tables correspond ==> often many fact rows map to a single dimension row
+  - **Cross-filter direction**: which way filters propagate between tables --> often dimension filters the fact table ==> keeps filter behavior predictable & performant
+- Standardize data access: with `Views` & `Measures`
+  - `View`: capture join logic, filter & column selection --> stable data sources for reports (i.e. reduce changes propagate from base tables)
+  - `Measure`: similar function as `View`, but for **DAX** calculation --> define business rule in calculation/aggregation
+- Semantic model --> for building Power BI reports & dashboards
+  - Use **Direct Lake** mode --> data is read directly from OneLake Parquet files
+
+#### Secure & Monitor a warehouse
+- **Security** --> Multiple level ==> important for both regulatory compliance & ensure AI powered tools operate within governed boundaries
+  - `Workspace roles` --> first layer
+  - `Item permission` --> share individual warehouses without workspace access ==> useful for downstream consumption with specific users
+    - Permission: `Read` (i.e. connect using SQL analytic endpoint), `ReadData` (read from table/view in warehouse), `ReadAll` (read raw parquet files)
+  - `Granular SQL security`
+    - **Object-Level security**: access to tables, views or procedures
+    - **Row-Level security** --> which rows a user can see
+    - **Column-Level security** --> which columns are visible
+    - **Dynamic data masking** --> mask sensitive data (e.g. email addresses or account numbers) from non-privileged users
+
+- **Monitoring** --> identify performance issue, optimize query & usage patterns
+  - *Query insights* --> historical query data (retains for 30 days)
+    - `queryinsights.exec_requests_history`: completed SQL request.
+    - `queryinsights.long_running_queries`: queries ranked by execution time.
+    - `queryinsights.exec_sessions_history`: completed sessions
+  - *Dynamic management views* (DMVs): active connections, sessions & requests in real time (e.g. `sys.dm_exec_requests` for currently running queries)
 
 ### Load data into a Fabric data warehous
 

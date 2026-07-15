@@ -13,7 +13,8 @@
 05. [Ingest data with a pipeline in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/04-ingest-pipeline.html)
 06. [Create & use Dataflows (Gen2) in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/05-dataflows-gen2.html)
 07. [Analyze data in a data warehouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/06-data-warehouse.html)
-07. [Get started with Real-Time Intelligence in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/07-real-time-Intelligence.html)
+08. [Load data into a warehouse using T-SQL](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/06a-data-warehouse-load.html)
+09. [Get started with Real-Time Intelligence in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/07-real-time-Intelligence.html)
 09. [Ingest real-time data with Eventstream in Microsoft Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/09-real-time-analytics-eventstream.html)
 11. [Use Activator in Fabric](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/11-data-activator.html)
 12. [Work with data in a Microsoft Fabric eventhouse](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/12-query-data-in-kql-database.html)
@@ -831,7 +832,65 @@ Two way to configure Activator: **Business Objects** vs. **Alerts**
     - `queryinsights.exec_sessions_history`: completed sessions
   - *Dynamic management views* (DMVs): active connections, sessions & requests in real time (e.g. `sys.dm_exec_requests` for currently running queries)
 
-### Load data into a Fabric data warehous
+### Load data into a Fabric data warehouse
+- Load data into warehouse --> how much data to load, stage data for preparation, and load dimensions before fact table
+- How much data to load
+  - **Full load**: truncates & reloads all tables --> new warehouse, or complete refresh ==> simpler
+  - **Incremental load**: update changes only, preserve history --> need to decide frequency ==> faster, requires change-tracking mechanisms in source data
+- Stage data before loading
+  - Workspace to clean, transform and validate incoming data (e.g. via staging tables, stored procedures & functions) *without affacting production table*
+  - Can share resources with data warehouse, or in separate storage --> keeps the warehouse responsive while loading process in background
+- Record identity with business & surrogate keys
+  - **Business key** (i.e. *natural key*): from source system and carries meaning --> help trace warehouse records to their source
+  - **Surrogate key**: system-generated unique identifier --> protect warehouse records from changes in source system
+- `Dimension table`: referenced by Fact table --> need to be loaded **FIRST** ==> 
+  - Dimension attributes slowly change over time --> need handling
+    1. **Type 1**: overwrites the existing value --> changes not tracked, no history is kept
+    2. **Type 2**: new row for change while old row is marked as expired --> preserve full history
+    3. **Type 3**: previous value in separate column(s) --> tracks limited history only
+    4. **Type 4**: moving changing attributes to separate dimension talbe
+    5. **Type 5**: combine type **1** and **4** --> large dimensions where type 2 isn't practical
+    6. **Type 6**: combine type **2** and **3** --> 
+- `Fact table`: look up the matching `surrogate key` key in dimension --> need the correct *version* --> often the most recent version, sometimes based on validity dates
+
+#### Load data using data pipelines
+- `Data pipeline`: visual, low-code way to ingest & orchestrate data --> 
+  - Often start with **Copy job** --> optionally include **column mapping** to rename columns, change data types or exclude column from loads
+  - Could be **schedule** to run at fixed time or by interval
+  - Monitor view: for checking run history: status, error details, etc.
+
+#### Load data using T-SQL
+
+- `T-SQL`: direct control via SQL statements
+- Most often `COPY` statement --> from external files into a warehouse table --> 3 things: target table, file path & access credential
+  ```SQL
+  COPY INTO my_table
+  FROM 'https://myaccount.blob.core.windows.net/myblobcontainer/folder0/*.csv, 
+      https://myaccount.blob.core.windows.net/myblobcontainer/folder1/'
+  WITH (
+      -- For Parquet files, FILE_TYPE can be omitted
+      FILE_TYPE = 'CSV',
+      CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='<Your_SAS_Token>')
+      FIELDTERMINATOR = '|'
+  )
+  ```
+  - Authentication options: 
+    - **Azure storage account**: need *Shared Access Signature (SAS)* or *Storage Account Key*
+    - **OneLake lakehouse folders**: no credential needed --> use workspace identity automatically
+  - Failed rows when loading --> Use `REJECTED_ROW_LOCATION` option to send them to a separate location instead of failing the entire load
+- `Cross-asset loading`: from other warehouses and lakehouses in same workspace
+  - `CREATE TABLE AS SELECT` (CTAS): new table from transformed or combined data
+  - `INSERT ... SELECT`: adding data to existing table
+- Query from external tools (e.g. SQL Server Management Studio) --> tools need to connect to Fabric workspace ==> warehouse available as databases
+
+#### Load and Transform data with Dataflow Gen2
+
+- `Dataflow Gen2`: visual Power Query
+  1. Start with "*create a dataflow*"
+  2. **Import data** --> either via "*Get Data*" (for databases, cloud storage or other sources) or "*Import from a Text/CSV file*"
+  3. **Transform data**: use Copilot to generate transformation steps from prompt/plain language --> need review before use
+  4. **Data destination**: define storage: **Query settings** > **+** > **Data destination**" --> for `Fabric Warehouse`, has 2 update methods: `Append` or `Replace`
+  5. **Publish a dataflow**: save & activate the dataflow --> can then be run manually or on schedule
 
 ### Query a data warehouse in Fabric
 

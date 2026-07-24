@@ -1,6 +1,7 @@
 # Infrastructure
 
 1. [Docker](./Docker/README.md)
+2. [Terraform](./Terraform/README.md)
 2. [Kafka](./Kafka/Kafka_Intro.md)
 3. [Grafana](./Grafana/README.md)
 

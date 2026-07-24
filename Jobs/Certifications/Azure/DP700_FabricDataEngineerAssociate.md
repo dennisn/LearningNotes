@@ -848,14 +848,14 @@ Two way to configure Activator: **Business Objects** vs. **Alerts**
     1. **Type 1**: overwrites the existing value --> changes not tracked, no history is kept
     2. **Type 2**: new row for change while old row is marked as expired --> preserve full history
     3. **Type 3**: previous value in separate column(s) --> tracks limited history only
-    4. **Type 4**: moving changing attributes to separate dimension talbe
+    4. **Type 4**: moving changing attributes to separate dimension table
     5. **Type 5**: combine type **1** and **4** --> large dimensions where type 2 isn't practical
-    6. **Type 6**: combine type **2** and **3** --> 
+    6. **Type 6**: combine type **2** and **3** 
 - `Fact table`: look up the matching `surrogate key` key in dimension --> need the correct *version* --> often the most recent version, sometimes based on validity dates
 
 #### Load data using data pipelines
-- `Data pipeline`: visual, low-code way to ingest & orchestrate data --> 
-  - Often start with **Copy job** --> optionally include **column mapping** to rename columns, change data types or exclude column from loads
+- `Data pipeline`: visual, low-code way to ingest & orchestrate data 
+  - Often start with **Copy job** --> optionally include **column mapping** to rename columns, change data types or exclude columns from loads
   - Could be **schedule** to run at fixed time or by interval
   - Monitor view: for checking run history: status, error details, etc.
 

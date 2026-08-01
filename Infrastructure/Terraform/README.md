@@ -21,10 +21,13 @@ Basic workflows:
 4. `TT destroy`: clean up (i.e. destroy specified resources)
 
 Misc:
+- `TT fmt`: format terraform files
+- `TT validate`: validation
 - `TT show`: show all infos
 - `TT state list`: show high-level resources
 - `TT state show`: show info for specific resource
 - `TT output`: display "outputs" as defined
+- `TT graph`: show dependency graph
 
 ## Structure
 - All "*.tf" files within folder will be parsed together
@@ -48,3 +51,35 @@ Misc:
     ```
 - Variables: for common identifier: `variable "variable_name" { default="something" }`
 - Outputs: for print out specific identifier: `output "output_name" { value = xxx_yy.name.attribute_name }`
+
+## Variable
+A variable declaration can include:
+```hcl
+
+variable "example" {
+  description = "Explanation of the variable"
+  type        = string
+  default     = "default-value"
+  sensitive   = false
+  nullable    = false
+}
+```
+
+The two most important properties are:
+- `type`: restricts the accepted data type.
+- `default`: makes the variable optional --> Without a default value, Terraform requires the caller to supply one.
+
+### Variables vs. local values
+- `Variables` are values supplied from "*outside the module*"
+- `Locals` are calculated or reusable values "*defined inside the module*"
+==> Use `variable` when the caller should control the value, but use `local` when the value is derived internally, or repeated across resources
+
+### Supplying variables
+- Command-line: `terraform plan -var="environment=testing"`
+- Variable file (e.g. `testing.tfvars` with `environment = "testing"`): 
+  - Use with: `terraform plan/apply -var-file="testing.tfvars"`
+- Environment variable: prefixed with `TF_VAR_`
+- Variable precedence: `default value < TF_VAR_name < terraform.tfvars < *.auto.tfvars < -var-file < -var`
+  - Only one `terraform.tfvars` allowed --> for global defaults (i.e. variables that rarely changes across your stack: default network settings, billing IDs, etc)
+  - Multiple `*.auto.tfvars` --> split operational data into logical file, or local user testing settings
+    - *NOTE*: multiple `*.auto.tfvars` will override each other, in alphabet orders (i.e. "b.auto.xxx" will override "a.auto.xxx")

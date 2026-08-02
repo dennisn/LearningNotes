@@ -52,6 +52,18 @@ Misc:
 - Variables: for common identifier: `variable "variable_name" { default="something" }`
 - Outputs: for print out specific identifier: `output "output_name" { value = xxx_yy.name.attribute_name }`
 
+### Resource dependencies
+- Terraform does not generally execute resources in the order they appear in .tf files.
+  - Instead, it constructs a directed dependency graph and creates independent resources concurrently where possible --> These are call implicit dependencies
+  - Terraform recommends explicit `depends_on` only for hidden behavioural dependencies that cannot be expressed through normal attribute references
+
+### Terraform state
+State is necessary because Terraform uses it to:
+- associate configuration addresses with real infrastructure;
+- retain resource metadata;
+- compare desired configuration with existing resources;
+- determine create, update, replace and destroy operations
+
 ## Variable
 A variable declaration can include:
 ```hcl
@@ -83,3 +95,28 @@ The two most important properties are:
   - Only one `terraform.tfvars` allowed --> for global defaults (i.e. variables that rarely changes across your stack: default network settings, billing IDs, etc)
   - Multiple `*.auto.tfvars` --> split operational data into logical file, or local user testing settings
     - *NOTE*: multiple `*.auto.tfvars` will override each other, in alphabet orders (i.e. "b.auto.xxx" will override "a.auto.xxx")
+
+## Lifecycle behavior
+- Terraform normally decides whether to update/replace resources based on provider behavior
+- The `lifecycle` block let you modify some of those decision (e.g. `prevent_destroy = true`)
+  - Limitation: only work if the protected resource & lifecycle rule remain in the configuration
+
+### Other lifecycle argument
+- `create_before_destroy`: when replacing resource, create new resource before destroy the old one
+  - ONLY work if both resources are able to exist simultaneously (e.g. Docker resources with different container name, host port, unique external identifier)
+- `ignore_changes` --> not to plan updates when certain "attributes" are changed outside Terraform
+  ```hcl
+  lifecycle {
+    ignore_changes = [
+      labels
+    ]
+  }
+  ```
+  - Careful use as this can hide configuration drift
+
+## State management
+- `moved` block: record changing of resource name
+  - Still need to update the resource name in all "*.tf" file
+- `TT state mv`: similar to `moved` block, but change the state file directly
+  - Not prefer method, as it need to be run for each of the environment manually
+- `TT state rm`: remove the resource from state file

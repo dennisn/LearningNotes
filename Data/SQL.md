@@ -288,6 +288,7 @@ Distinction of separate date/time concepts
   EXTRACT(MONTH FROM order_date)
   EXTRACT(DAY FROM order_date)
   ```
+  - NOTE: This may result in incorrect grouping, when Jan of 2026 and Jan of 2027 are both resulted in `1` --> better approach is to use "**DATE_TRUNC**": `DATE_TRUNC('month', d.deal_date)::date AS month`
 - Adding/subsctracting date --> slightly different syntax with each system
   ```SQL
   date + interval

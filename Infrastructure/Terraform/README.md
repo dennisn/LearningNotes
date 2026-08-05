@@ -120,3 +120,30 @@ The two most important properties are:
 - `TT state mv`: similar to `moved` block, but change the state file directly
   - Not prefer method, as it need to be run for each of the environment manually
 - `TT state rm`: remove the resource from state file
+
+## Collection
+
+### count
+- Value must be known beforehand, for declare identical resources
+- index start at "*zero*" --> resources identity tied to index, not to the values
+```hcl
+resource "docker_container" "web" {
+  count = 3
+
+  name  = "w04-web-${count.index + 1}"
+  image = docker_image.nginx.image_id
+
+  ports {
+    internal = 80
+    external = 8080 + count.index
+  }
+}
+```
+- To reference resources, have to specify the index, or all
+  ```hcl
+  output web_container_names {
+    value = docker_container.web[*].name
+  }
+  ```
+
+### for_each

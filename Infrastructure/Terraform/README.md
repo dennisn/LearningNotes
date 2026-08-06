@@ -120,6 +120,56 @@ The two most important properties are:
 - `TT state mv`: similar to `moved` block, but change the state file directly
   - Not prefer method, as it need to be run for each of the environment manually
 - `TT state rm`: remove the resource from state file
+- `TT state pull`: retrieve the current state --> save a copy by `> state-backup.json`
+- `TT state push state-backup.json`: replace state from backup --> *Very **RISKY** operation*
+
+### State drift
+- When "stored state" differ to "actual state"
+  - E.g. resource property updated manually outside terraform
+- To refresh state, 2 ways
+  - `TT refresh`: updates state from real infrastructure --> *NOT PREFERED*
+  - `TT plan -refresh-only` --> `TT apply -refresh-only` ==> provide a plan for review before changing state
+  - NOTE: refresh won't discover "*unmanaged resources*"
+
+### Sharing data between stats
+- Large infrastructure often divided into separated root modules --> Expose selected value through outputs to share data
+  - These outputs --> **public interface** of that root module
+  - Built-in `terraform_remote_state` for accessing root outputs --> permission to access allows accessing the whole underlying state
+    ```hcl
+    data.terraform_remote_state.networking.outputs.network_name
+    ```
+  - Stronger *isolation* --> publish required values to dedicated system (e.g. parameter store, secrete manager, service registry, configuration db, etc.)
+- Dependency: within root module, Terraform build dependency graph --> CAN'T across module 
+  - Dependency orchestration must be handled separately (i.e. pipelines, scripts, workflows)
+  - NOTE: Outputs should be treated as versioned interfaces to avoid dependency breakage
+  - Destruction ordering: reverse of creation order
+
+### Workspace
+- Provide multiple state instances for the same root module (e.g. same configuration)
+  - View workspace: `TT workspace show`
+    - default workspace is `default` 
+  - List workspaces: `TT workspace list`
+  - New workspace: `TT workspace new development`
+  - Switch workspace: `TT workspace select development`
+  - Variable with workspace name: `terraform.workspace`
+- Limitation: only isolate **state** --> not complete environment
+  - Use case: test, development sandboxes, short-lived preview environment, etc.
+- Alternatives: use different environment when substaintial different infrastructure (e.g. security, account, lifecycle & ownership)
+  ```text
+  infrastructure/
+  ├── modules/
+  │   └── application/
+  └── environments/
+      ├── development/
+      │   ├── main.tf
+      │   └── backend.tf
+      ├── staging/
+      │   ├── main.tf
+      │   └── backend.tf
+      └── production/
+          ├── main.tf
+          └── backend.tf
+  ```
 
 ## Collection
 
@@ -147,3 +197,7 @@ resource "docker_container" "web" {
   ```
 
 ### for_each
+- Iterates over a map, or a set of strings (e.g. `toset([a, b, c)`)
+  - `each.key`: the map key/string value
+  - `each.value`: the map value/string value
+  - Resource address by name (e.g. `container.application["web"]`) --> remove an item only deletes that specific resource ==> no *cascade* effect as with `count`

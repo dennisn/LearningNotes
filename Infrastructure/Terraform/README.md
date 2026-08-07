@@ -171,6 +171,27 @@ The two most important properties are:
           └── backend.tf
   ```
 
+## Back-end
+- Determine
+  1. Where state is stored
+  2. How TT performas operations involving that state
+  3. If state locking is available
+- Default backend is `local`
+- Backend configuration is processed early --> unable to use normal TT expressions (e.g. input variables, local values, resource attributes, data sources, module outputs, etc.)
+  - Parital backend configuration can be supplied during `init`
+    ```hcl
+    terraform {
+      backend "local" {}
+    }
+    ```
+    ```powershell
+    # Initialise backend config
+    terraform init -backend-config="path=state/dev.tfstate"
+    ```
+- Back-end initialization: done at `TT init`
+  - `-migrate-state`: used when moving from old backend to new backend
+  - `-reconfigure`: to forget the previous backend configuration and init new config without automatically migrating existing state --> new backend may start with no state
+
 ## Collection
 
 ### count

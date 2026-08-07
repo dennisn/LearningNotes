@@ -191,6 +191,13 @@ The two most important properties are:
 - Back-end initialization: done at `TT init`
   - `-migrate-state`: used when moving from old backend to new backend
   - `-reconfigure`: to forget the previous backend configuration and init new config without automatically migrating existing state --> new backend may start with no state
+- Why split state:
+  - All-in-one: larger "*blast*" radius (e.g. effects of error), more lock-collision, can't fine-grain control of resources
+  - Tiny state --> excessive dependencies & complicated co-ordination
+  - Better boundary: lifecycle, ownership, security, deployment frequency, failure/blast radius
+- Authentication: NOT in backend config as can be leaked in metadata & plan files ==> prefer environment-based or identity-based authentication
+- Bootstrap problem: backend resource have to existed before terraform
+  - Bootstrap pattern: small & separate bootstrapt config to init the backend resource
 
 ## Collection
 
@@ -222,3 +229,8 @@ resource "docker_container" "web" {
   - `each.key`: the map key/string value
   - `each.value`: the map value/string value
   - Resource address by name (e.g. `container.application["web"]`) --> remove an item only deletes that specific resource ==> no *cascade* effect as with `count`
+
+## Best Practice
+- Use `terraform plan -out=tfplan` ==> for review and authorisation before apply
+- Prod vs. Dev: separate could accounts, identities, state paths, manual approval, etc ==> avoid environment mistakes
+- Credential: use short-lived identity mechanism if available 

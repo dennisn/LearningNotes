@@ -234,3 +234,14 @@ resource "docker_container" "web" {
 - Use `terraform plan -out=tfplan` ==> for review and authorisation before apply
 - Prod vs. Dev: separate could accounts, identities, state paths, manual approval, etc ==> avoid environment mistakes
 - Credential: use short-lived identity mechanism if available 
+- Use `terraform test` to check business rule
+
+### CI-CD
+- Different security access for each stage:
+  - `fmt`, `init` & `validate` --> often don't need authentication. May not even need backend access
+  - `plan`: often need **read** access only
+  - `apply`: need **write** access
+- Use `terraform test` to check business rule
+- Check in `.terraform.lock.hcl` --> currently selected dependency
+  - May use `terraform init -upgrade` to **reconsider** the current locked selection & look for newer provider version
+- Static Analysis and Security Scanning: besides `validate` & `test` --> chck for broad *security * infrastructure best-practices* (e.g. not exposed SSH ports, etc)

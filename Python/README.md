@@ -20,6 +20,8 @@
 
 ## Python for Senior backend
 - [01 - Modern Python Backend](./ForSeniorBackend/Session01_ModernPythonBackend.md)
+  - [01 - Modern Python Backend (Extra)](./ForSeniorBackend/Session01_ModernPythonBackend_Extra.md)
+- [02 - Backend Application Architecture]
 
 ## Python for Data Analysis
 

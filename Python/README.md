@@ -18,6 +18,9 @@
 - Debugging in Python
 - Python Collections
 
+## Python for Senior backend
+- [01 - Modern Python Backend](./ForSeniorBackend/Session01_ModernPythonBackend.md)
+
 ## Python for Data Analysis
 
 ### Cleaning Data

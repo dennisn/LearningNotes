@@ -99,6 +99,7 @@
 ### FastAPI: The performance leader
 
 - Most popular because of high performance and automatic, interactive documentation
+- [Details](./FastAPI/README.md)
 
 ### Django: The Enterprise Workhorse
 

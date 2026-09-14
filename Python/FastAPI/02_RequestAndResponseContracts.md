@@ -12,8 +12,8 @@
 | Declaration | Can be omitted? | Accepts JSON `null`? |
 |---|---:|---:|
 | `value: str` | No | No |
-| `value: str | None` | No | Yes |
-| `value: str | None = None` | Yes | Yes |
+| `value: str \| None` | No | Yes |
+| `value: str \| None = None` | Yes | Yes |
 | `value: str = "default"` | Yes | No |
 
 `| None` controls accepted values. A default such as `= None` controls omission.

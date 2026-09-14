@@ -66,6 +66,3 @@ app.dependency_overrides[get_order_service] = override_get_order_service
 - Created lifespan-managed application state and observed startup, per-request, and shutdown events.
 - Correctly reasoned about fake dependency substitution; final fake-check execution output was not recorded in the session.
 
-## Next prompt
-
-`Run and confirm the Module 4 fake dependency override check, then start Module 5.`

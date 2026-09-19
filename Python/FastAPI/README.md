@@ -5,7 +5,7 @@ Learning FastAPI with ChatGPT
 
 **Purpose:** Understand how a Python function becomes an HTTP endpoint.
 
-[Routes and paramaeter binding](./01_RoutesAndParametersBinding.md):
+Lessons [Routes and paramaeter binding](./01_RoutesAndParametersBinding.md):
 1. The application instance, route decorator, handler, and JSON response.
 2. Path parameters, query parameters, defaults, and required values.
 3. Parsing and validation at the HTTP boundary; interactive documentation.
@@ -15,7 +15,7 @@ Learning FastAPI with ChatGPT
 
 **Purpose:** Separate external API contracts from internal data.
 
-[Request and response contracts](./02_RequestAndResponseContracts.md):
+Lessons [Request and response contracts](./02_RequestAndResponseContracts.md):
 1. Pydantic request models and JSON request bodies.
 2. Constraints, nested item models, defaults, and nullable versus optional inputs.
 3. Response models and fields that should never be exposed.
@@ -25,7 +25,7 @@ Learning FastAPI with ChatGPT
 
 **Purpose:** Make success and failure unambiguous to clients.
 
-[HTTP outcomes and business errors](./03_HttpOutcomesAndBusinessErrors.md):
+Lessons [HTTP outcomes and business errors](./03_HttpOutcomesAndBusinessErrors.md):
 1. Creation responses and the Location header.
 2. Not-found errors and HTTPException.
 3. Business conflicts, invalid transitions, and validation errors.
@@ -35,8 +35,30 @@ Learning FastAPI with ChatGPT
 
 **Purpose:** Relate FastAPI dependency resolution to constructor injection and resource ownership.
 
-[Dependencies and resource scopes](./04_DependenciesAndResourceScopes.md):
+Lessons [Dependencies and resource scopes](./04_DependenciesAndResourceScopes.md):
 1. Depends and Annotated; dependencies that return values.
 2. Dependency composition and per-request caching behaviour.
 3. Dependencies using yield for resource cleanup.
 4. Request scope versus application lifespan.
+
+## 5 — Persistence and transactions
+
+**Purpose:** Persist orders without leaking resources or fragmenting transactions.
+
+Lessons [Persistence and transactions](./05_PersistenceAndTransactions.md):
+1. SQLAlchemy engine, session factory, and request-scoped sessions.
+2. ORM models versus API schemas.
+3. Transaction ownership, commit, rollback, and cleanup.
+4. Database constraints, migrations, pagination, and relationship loading.
+5. Concurrency and idempotency as extension topics.
+
+## 6 — Async and blocking I/O
+
+**Purpose:** Choose an execution model from the work being performed.
+
+Lessons [Async and blocking I/O](./06_AsyncAndBlockingIO.md):
+1. How FastAPI executes synchronous and asynchronous handlers.
+2. Awaitable I/O, blocking calls, and event-loop responsiveness.
+3. Async client lifetimes, timeouts, and cancellation.
+4. Bounded concurrency, connection pools, and back-pressure.
+5. Optional migration of one database path to an async driver.

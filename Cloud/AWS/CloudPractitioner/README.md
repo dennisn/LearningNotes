@@ -101,6 +101,16 @@
 - **Outposts**: fully managed hybrid cloud --> for low-latency apps, legacy applications, meeting regulatory compliance or data residency requirements
 
 ## 04. Going Global
+- Basic infrastructure:
+  - **Availability Zone**: location with 1 or more data centers that are desgined to be isolated from failures in other areas
+  - **Region**: where AWS operates multiple data center, grouped into Availability Zones
+  - **Edge location**: smaller facilities that cache content --> lower latency
+- Choose a region --> key considerations:
+  1. Compliance requirement
+  2. Proximity to user --> lower latency
+  3. Feature availability
+  4. Pricing
+- `AWS CloudFormation`: Infrastructure-as-Code (IaC) service --> DevOps for CI/CD, scaling to multi-Region
 
 ## 05. Networking
 

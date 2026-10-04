@@ -77,7 +77,28 @@
 - `Simple Queue Service (SQS)` --> Point-to-Point pull-based queue with retention
 - `Simple Notification Service (SNS)` --> Publish/Subscriber --> broadcast to subscribers
 
-## 03. Computer Services
+## 03. Compute Services
+- Managed vs. un-managed services: varying degree of AWS vs. customer responsibility
+  - Managed service: off the cloud + OS, network, firewall + Platform & application management
+- Fully-managed services (e.g. serverless): customer only need "in-the-cloud" responsibility (i.e. application layer)
+
+### Lambda
+- Serverless compute service that runs code in response to events, without needs to provision or manage servers
+- Charged for the compute time --> max to 15 minutes
+- Customer main responsibility: lambda function, triggers & runtimes
+
+### Containers
+- Container: package application code & dependencies into portable unit --> easy to deploy & redeploy
+- Related services:
+  - Elastic Container Registry (ECR): store, manage & version container images
+  - Elastic Container Service (ECS) vs Elastic Kubernetes Service (EKS): simple container management vs full Kubernetes cluster for complex management
+  - EC2 vs Fargate: full control over infrastructure vs. serverless engine for container (i.e. infrastructure is fully managed)
+
+### Additional services
+- **Elastic Beanstalk**: fully managed service for deploy & manage web application: manage & scale, load balancing & application health monitor --> for web app, RESTful APIs, backend services & micro-services
+- **AWS Batch**: fully managed service for batch computing: manage & scale resources, schedule batch job --> for large scale, parallel workloads such as scientific computing, financial risk analysis, big data processing, etc.
+- **Lightsail**: virtual private servers (VPSs) --> for basic business, dev & test environment, learning cloud services
+- **Outposts**: fully managed hybrid cloud --> for low-latency apps, legacy applications, meeting regulatory compliance or data residency requirements
 
 ## 04. Going Global
 

@@ -113,6 +113,38 @@
 - `AWS CloudFormation`: Infrastructure-as-Code (IaC) service --> DevOps for CI/CD, scaling to multi-Region
 
 ## 05. Networking
+- `Amazon Virtual Private Cloud (VPC)`: isolated section of the AWS Cloud --> a virtual network where you can launch AWS resources
+- `Subnet`: to organize your AWS resources in your VPC --> can be made public/private
+- `Internet Gateway`: allow access to public resources within VPC
+- `Virtual Private Gateway`: AWS service for VPN connection
+  - `Virtual Private Network (VPN)`: allow "secure" access to private resources within VPC from on-premises data center or internal corporate network
+
+### Ways to connect to the AWS Cloud
+- **AWS Client VPN**: fully-managed elastic VPN service --> connect remote workers & on-premisis networks to the cloud
+- **AWS Site-to-Site VPN**: secure connection between branch office or on-premises data center with AWS Cloud (i.e. Network layer)
+- **AWS PrivateLink**: connect VPC to specific services & resources as if they were within VPC
+- **AWS Direct connect**: establish a dedicated private connection between your network and VPC in the AWS Cloud
+  - Bypasses the internet for consistent, low-latency
+  - Smooth & reliable data transfers, especially at massive scale
+  - Best for hybrid cloud --> reliable performance (i.e. no network congestion)
+
+### Security groups & Network Access Control Lists (ACLs)
+- **Network ACLs**: stateless, control inbound/out-bound packets to subnet via sender address & ports
+- **Security groups**: fine-grained control for individual/group EC2 instances --> allow rules only, stateful (remember states, return traffic is automatically allowed)
+
+### Building an AWS Virtual Private Cloud
+- Create the AWS VPC within required region
+- Create the subnets (public/private for each Availability Zone)
+- Create an internet gateway
+  - Create route table for the gateway --> default with route entry for traffic within VPC
+  - Add route entry "to the internet" from within VPC
+  - Add association to "public" subnets
+- Setup network ACLs & security groups
+
+### Other networking services
+- `AWS Route 53`: cloud-based DNS service, with advance routing policies (i.e. Latency-based, geolocation/geoproximity, failover, weighted routing)
+- `CloudFront`: Content-delivery network (CDN) service that cache contents closer to users
+- `AWS Global Accelerator`: use intelligent routing & fast failover based on AWS global network to improve network traffic
 
 ## 06. Storage
 

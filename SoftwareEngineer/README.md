@@ -8,7 +8,16 @@
      - GitHub Actions
   1. [Blockchain & Crypto-Currency](./BlockchainFundamentals.md)
 
+## Interview preparation
+
+1. Coding interview
+   - [Data structures & algorithms](https://neetcode.io/roadmap)
+1. System Design [Distributed Computing]
+   - [Learn how to design systems at scale](https://github.com/karanpratapsingh/system-design)
+   - [Learn how to design large-scale systems](https://github.com/donnemartin/system-design-primer)
+
 ## Misc
+
 
 ### Clustered vs Non-Clustered index
 
